@@ -1,8 +1,12 @@
 package com.goldenpiedevs.schedule.app.ui.base
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
+import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -14,6 +18,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         const val KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID"
     }
 
+    private var dialog: AlertDialog? = null
     private var nextId = AtomicLong(0)
     private var activityId: Long = 0
 
@@ -33,5 +38,15 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState!!.putLong(KEY_ACTIVITY_ID, activityId)
+    }
+
+    override fun showProgreeDialog() {
+        dialog = indeterminateProgressDialog(R.string.loading)
+        hideSoftKeyboard()
+        dialog!!.show()
+    }
+
+    override fun dismissProgreeDialog() {
+        dialog!!.dismiss()
     }
 }

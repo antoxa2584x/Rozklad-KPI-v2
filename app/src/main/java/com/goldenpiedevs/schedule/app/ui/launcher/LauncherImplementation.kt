@@ -1,12 +1,16 @@
 package com.goldenpiedevs.schedule.app.ui.launcher
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
-import com.goldenpiedevs.schedule.app.core.dao.GroupModel
+import com.goldenpiedevs.schedule.app.core.dao.group.GroupModel
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.jakewharton.rxbinding2.widget.RxAutoCompleteTextView
@@ -14,11 +18,13 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import jp.wasabeef.blurry.Blurry
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresenter {
+
     private val MIN_LENGTH_TO_START = 2
 
     @Inject
@@ -34,7 +40,7 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
     }
 
     override fun showNextScreen() {
-        if (AppPreference.isFirstLauch) {
+        if (AppPreference.isFirstLaunch) {
             showInitView()
         } else {
             showMainScreen()
@@ -49,8 +55,13 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
         view.showGroupChooserView()
     }
 
-    override fun onGroupNameInputUpdated(input: String) {
-
+    override fun blurView(view: View) {
+        Blurry.with(view.context)
+                .radius(10)
+                .sampling(8)
+                .color(ContextCompat.getColor(view.context, R.color.blur))
+                .from(BitmapFactory.decodeResource(view.resources, R.drawable.init_screen_back))
+                .into(view as ImageView?)
     }
 
     private fun addOnAutoCompleteTextViewTextChangedObserver(autoCompleteTextView: AutoCompleteTextView) {
@@ -59,7 +70,11 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
                 .switchMap {
-                    groupManager.autocomplete(it.text().toString().toUpperCase())
+                    groupManager.autocomplete(it.text().toString().apply {
+                        toUpperCase()
+                        if (contains("И"))
+                            replace("И", "i")
+                    })
                             .onErrorResumeNext(Observable.empty())
                 }
                 .subscribeOn(Schedulers.io())
@@ -98,7 +113,6 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 .observeOn(Schedulers.io())
                 .switchMap { groupManager.groupDetails(it) }
                 .observeOn(AndroidSchedulers.mainThread())
-                .retry()
 
         compositeDisposable.add(
                 adapterViewItemClickEventObservable.subscribe(
@@ -108,6 +122,7 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
     }
 
     private fun awaitNextScreen(body: GroupModel) {
+        view.showProgreeDialog()
 
     }
 

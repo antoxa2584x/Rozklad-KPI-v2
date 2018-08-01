@@ -1,12 +1,12 @@
 package com.goldenpiedevs.schedule.app.core.api.group
 
 import com.goldenpiedevs.schedule.app.core.api.utils.ToJson
-import com.goldenpiedevs.schedule.app.core.dao.GropuListResponse
-import com.goldenpiedevs.schedule.app.core.dao.GroupModel
+import com.goldenpiedevs.schedule.app.core.dao.group.GropuListResponse
+import com.goldenpiedevs.schedule.app.core.dao.group.GroupModel
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GroupService {
@@ -17,7 +17,7 @@ interface GroupService {
     fun getGroupList(@ToJson @Query("filter") groupName: Map<String, String>): Response<GropuListResponse>
 
     @GET("groups/{id}")
-    fun getGroup(@Part("id") groupName: Int): Observable<Response<GroupModel>>
+    fun getGroup(@Path("id") groupName: Int): Observable<Response<GroupModel>>
 
     companion object {
         const val LIMIT = "limit"

@@ -1,4 +1,4 @@
-package com.goldenpiedevs.schedule.app.core.dao
+package com.goldenpiedevs.schedule.app.core.dao.group
 
 import com.google.gson.annotations.SerializedName
 

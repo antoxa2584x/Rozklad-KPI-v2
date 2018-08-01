@@ -16,6 +16,8 @@ import io.reactivex.disposables.CompositeDisposable
  * Version 1.0
  */
 open class BasePresenterImpl<V : BaseView> : BasePresenter<V> {
+    protected val TAG = javaClass.name
+
     protected lateinit var view: V
     protected val compositeDisposable = CompositeDisposable()
 

@@ -1,4 +1,4 @@
-package com.goldenpiedevs.schedule.app.core.api
+package com.goldenpiedevs.schedule.app.core.api.group
 
 import com.goldenpiedevs.schedule.app.core.api.utils.ToJson
 import com.goldenpiedevs.schedule.app.core.dao.GropuListResponse

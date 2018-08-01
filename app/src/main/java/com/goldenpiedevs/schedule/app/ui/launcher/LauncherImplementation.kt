@@ -19,7 +19,6 @@ import javax.inject.Inject
 
 
 class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresenter {
-    private val TAG = "LauncherImplementation"
     private val MIN_LENGTH_TO_START = 2
 
     @Inject
@@ -103,12 +102,12 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
 
         compositeDisposable.add(
                 adapterViewItemClickEventObservable.subscribe(
-                        { awaitNextScreen(it.body()) },
+                        { awaitNextScreen(it.body()!!) },
                         { throwable -> Log.e(TAG, "onError", throwable) },
                         { Log.i(TAG, "onCompleted") }))
     }
 
-    private fun awaitNextScreen(body: GroupModel?) {
+    private fun awaitNextScreen(body: GroupModel) {
 
     }
 

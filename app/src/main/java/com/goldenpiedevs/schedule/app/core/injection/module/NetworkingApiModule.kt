@@ -1,6 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.injection.module
 
-import com.goldenpiedevs.schedule.app.core.api.GroupService
+import com.goldenpiedevs.schedule.app.core.api.group.GroupService
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable

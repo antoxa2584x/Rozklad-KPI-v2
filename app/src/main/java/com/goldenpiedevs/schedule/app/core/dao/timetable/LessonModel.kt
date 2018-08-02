@@ -1,22 +1,28 @@
 package com.goldenpiedevs.schedule.app.core.dao.timetable
 
+import com.goldenpiedevs.schedule.app.core.dao.note.NoteModel
 import com.google.gson.annotations.SerializedName
+import com.vicpin.krealmextensions.query
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.annotations.Index
+import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
 @RealmClass
 open class LessonModel : RealmObject() {
+    @PrimaryKey
+    @SerializedName("lesson_id")
+    var lessonId: String? = null
+
+    @Index
+    @SerializedName("lesson_name")
+    var lessonName: String? = null
+
     @SerializedName("teacher_name")
     var teacherName: String? = null
     @SerializedName("rooms")
     var rooms: RealmList<RoomModel>? = RealmList()
-    @SerializedName("lesson_name")
-    var lessonName: String? = null
-    @SerializedName("time_start")
-    var timeStart: String? = null
-    @SerializedName("lesson_id")
-    var lessonId: String? = null
     @SerializedName("lesson_week")
     var lessonWeek: String? = null
     @SerializedName("lesson_room")
@@ -33,8 +39,19 @@ open class LessonModel : RealmObject() {
     var lessonFullName: String? = null
     @SerializedName("day_number")
     var dayNumber: String? = null
+
+    @SerializedName("time_start")
+    var timeStart: String? = null
+        get() = field!!.substring(0, field!!.length - 3)
+
     @SerializedName("time_end")
     var timeEnd: String? = null
+        get() = field!!.substring(0, field!!.length - 3)
+
     @SerializedName("lesson_number")
     var lessonNumber: String? = null
+
+    var hasNote: Boolean? = false
+        get() = NoteModel().query { equalTo("lessonId", lessonId) }.isNotEmpty()
+
 }

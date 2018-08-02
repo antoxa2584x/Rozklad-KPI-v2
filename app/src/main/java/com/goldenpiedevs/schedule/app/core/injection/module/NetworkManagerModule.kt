@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.core.injection.module
 
-import android.content.Context
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.group.GroupService
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
@@ -19,5 +18,5 @@ object NetworkManagerModule {
     @Provides
     @Reusable
     @JvmStatic
-    fun provideLessonsManager(lessonsService: LessonsService, context: Context) = LessonsManager(lessonsService, context)
+    fun provideLessonsManager(lessonsService: LessonsService) = LessonsManager(lessonsService)
 }

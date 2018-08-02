@@ -78,11 +78,13 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
                 .switchMap {
-                    groupManager.autocomplete(it.text().toString().apply {
+                    val text = it.text().toString().apply {
                         toUpperCase()
                         if (contains("И"))
                             replace("И", "i")
-                    })
+                    }
+
+                    groupManager.autocomplete(text)
                             .onErrorResumeNext(Observable.empty())
                 }
                 .subscribeOn(Schedulers.io())

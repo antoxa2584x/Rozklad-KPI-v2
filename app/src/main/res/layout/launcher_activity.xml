@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:nextFocusDown="@id/group_name_autocomplete"
+    android:nextFocusDown="@id/groupNameAutocomplete"
     android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/blured_back"
+        android:id="@+id/bluredBack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:layout_editor_absoluteY="84dp"
         tools:src="@drawable/init_screen_back" />
 
     <android.support.v7.widget.AppCompatAutoCompleteTextView
-        android:id="@+id/group_name_autocomplete"
+        android:id="@+id/groupNameAutocomplete"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
@@ -32,22 +31,37 @@
         android:maxLines="1"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appCompatImageView"
+        app:layout_constraintEnd_toStartOf="@+id/bluredBack"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bluredBack"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
         tools:text="ssdadasdd" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:gravity="center_horizontal"
+        android:text="@string/enter_group_name"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/appCompatImageView"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/group_name_autocomplete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bluredBack"
+        app:layout_constraintEnd_toStartOf="@+id/bluredBack"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bluredBack"
+        app:layout_constraintTop_toBottomOf="@+id/bluredBack"
+        app:layout_constraintVertical_bias="0.76"
         app:srcCompat="@drawable/kpi_icon" />
 
 

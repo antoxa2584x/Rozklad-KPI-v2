@@ -5,8 +5,11 @@ import android.view.WindowManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.launcher_activity.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.yesButton
 
 class LauncherActivity : BaseActivity(), LauncherView {
+
     private lateinit var presenter: LauncherPresenter
 
     override fun getActivityLayout(): Int = R.layout.launcher_activity
@@ -16,9 +19,9 @@ class LauncherActivity : BaseActivity(), LauncherView {
 
         presenter = LauncherImplementation()
         presenter.attachView(this)
-        presenter.setAutocompleteTextView(group_name_autocomplete)
+        presenter.setAutocompleteTextView(groupNameAutocomplete)
         presenter.showNextScreen()
-        presenter.blurView(blured_back)
+        presenter.blurView(bluredBack)
     }
 
     override fun showGroupChooserView() {
@@ -28,5 +31,11 @@ class LauncherActivity : BaseActivity(), LauncherView {
     override fun onDestroy() {
         presenter.detachView()
         super.onDestroy()
+    }
+
+    override fun onError() {
+        alert(R.string.error) {
+            yesButton { android.R.string.ok }
+        }.show()
     }
 }

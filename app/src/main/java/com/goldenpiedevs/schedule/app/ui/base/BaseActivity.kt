@@ -4,8 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.concurrent.atomic.AtomicLong
 
@@ -33,6 +35,10 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         setContentView(getActivityLayout())
 
         activityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: nextId.getAndIncrement()
+
+        if (findViewById<Toolbar>(R.id.toolbar) != null) {
+            setSupportActionBar(toolbar)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

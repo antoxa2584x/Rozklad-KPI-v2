@@ -10,5 +10,4 @@
         <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
-
 </resources>

@@ -70,6 +70,7 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko-commons:+"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0"
 
 }
 

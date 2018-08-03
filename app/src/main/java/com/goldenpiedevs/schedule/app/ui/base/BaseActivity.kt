@@ -24,6 +24,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     private var nextId = AtomicLong(0)
     private var activityId: Long = 0
 
+    protected abstract fun <T : BasePresenter<V>, V : BaseView> getPresenter(): T
+
     override fun getContext(): Context {
         return this
     }
@@ -36,7 +38,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
         activityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: nextId.getAndIncrement()
 
-        if (findViewById<Toolbar>(R.id.toolbar) != null) {
+        checkNotNull(findViewById<Toolbar>(R.id.toolbar)) {
             setSupportActionBar(toolbar)
         }
     }
@@ -54,5 +56,11 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun dismissProgreeDialog() {
         dialog!!.dismiss()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        getPresenter<BasePresenter<BaseView>, BaseView>().detachView()
     }
 }

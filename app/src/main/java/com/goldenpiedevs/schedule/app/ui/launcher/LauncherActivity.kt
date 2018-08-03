@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.WindowManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
+import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
+import com.goldenpiedevs.schedule.app.ui.base.BaseView
 import kotlinx.android.synthetic.main.launcher_activity.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
 
 class LauncherActivity : BaseActivity(), LauncherView {
+    override fun <T : BasePresenter<V>, V : BaseView> getPresenter(): T = presenter as T
 
     private lateinit var presenter: LauncherPresenter
 
@@ -19,6 +22,7 @@ class LauncherActivity : BaseActivity(), LauncherView {
 
         presenter = LauncherImplementation()
         presenter.attachView(this)
+
         presenter.setAutocompleteTextView(groupNameAutocomplete)
         presenter.showNextScreen()
         presenter.blurView(bluredBack)
@@ -26,11 +30,6 @@ class LauncherActivity : BaseActivity(), LauncherView {
 
     override fun showGroupChooserView() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-    }
-
-    override fun onDestroy() {
-        presenter.detachView()
-        super.onDestroy()
     }
 
     override fun onError() {

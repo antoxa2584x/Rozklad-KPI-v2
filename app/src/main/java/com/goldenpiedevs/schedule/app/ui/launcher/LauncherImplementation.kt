@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.launcher
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.dao.group.GroupModel
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
+import com.goldenpiedevs.schedule.app.ui.main.MainActivity
 import com.jakewharton.rxbinding2.widget.RxAutoCompleteTextView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
@@ -55,7 +57,7 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
     private fun showMainScreen() {
         (view as AppCompatActivity).finish()
 
-//        view.getContext().startActivity(Intent(view.getContext(), Object::class.java)) //FIXME: Change to Main Activity
+        view.getContext().startActivity(Intent(view.getContext(), MainActivity::class.java))
     }
 
     private fun showInitView() {

@@ -10,7 +10,7 @@ val AppCompatActivity.app: ScheduleApplication
     get() = application as ScheduleApplication
 
 fun Activity.hideSoftKeyboard() {
-    if (currentFocus != null) {
+    checkNotNull(currentFocus){
         val inputMethodManager = getSystemService(Context
                 .INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)

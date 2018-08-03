@@ -6,22 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.timetable_list_item.view.*
 
-class TimeTableAdapter(data: OrderedRealmCollection<DaoDayModel>?)
-    : RealmRecyclerViewAdapter<DaoDayModel, TimeTableAdapter.ViewHolder>(data, true) {
+class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
+    : RealmRecyclerViewAdapter<DayModel, TimeTableAdapter.ViewHolder>(data, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.timetable_list_item, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.list.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.dayName.text = getItem(p1)!!.dayModel!!.dayName
-        holder.list.adapter = LessonsAdapter(getItem(p1)!!.dayModel!!.lessons!!)
+        holder.dayName.text = getItem(position)!!.dayName
+        holder.list.adapter = LessonsAdapter(getItem(position)!!.lessons!!)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

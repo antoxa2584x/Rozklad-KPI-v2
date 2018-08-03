@@ -72,6 +72,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0"
 
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+
     implementation 'io.realm:android-adapters:3.0.0'
 
 }

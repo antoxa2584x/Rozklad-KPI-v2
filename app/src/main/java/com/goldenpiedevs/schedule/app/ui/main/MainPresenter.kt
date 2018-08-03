@@ -11,4 +11,5 @@ interface MainPresenter : BasePresenter<MainView> {
     fun onGroupChangeClick()
     fun onSettingsClick()
     fun onTeachersClick()
+    fun onBackPressed()
 }

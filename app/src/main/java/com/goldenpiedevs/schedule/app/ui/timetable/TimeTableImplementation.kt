@@ -8,10 +8,6 @@ import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
-    override fun onLessonClicked(id: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     private lateinit var firstWeekDays: RealmList<DayModel>
     private lateinit var secondWeekDays: RealmList<DayModel>
 
@@ -40,6 +36,10 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
             collection.find {
                 it.dayNumber == LocalDateTime.now().dayOfWeek.value
             } ?: DayModel()
+
+    override fun onLessonClicked(id: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun detachView() {
         super.detachView()

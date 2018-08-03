@@ -1,11 +1,16 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
 import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R.id.container
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
+    companion object {
+        const val ROOT_FRAGMENT_TAG = "ROOT_FRAGMENT_TAG"
+    }
+
     private lateinit var supportFragmentManager: FragmentManager
 
     override fun setSupportFragmentManager(supportFragmentManager: FragmentManager) {
@@ -13,7 +18,10 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun onTimeTableClick() {
-        supportFragmentManager.beginTransaction().replace(container, TimeTableFragment()).commit()
+        supportFragmentManager.beginTransaction()
+                .replace(container, TimeTableFragment())
+                .addToBackStack(ROOT_FRAGMENT_TAG)
+                .commit()
     }
 
     override fun onMapClick() {
@@ -30,5 +38,13 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
     override fun onTeachersClick() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            (view.getContext() as AppCompatActivity).finish()
+        }
     }
 }

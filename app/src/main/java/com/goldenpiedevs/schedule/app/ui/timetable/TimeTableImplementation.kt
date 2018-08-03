@@ -19,17 +19,11 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         firstWeekDays = DaoWeekModel().query { equalTo("week_number", 1.toString()) }.first().days!!
         secondWeekDays = DaoWeekModel().query { equalTo("week_number", 2.toString()) }.first().days!!
 
-        firstWeekDays.addChangeListener { _: RealmList<DayModel>? ->
-            updateCurrentDay()
-        }
-
-        secondWeekDays.addChangeListener { _: RealmList<DayModel>? ->
-            updateCurrentDay()
-        }
+        firstWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
+        secondWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
 
         view.showFirstWeekData(firstWeekDays)
         view.showSecondWeekData(secondWeekDays)
-
     }
 
     private fun updateCurrentDay() {
@@ -37,12 +31,12 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         val currentDay: Int
 
         currentDay = (if (isFirstWeek) firstWeekDays else secondWeekDays)
-                .let { it.indexOf(getCuurentDayModel(it)) }
+                .let { it.indexOf(getCurrentDayModel(it)) }
 
         view.showCurrentDay(isFirstWeek, currentDay)
     }
 
-    private fun getCuurentDayModel(collection: RealmList<DayModel>): DayModel =
+    private fun getCurrentDayModel(collection: RealmList<DayModel>): DayModel =
             collection.find {
                 it.dayNumber == LocalDateTime.now().dayOfWeek.value
             } ?: DayModel()

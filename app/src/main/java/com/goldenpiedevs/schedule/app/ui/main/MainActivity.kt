@@ -5,15 +5,13 @@ import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
-import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
-import com.goldenpiedevs.schedule.app.ui.base.BaseView
 import kotlinx.android.synthetic.main.main_activity_layout.*
 
-class MainActivity : BaseActivity(), MainView {
-
-    override fun <T : BasePresenter<V>, V : BaseView> getPresenter(): T = presenter as T
+class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView {
 
     lateinit var presenter: MainPresenter
+
+    override fun getPresenterChild(): MainPresenter = presenter
 
     override fun getActivityLayout(): Int = R.layout.main_activity_layout
 
@@ -25,6 +23,7 @@ class MainActivity : BaseActivity(), MainView {
         }
 
         presenter = MainImplementation()
+        presenter.attachView(this)
         presenter.setSupportFragmentManager(supportFragmentManager)
         presenter.onTimeTableClick()
     }

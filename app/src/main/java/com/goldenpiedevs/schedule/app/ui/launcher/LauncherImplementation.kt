@@ -100,13 +100,13 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                                 return@subscribe
                             }
 
-                            val list = it.body()
+                            val list = it.body()!!.data
                             val itemsAdapter = ArrayAdapter<GroupModel>(view.getContext(),
-                                    R.layout.centered_material_list_item, list!!.data)
+                                    R.layout.centered_material_list_item, list!!)
 
                             autoCompleteTextView.setAdapter<ArrayAdapter<GroupModel>>(itemsAdapter)
 
-                            if (!list.data!!.isNotEmpty()) {
+                            if (!list.isNotEmpty()) {
                                 autoCompleteTextView.dismissDropDown()
                             } else {
                                 autoCompleteTextView.showDropDown()
@@ -127,15 +127,15 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
 
         compositeDisposable.add(
                 adapterViewItemClickEventObservable.subscribe(
-                        { awaitNextScreen(it.body()!!) },
-                        { throwable -> Log.e(TAG, "onError", throwable) }))
+                        { awaitNextScreen(it.body()!!.data) },
+                        { view.onError() }))
     }
 
-    private fun awaitNextScreen(body: GroupModel) {
+    private fun awaitNextScreen(body: GroupModel?) {
         view.showProgreeDialog()
 
         launch {
-            val response = lessonsManager.loadTimeTable(body.groupId).await()
+            val response = lessonsManager.loadTimeTable(body!!.groupId).await()
             launch(UI) {
                 view.dismissProgreeDialog()
 

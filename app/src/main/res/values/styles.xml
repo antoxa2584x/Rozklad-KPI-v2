@@ -10,4 +10,19 @@
         <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
+
+    <style name="TextAppearance" >
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="TextAppearance.Primary" parent="TextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:color">@color/primary_text</item>
+    </style>
+
+    <style name="TextAppearance.Secondary" parent="TextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:color">@color/secondary_text</item>
+        <item name="android:height">20dp</item>
+    </style>
 </resources>

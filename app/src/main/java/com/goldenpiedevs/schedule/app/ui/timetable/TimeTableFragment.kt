@@ -1,6 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
@@ -20,6 +21,11 @@ class TimeTableFragment : BaseFragment(), TimeTableView {
         super.onViewCreated(view, savedInstanceState)
 
         timeTablePresenter = TimeTableImplementation()
+        timeTablePresenter.attachView(this)
+
+        firstWeekList.layoutManager = LinearLayoutManager(context)
+        secondWeekList.layoutManager = LinearLayoutManager(context)
+
         timeTablePresenter.getData()
     }
 

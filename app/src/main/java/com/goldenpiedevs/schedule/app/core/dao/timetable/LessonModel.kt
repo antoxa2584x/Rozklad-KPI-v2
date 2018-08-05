@@ -2,7 +2,7 @@ package com.goldenpiedevs.schedule.app.core.dao.timetable
 
 import com.goldenpiedevs.schedule.app.core.dao.note.NoteModel
 import com.google.gson.annotations.SerializedName
-import com.vicpin.krealmextensions.query
+import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Index
@@ -22,7 +22,9 @@ open class LessonModel : RealmObject() {
     @SerializedName("teacher_name")
     var teacherName: String? = null
     @SerializedName("rooms")
-    var rooms: RealmList<RoomModel>? = RealmList()
+    var rooms: RealmList<RoomModel> = RealmList()
+    @SerializedName("teachers")
+    var teachers: RealmList<TeacherModel> = RealmList()
     @SerializedName("lesson_week")
     var lessonWeek: String? = null
     @SerializedName("lesson_room")
@@ -51,7 +53,13 @@ open class LessonModel : RealmObject() {
     @SerializedName("lesson_number")
     var lessonNumber: String? = null
 
-    var hasNote: Boolean? = false
-        get() = NoteModel().query { equalTo("lessonId", lessonId) }.isNotEmpty()
+    var hasNote: Boolean = false
+        get() {
+            val realm = Realm.getDefaultInstance()
+            val note = realm.where(NoteModel::class.java).equalTo("lessonId", lessonId).count() > 0
+            if (!realm.isClosed)
+                realm.close()
+            return note
+        }
 
 }

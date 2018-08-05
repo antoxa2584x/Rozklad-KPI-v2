@@ -10,9 +10,22 @@ val AppCompatActivity.app: ScheduleApplication
     get() = application as ScheduleApplication
 
 fun Activity.hideSoftKeyboard() {
-    checkNotNull(currentFocus){
+    currentFocus ?: apply {
         val inputMethodManager = getSystemService(Context
                 .INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        inputMethodManager.hideSoftInputFromWindow(currentFocus.windowToken, 0)
     }
+}
+
+fun Activity.getThemeId(): Int {
+    try {
+        val wrapper = Context::class.java
+        val method = wrapper.getMethod("getThemeResId")
+        method.isAccessible = true
+        return method.invoke(this) as Int
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return 0
 }

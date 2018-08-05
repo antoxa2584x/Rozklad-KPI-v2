@@ -21,11 +21,11 @@ abstract class BaseFragment : Fragment(), BaseView {
     }
 
     override fun showProgreeDialog() {
-        if (isAdded) (activity as BaseActivity).showProgreeDialog()
+        if (isAdded) (activity as BaseActivity<*, *>).showProgreeDialog()
 
     }
 
     override fun dismissProgreeDialog() {
-        if (isAdded) (activity as BaseActivity).dismissProgreeDialog()
+        if (isAdded) (activity as BaseActivity<*, *>).dismissProgreeDialog()
     }
 }

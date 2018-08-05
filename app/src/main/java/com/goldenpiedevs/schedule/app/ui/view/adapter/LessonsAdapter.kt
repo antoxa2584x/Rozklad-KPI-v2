@@ -22,7 +22,7 @@ class LessonsAdapter(data: OrderedRealmCollection<LessonModel>)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = getItem(position)!!
-        holder.currentLesson.visibility = if (model.hasNote!!) View.VISIBLE else View.INVISIBLE
+        holder.currentLesson.visibility = if (model.hasNote) View.VISIBLE else View.INVISIBLE
         holder.lessonTitle.text = model.lessonFullName!!
         holder.time.text = "${model.timeStart}-${model.timeEnd}"
         holder.location.text = "${model.lessonRoom} ${model.lessonType}"

@@ -2,10 +2,13 @@ package com.goldenpiedevs.schedule.app.core.dao.group
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 open class GroupModel : RealmObject() {
+    @PrimaryKey
     @SerializedName("group_id")
     var groupId: Int? = 0
+
     @SerializedName("group_okr")
     var groupOkr: String? = null
     @SerializedName("group_full_name")

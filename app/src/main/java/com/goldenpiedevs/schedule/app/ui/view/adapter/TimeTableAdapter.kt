@@ -22,7 +22,7 @@ class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.list.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.dayName.text = getItem(position)!!.dayName
-        holder.list.adapter = LessonsAdapter(getItem(position)!!.lessons!!)
+        holder.list.adapter = LessonsAdapter(getItem(position)!!.lessons)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

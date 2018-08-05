@@ -3,23 +3,25 @@ package com.goldenpiedevs.schedule.app.ui.timetable
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoWeekModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
-import com.vicpin.krealmextensions.query
+import io.realm.Realm
 import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
     private lateinit var firstWeekDays: RealmList<DayModel>
     private lateinit var secondWeekDays: RealmList<DayModel>
+    private val realm = Realm.getDefaultInstance()
 
     override fun getData() {
-        firstWeekDays = DaoWeekModel().query { equalTo("week_number", 1.toString()) }.first().days!!
-        secondWeekDays = DaoWeekModel().query { equalTo("week_number", 2.toString()) }.first().days!!
 
-        firstWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
-        secondWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
+        firstWeekDays = realm.where(DaoWeekModel::class.java).equalTo("weekNumber", 1.toString()).findFirst()!!.days
+        secondWeekDays =  realm.where(DaoWeekModel::class.java).equalTo("weekNumber", 2.toString()).findFirst()!!.days
 
         view.showFirstWeekData(firstWeekDays)
         view.showSecondWeekData(secondWeekDays)
+
+        firstWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
+        secondWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
     }
 
     private fun updateCurrentDay() {
@@ -45,5 +47,8 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         super.detachView()
         firstWeekDays.removeAllChangeListeners()
         secondWeekDays.removeAllChangeListeners()
+
+        if(!realm.isClosed)
+            realm.close()
     }
 }

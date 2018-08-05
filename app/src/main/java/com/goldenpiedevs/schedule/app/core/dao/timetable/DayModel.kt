@@ -12,5 +12,5 @@ open class DayModel : RealmObject() {
     @SerializedName("day_number")
     var dayNumber: Int? = null
     @SerializedName("lessons")
-    var lessons: RealmList<LessonModel>? = RealmList()
+    var lessons: RealmList<LessonModel> = RealmList()
 }

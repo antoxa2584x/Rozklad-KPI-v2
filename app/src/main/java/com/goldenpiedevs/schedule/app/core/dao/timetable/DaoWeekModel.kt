@@ -6,6 +6,6 @@ import io.realm.annotations.RealmClass
 
 @RealmClass
 open class DaoWeekModel : RealmObject() {
-    var days: RealmList<DayModel>? = null
+    var days: RealmList<DayModel> = RealmList()
     var weekNumber: String? = null
 }

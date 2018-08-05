@@ -6,4 +6,4 @@ data class WeekModel(
         @SerializedName("week_number")
         val weekNumber: String? = null,
         @SerializedName("days")
-        val daysMap: ArrayList<DayModel>? = ArrayList())
+        val daysMap: HashMap<String, DayModel>? = null)

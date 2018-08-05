@@ -1,16 +1,18 @@
-package com.goldenpiedevs.schedule.app.core.api
+package com.goldenpiedevs.schedule.app.core.dao
 
 import com.google.gson.annotations.SerializedName
 
-data class BaseResponseModel(@SerializedName("timeStamp")
-                             val timeStamp: Int = 0,
-                             @SerializedName("data")
-                             val data: Data,
-                             @SerializedName("meta")
-                             val meta: Null = null,
-                             @SerializedName("debugInfo")
-                             val debugInfo: Null = null,
-                             @SerializedName("message")
-                             val message: String = "",
-                             @SerializedName("statusCode")
-                             val statusCode: Int = 0)
+open class BaseResponseModel<T : Any> {
+    @SerializedName("timeStamp")
+    var timeStamp: Int = 0
+    @SerializedName("data")
+    open var data: T? = null
+    @SerializedName("meta")
+    var meta: String = ""
+    @SerializedName("debugInfo")
+    var debugInfo: String = ""
+    @SerializedName("message")
+    var message: String = ""
+    @SerializedName("statusCode")
+    var statusCode: Int = 0
+}

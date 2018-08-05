@@ -11,11 +11,13 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.concurrent.atomic.AtomicLong
 
+
+
 /**
  * Created by Anton. A on 13.03.2018.
  * Version 1.0
  */
-abstract class BaseActivity : AppCompatActivity(), BaseView {
+abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActivity(), BaseView {
     companion object {
         const val KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID"
     }
@@ -24,7 +26,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     private var nextId = AtomicLong(0)
     private var activityId: Long = 0
 
-    protected abstract fun <T : BasePresenter<V>, V : BaseView> getPresenter(): T
+    protected abstract fun getPresenterChild(): T
 
     override fun getContext(): Context {
         return this
@@ -35,10 +37,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getActivityLayout())
-
         activityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: nextId.getAndIncrement()
 
-        checkNotNull(findViewById<Toolbar>(R.id.toolbar)) {
+        findViewById<Toolbar>(R.id.toolbar) ?: apply {
             setSupportActionBar(toolbar)
         }
     }
@@ -61,6 +62,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     override fun onDestroy() {
         super.onDestroy()
 
-        getPresenter<BasePresenter<BaseView>, BaseView>().detachView()
+        getPresenterChild().detachView()
     }
 }

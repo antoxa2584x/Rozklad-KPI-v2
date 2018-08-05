@@ -1,11 +1,15 @@
-package com.goldenpiedevs.schedule.app.core.dao.timetable
+package com.goldenpiedevs.schedule.app.core.api
 
 import com.google.gson.annotations.SerializedName
 
-data class TimeTableResponse(@SerializedName("timeStamp")
+data class BaseResponseModel(@SerializedName("timeStamp")
                              val timeStamp: Int = 0,
                              @SerializedName("data")
-                             val data: DataModel,
+                             val data: Data,
+                             @SerializedName("meta")
+                             val meta: Null = null,
+                             @SerializedName("debugInfo")
+                             val debugInfo: Null = null,
                              @SerializedName("message")
                              val message: String = "",
                              @SerializedName("statusCode")

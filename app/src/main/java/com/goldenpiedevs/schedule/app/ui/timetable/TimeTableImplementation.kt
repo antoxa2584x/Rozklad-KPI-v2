@@ -15,10 +15,12 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     override fun getData() {
 
         firstWeekDays = realm.where(DaoWeekModel::class.java).equalTo("weekNumber", 1.toString()).findFirst()!!.days
-        secondWeekDays =  realm.where(DaoWeekModel::class.java).equalTo("weekNumber", 2.toString()).findFirst()!!.days
+        secondWeekDays = realm.where(DaoWeekModel::class.java).equalTo("weekNumber", 2.toString()).findFirst()!!.days
 
-        view.showFirstWeekData(firstWeekDays)
-        view.showSecondWeekData(secondWeekDays)
+        view.apply {
+            showFirstWeekData(firstWeekDays)
+            showSecondWeekData(secondWeekDays)
+        }
 
         firstWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
         secondWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
@@ -35,9 +37,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     }
 
     private fun getCurrentDayModel(collection: RealmList<DayModel>): DayModel =
-            collection.find {
-                it.dayNumber == LocalDateTime.now().dayOfWeek.value
-            } ?: DayModel()
+            collection.find { it.dayNumber == LocalDateTime.now().dayOfWeek.value } ?: DayModel()
 
     override fun onLessonClicked(id: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -48,7 +48,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         firstWeekDays.removeAllChangeListeners()
         secondWeekDays.removeAllChangeListeners()
 
-        if(!realm.isClosed)
+        if (!realm.isClosed)
             realm.close()
     }
 }

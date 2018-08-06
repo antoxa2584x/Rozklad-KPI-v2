@@ -30,7 +30,9 @@ import javax.inject.Inject
 
 class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresenter {
 
-    private val MIN_LENGTH_TO_START = 2
+    companion object {
+        private const val MIN_LENGTH_TO_START = 2
+    }
 
     @Inject
     lateinit var groupManager: GroupManager
@@ -40,10 +42,11 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
     private lateinit var autoCompleteTextView: AutoCompleteTextView
 
     override fun setAutocompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
-        this.autoCompleteTextView = autoCompleteTextView
-
-        addOnAutoCompleteTextViewItemClickedSubscriber(this.autoCompleteTextView)
-        addOnAutoCompleteTextViewTextChangedObserver(this.autoCompleteTextView)
+        this.autoCompleteTextView =
+                autoCompleteTextView.also {
+                    addOnAutoCompleteTextViewItemClickedSubscriber(it)
+                    addOnAutoCompleteTextViewTextChangedObserver(it)
+                }
     }
 
     override fun showNextScreen() {
@@ -55,9 +58,10 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
     }
 
     private fun showMainScreen() {
-        (view as AppCompatActivity).finish()
-
-        view.getContext().startActivity(Intent(view.getContext(), MainActivity::class.java))
+        (view as AppCompatActivity).apply {
+            finish()
+            startActivity(Intent(view.getContext(), MainActivity::class.java))
+        }
     }
 
     private fun showInitView() {
@@ -79,14 +83,15 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
+                .map {
+                    it.text().toString()
+                            .apply {
+                                toUpperCase()
+                                if (contains("И")) replace("И", "i")
+                            }
+                }
                 .switchMap {
-                    val text = it.text().toString().apply {
-                        toUpperCase()
-                        if (contains("И"))
-                            replace("И", "i")
-                    }
-
-                    groupManager.autocomplete(text)
+                    groupManager.autocomplete(it)
                             .onErrorResumeNext(Observable.empty())
                 }
                 .subscribeOn(Schedulers.io())

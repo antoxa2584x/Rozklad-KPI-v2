@@ -12,7 +12,6 @@ import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.concurrent.atomic.AtomicLong
 
 
-
 /**
  * Created by Anton. A on 13.03.2018.
  * Version 1.0
@@ -39,7 +38,7 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         setContentView(getActivityLayout())
         activityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: nextId.getAndIncrement()
 
-        findViewById<Toolbar>(R.id.toolbar) ?: apply {
+        findViewById<Toolbar>(R.id.toolbar)?.apply {
             setSupportActionBar(toolbar)
         }
     }

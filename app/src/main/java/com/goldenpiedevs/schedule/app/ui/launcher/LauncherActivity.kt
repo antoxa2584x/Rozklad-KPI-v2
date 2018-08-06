@@ -22,10 +22,11 @@ class LauncherActivity : BaseActivity<LauncherPresenter, LauncherView>(), Launch
         presenter = LauncherImplementation()
         presenter.attachView(this)
 
-        presenter.setAutocompleteTextView(groupNameAutocomplete)
-        presenter.showNextScreen()
-
-        presenter.blurView(bluredBack)
+        presenter.apply {
+            setAutocompleteTextView(groupNameAutocomplete)
+            showNextScreen()
+            blurView(bluredBack)
+        }
     }
 
     override fun showGroupChooserView() {

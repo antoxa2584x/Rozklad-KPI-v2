@@ -14,23 +14,25 @@ class LessonsManager(private val lessonsService: LessonsService) {
         val response = lessonsService.getGroupTimeTable(groupId).await()
 
         if (response.isSuccessful) {
-            var realm = Realm.getDefaultInstance()
+            val realm = Realm.getDefaultInstance()
 
-            realm.executeTransaction {
-                it.copyToRealmOrUpdate(listOf(response.body()!!.data!!.weeks!!.firstWeekModel!!,
+            realm.executeTransaction { transaction ->
+                transaction.copyToRealmOrUpdate(listOf(response.body()!!.data!!.weeks!!.firstWeekModel!!,
                         response.body()!!.data!!.weeks!!.secondWeekModel!!)
-                        .map {
+                        .map { map ->
                             val daoWeekModel = DaoWeekModel()
-                            daoWeekModel.weekNumber = it.weekNumber
+                            daoWeekModel.weekNumber = map.weekNumber
 
                             daoWeekModel.days = RealmList()
-                            daoWeekModel.days.addAll(it.daysMap!!.entries.map { it.value })
+                            daoWeekModel.days.addAll(map.daysMap!!.entries
+                                    .filter { !it.value.lessons.isEmpty() }
+                                    .map { it.value })
 
                             daoWeekModel
                         })
             }
 
-            if(!realm.isClosed)
+            if (!realm.isClosed)
                 realm.close()
         }
 

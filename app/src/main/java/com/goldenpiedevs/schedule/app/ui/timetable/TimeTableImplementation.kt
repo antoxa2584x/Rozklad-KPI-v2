@@ -6,6 +6,7 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import io.realm.Realm
 import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.temporal.IsoFields
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
     private lateinit var firstWeekDays: RealmList<DayModel>
@@ -24,10 +25,12 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
 
         firstWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
         secondWeekDays.addChangeListener { _: RealmList<DayModel>? -> updateCurrentDay() }
+
+        updateCurrentDay()
     }
 
     private fun updateCurrentDay() {
-        val isFirstWeek = true //TODO
+        val isFirstWeek = LocalDateTime.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2 == 0
         val currentDay: Int
 
         currentDay = (if (isFirstWeek) firstWeekDays else secondWeekDays)

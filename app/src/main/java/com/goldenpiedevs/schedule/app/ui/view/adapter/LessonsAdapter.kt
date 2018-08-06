@@ -31,11 +31,11 @@ class LessonsAdapter(data: OrderedRealmCollection<LessonModel>)
 
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val currentLesson = itemView.currentLesson
-        val number = itemView.lessonNumber
-        val lessonTitle = itemView.lessonTitle
-        val time = itemView.time
-        val location = itemView.location
+        val currentLesson = itemView.currentLesson!!
+        val number = itemView.lessonNumber!!
+        val lessonTitle = itemView.lessonTitle!!
+        val time = itemView.time!!
+        val location = itemView.location!!
     }
 }
 

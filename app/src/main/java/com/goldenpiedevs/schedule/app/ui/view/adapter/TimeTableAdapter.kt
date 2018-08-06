@@ -26,7 +26,7 @@ class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val dayName = view.dayName
-        val list = view.list
+        val dayName = view.dayName!!
+        val list = view.list!!
     }
 }

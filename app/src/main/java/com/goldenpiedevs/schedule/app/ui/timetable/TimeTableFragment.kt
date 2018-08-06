@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.time_table_layout.*
 
 class TimeTableFragment : BaseFragment(), TimeTableView {
 
-    lateinit var timeTablePresenter: TimeTablePresenter
+    private lateinit var timeTablePresenter: TimeTablePresenter
 
     override fun getFragmentLayout(): Int = R.layout.time_table_layout
 

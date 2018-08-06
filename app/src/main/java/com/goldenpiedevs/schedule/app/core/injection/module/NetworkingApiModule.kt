@@ -13,11 +13,11 @@ object NetworkingApiModule {
     @Provides
     @Reusable
     @JvmStatic
-    fun provideGroupsService(retrofit: Retrofit) = retrofit.create(GroupService::class.java)
+    fun provideGroupsService(retrofit: Retrofit) = retrofit.create(GroupService::class.java)!!
 
     @Provides
     @Reusable
     @JvmStatic
-    fun provideLessonsService(retrofit: Retrofit) = retrofit.create(LessonsService::class.java)
+    fun provideLessonsService(retrofit: Retrofit) = retrofit.create(LessonsService::class.java)!!
 
 }

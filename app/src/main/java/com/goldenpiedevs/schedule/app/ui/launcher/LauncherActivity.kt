@@ -29,7 +29,7 @@ class LauncherActivity : BaseActivity<LauncherPresenter, LauncherView>(), Launch
     }
 
     override fun showGroupChooserView() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
     }
 
     override fun onError() {

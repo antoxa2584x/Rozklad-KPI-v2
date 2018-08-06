@@ -1,6 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.api.group
 
-class GroupManager(var groupService: GroupService) {
+class GroupManager(private var groupService: GroupService) {
     fun autocomplete(query: String) =
             groupService.searchGroupList(mutableMapOf(GroupService.QUERY to query))
 

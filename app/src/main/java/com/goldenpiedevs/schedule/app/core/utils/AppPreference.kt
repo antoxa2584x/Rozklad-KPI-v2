@@ -5,4 +5,5 @@ import com.chibatching.kotpref.KotprefModel
 object AppPreference : KotprefModel() {
     var isFirstLaunch by booleanPref(true)
     var groupName by stringPref()
+    var groupId by intPref()
 }

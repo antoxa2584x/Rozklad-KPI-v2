@@ -7,9 +7,6 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
-    companion object {
-        const val ROOT_FRAGMENT_TAG = "ROOT_FRAGMENT_TAG"
-    }
 
     private lateinit var supportFragmentManager: FragmentManager
 
@@ -20,7 +17,6 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     override fun onTimeTableClick() {
         supportFragmentManager.beginTransaction()
                 .replace(container, TimeTableFragment())
-                .addToBackStack(ROOT_FRAGMENT_TAG)
                 .commit()
     }
 

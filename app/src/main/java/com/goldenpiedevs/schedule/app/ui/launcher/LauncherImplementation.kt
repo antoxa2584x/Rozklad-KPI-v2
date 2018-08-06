@@ -145,6 +145,12 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 view.dismissProgreeDialog()
 
                 if (response.isSuccessful) {
+                    AppPreference.apply {
+                        isFirstLaunch = false
+                        groupName = body.groupFullName!!
+                        groupId = body.groupId!!
+                    }
+
                     showMainScreen()
                 } else {
                     view.onError()

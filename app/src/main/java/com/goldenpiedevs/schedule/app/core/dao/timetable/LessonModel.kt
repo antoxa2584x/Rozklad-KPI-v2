@@ -26,7 +26,7 @@ open class LessonModel : RealmObject() {
     @SerializedName("teachers")
     var teachers: RealmList<TeacherModel> = RealmList()
     @SerializedName("lesson_week")
-    var lessonWeek: String? = null
+    var lessonWeek: Int? = null
     @SerializedName("lesson_room")
     var lessonRoom: String? = null
     @SerializedName("day_name")

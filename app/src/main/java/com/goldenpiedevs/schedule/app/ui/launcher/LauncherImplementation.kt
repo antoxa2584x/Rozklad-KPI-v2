@@ -58,7 +58,7 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
     }
 
     private fun showMainScreen() {
-        (view as AppCompatActivity).apply {
+        with(view as AppCompatActivity) {
             finish()
             startActivity(Intent(view.getContext(), MainActivity::class.java))
         }
@@ -84,11 +84,8 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
                 .map {
-                    val str = it.text().toString()
-                            .apply {
-                                toUpperCase()
-                                if (contains("И")) replace("И", "i")
-                            }
+                    val str = it.text().toString().toUpperCase()
+                    if (str.contains("И")) str.replace("И", "i")
                     str
                 }
                 .switchMap {

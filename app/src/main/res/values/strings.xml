@@ -5,4 +5,6 @@
     <string name="choose_your_group">Оберіть свою групу</string>
     <string name="error">Помилка завантаження</string>
     <string name="enter_group_name">Введiь назву групи</string>
+    <string name="first_week">Перший тиждень</string>
+    <string name="second_week">Другий тиждень</string>
 </resources>

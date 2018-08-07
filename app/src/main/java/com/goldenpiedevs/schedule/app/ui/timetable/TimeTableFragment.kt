@@ -20,14 +20,15 @@ class TimeTableFragment : BaseFragment(), TimeTableView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = TimeTableImplementation()
-        presenter.attachView(this)
-
         setUpRecyclerView(firstWeekList, secondWeekList)
 
-        presenter.getData()
+        presenter = TimeTableImplementation()
 
-        presenter.showCurrentDay()
+        with(presenter) {
+            attachView(this@TimeTableFragment)
+            getData()
+            showCurrentDay()
+        }
     }
 
     private fun setUpRecyclerView(vararg recyclerView: RecyclerView) {

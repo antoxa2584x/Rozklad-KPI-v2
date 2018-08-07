@@ -20,9 +20,9 @@ class LauncherActivity : BaseActivity<LauncherPresenter, LauncherView>(), Launch
         super.onCreate(savedInstanceState)
 
         presenter = LauncherImplementation()
-        presenter.attachView(this)
 
-        presenter.apply {
+        with(presenter) {
+            attachView(this@LauncherActivity)
             setAutocompleteTextView(groupNameAutocomplete)
             showNextScreen()
             blurView(bluredBack)

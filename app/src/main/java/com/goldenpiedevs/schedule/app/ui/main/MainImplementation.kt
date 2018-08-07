@@ -3,6 +3,8 @@ package com.goldenpiedevs.schedule.app.ui.main
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R.id.container
+import com.goldenpiedevs.schedule.app.core.ext.todayName
+import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 
@@ -18,6 +20,21 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         supportFragmentManager.beginTransaction()
                 .replace(container, TimeTableFragment())
                 .commit()
+    }
+
+    override fun attachView(view: MainView) {
+        super.attachView(view)
+
+        with(view) {
+            setActivitySubtitle(AppPreference.groupName.toUpperCase())
+
+            //String immutable, seems it does not like apply
+            var title = todayName
+            title = title.substring(0, 1).toUpperCase() + title.substring(1)
+
+            setActivityTitle(title)
+        }
+
     }
 
     override fun onMapClick() {

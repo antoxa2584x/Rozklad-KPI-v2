@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.ext.lockAppBar
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
 
 class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView {
-
-    lateinit var presenter: MainPresenter
+    private lateinit var presenter: MainPresenter
 
     override fun getPresenterChild(): MainPresenter = presenter
 
@@ -21,11 +21,20 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
 
         presenter = MainImplementation()
-        presenter.attachView(this)
-        presenter.apply {
+
+        with(presenter) {
+            attachView(this@MainActivity)
             setSupportFragmentManager(supportFragmentManager)
             onTimeTableClick()
         }
+    }
+
+    override fun setActivityTitle(string: String) {
+        collapsingToolbar.title = string
+    }
+
+    override fun setActivitySubtitle(string: String) {
+        collapsingToolbar.subtitle = string
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -39,7 +48,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView {
     }
 
     override fun toggleToolbarCollapseMode(isCollapsing: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        appbar.lockAppBar(isCollapsing)
     }
 
     override fun onBackPressed() {

@@ -6,6 +6,7 @@ import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoWeekModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
+import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import io.realm.Realm
@@ -22,14 +23,15 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     private lateinit var firstWeekDays: RealmList<DayModel>
     private lateinit var secondWeekDays: RealmList<DayModel>
     private val realm = Realm.getDefaultInstance()
-    private val isFirstWeek = LocalDateTime.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2 == 0
 
     override fun getData() {
 
-        firstWeekDays = realm.where(DaoWeekModel::class.java).equalTo("weekNumber", 1.toString()).findFirst()!!.days
-        secondWeekDays = realm.where(DaoWeekModel::class.java).equalTo("weekNumber", 2.toString()).findFirst()!!.days
+        firstWeekDays = realm.where(DaoWeekModel::class.java)
+                .equalTo("weekNumber", 1.toString()).findFirst()!!.days
+        secondWeekDays = realm.where(DaoWeekModel::class.java)
+                .equalTo("weekNumber", 2.toString()).findFirst()!!.days
 
-        view.apply {
+        with(view) {
             showWeekData(true, firstWeekDays)
             showWeekData(false, firstWeekDays)
         }

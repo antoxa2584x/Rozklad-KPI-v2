@@ -17,6 +17,7 @@ class ScheduleApplication : MultiDexApplication() {
         val config = RealmConfiguration.Builder()
                 .name("schedule.realm")
                 .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
                 .build()
 
         Realm.setDefaultConfiguration(config)

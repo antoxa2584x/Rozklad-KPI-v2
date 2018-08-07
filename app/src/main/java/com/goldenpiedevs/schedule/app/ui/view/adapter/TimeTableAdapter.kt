@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
+import com.goldenpiedevs.schedule.app.core.ext.colorIfToday
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.timetable_list_item.view.*
@@ -23,6 +24,8 @@ class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
         holder.list.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.dayName.text = getItem(position)!!.dayName
         holder.list.adapter = LessonsAdapter(getItem(position)!!.lessons)
+
+        holder.colorIfToday(data!![position].lessons.first()!!.lessonWeek!!, holder.dayName)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

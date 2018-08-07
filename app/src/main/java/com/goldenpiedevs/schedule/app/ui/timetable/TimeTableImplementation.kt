@@ -35,7 +35,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
 
         with(view) {
             showWeekData(true, firstWeekDays)
-            showWeekData(false, firstWeekDays)
+            showWeekData(false, secondWeekDays)
         }
     }
 

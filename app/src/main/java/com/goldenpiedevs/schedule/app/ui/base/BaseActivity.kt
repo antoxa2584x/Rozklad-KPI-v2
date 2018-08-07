@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
 import kotlinx.android.synthetic.main.toolbar.*
@@ -38,8 +37,13 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         setContentView(getActivityLayout())
         activityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: nextId.getAndIncrement()
 
-        findViewById<Toolbar>(R.id.toolbar)?.apply {
-            setSupportActionBar(toolbar)
+        toolbar?.let {
+            setSupportActionBar(it)
+        }
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
         }
     }
 

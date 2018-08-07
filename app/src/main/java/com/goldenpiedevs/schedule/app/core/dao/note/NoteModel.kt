@@ -6,7 +6,7 @@ import io.realm.annotations.RealmClass
 
 @RealmClass
 open class NoteModel() : RealmObject() {
-    var lessonId:String?=null
+    var lessonId: String? = null
     var note: String? = null
     var photos: RealmList<String>? = null
 }

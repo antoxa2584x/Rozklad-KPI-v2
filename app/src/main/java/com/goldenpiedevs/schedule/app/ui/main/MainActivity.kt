@@ -18,14 +18,14 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.apply {
-            setHomeAsUpIndicator(R.drawable.ic_menu)
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
 
         presenter = MainImplementation()
         presenter.attachView(this)
-        presenter.setSupportFragmentManager(supportFragmentManager)
-        presenter.onTimeTableClick()
+        presenter.apply {
+            setSupportFragmentManager(supportFragmentManager)
+            onTimeTableClick()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

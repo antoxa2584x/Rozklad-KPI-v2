@@ -84,11 +84,12 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
                 .map {
-                    it.text().toString()
+                    val str = it.text().toString()
                             .apply {
                                 toUpperCase()
                                 if (contains("И")) replace("И", "i")
                             }
+                    str
                 }
                 .switchMap {
                     groupManager.autocomplete(it)
@@ -140,17 +141,12 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
         view.showProgreeDialog()
 
         launch {
-            val response = lessonsManager.loadTimeTable(body!!.groupId).await()
+            val isSuccessful = lessonsManager.loadTimeTable(body!!.groupId).await()
+
             launch(UI) {
                 view.dismissProgreeDialog()
 
-                if (response.isSuccessful) {
-                    AppPreference.apply {
-                        isFirstLaunch = false
-                        groupName = body.groupFullName!!
-                        groupId = body.groupId!!
-                    }
-
+                if (isSuccessful) {
                     showMainScreen()
                 } else {
                     view.onError()

@@ -10,7 +10,6 @@ import com.goldenpiedevs.schedule.app.ui.launcher.LauncherImplementation
 import io.reactivex.disposables.CompositeDisposable
 
 
-
 /**
  * Created by Anton. A on 13.03.2018.
  * Version 1.0

@@ -8,9 +8,9 @@ import io.realm.annotations.RealmClass
 @RealmClass
 open class DayModel : RealmObject() {
     @SerializedName("day_name")
-    var dayName: String? = null
+    var dayName: String = ""
     @SerializedName("day_number")
-    var dayNumber: Int? = null
+    var dayNumber: Int = -1
     @SerializedName("lessons")
     var lessons: RealmList<LessonModel> = RealmList()
 }

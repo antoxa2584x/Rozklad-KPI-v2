@@ -57,7 +57,8 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showNotePhotos(fileNames: ArrayList<String>) {
+    override fun showNotePhotos(fileNames: OrderedRealmCollection<String>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 }

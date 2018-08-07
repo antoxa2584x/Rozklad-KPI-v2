@@ -23,13 +23,14 @@ class LauncherActivity : BaseActivity<LauncherPresenter, LauncherView>(), Launch
 
         with(presenter) {
             attachView(this@LauncherActivity)
+
+            if (showNextScreen())
+                return@onCreate
+
             setAutocompleteTextView(groupNameAutocomplete)
-            showNextScreen()
             blurView(bluredBack)
         }
-    }
 
-    override fun showGroupChooserView() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
     }
 

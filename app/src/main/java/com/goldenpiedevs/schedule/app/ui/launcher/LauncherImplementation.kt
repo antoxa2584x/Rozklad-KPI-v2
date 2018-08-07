@@ -49,23 +49,22 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 }
     }
 
-    override fun showNextScreen() {
-        if (AppPreference.isFirstLaunch) {
-            showInitView()
-        } else {
-            showMainScreen()
+    override fun showNextScreen(): Boolean {
+        if (!AppPreference.isFirstLaunch) {
+            showMainScreen(true)
+            return true
         }
+        return false
     }
 
-    private fun showMainScreen() {
+    private fun showMainScreen(animate: Boolean) {
         with(view as AppCompatActivity) {
             finish()
-            startActivity(Intent(view.getContext(), MainActivity::class.java))
-        }
-    }
+            startActivity(Intent(view.getContext(), MainActivity::class.java).apply {
+                if (!animate) addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            })
 
-    private fun showInitView() {
-        view.showGroupChooserView()
+        }
     }
 
     override fun blurView(view: View) {
@@ -144,7 +143,7 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                 view.dismissProgreeDialog()
 
                 if (isSuccessful) {
-                    showMainScreen()
+                    showMainScreen(true)
                 } else {
                     view.onError()
                 }

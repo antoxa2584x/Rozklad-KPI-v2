@@ -15,7 +15,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
         lessonModel = LessonModel().getLesson(bundle.getInt(LESSON_ID))
 
         val room = lessonModel.rooms.first()!!
-        val noteModel = lessonModel.noteModel!!
+        val noteModel = lessonModel.noteModel
 
         with(view) {
             showLessonName(lessonModel.lessonFullName)
@@ -24,7 +24,8 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
             showLessonTeachers(lessonModel.teachers)
             showLessonRoom(room.roomName)
             showLessonLocation(room.getGeoPoint())
-            showNoteText(noteModel.note)
+
+            showNoteText(noteModel!!.note)
             showNotePhotos(noteModel.photos)
         }
     }

@@ -5,7 +5,7 @@ import android.widget.AutoCompleteTextView
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
 
 interface LauncherPresenter : BasePresenter<LauncherView> {
-    fun showNextScreen()
+    fun showNextScreen():Boolean
     fun setAutocompleteTextView(autoCompleteTextView: AutoCompleteTextView)
     fun blurView(view: View)
 }

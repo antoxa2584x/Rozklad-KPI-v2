@@ -13,18 +13,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/dayName"
+        <LinearLayout
+            android:id="@+id/dateLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textColor="@color/primary_text"
-            android:textSize="18sp"
-            tools:background="@color/primary"
-            tools:text="Название дня недели" />
+            android:layout_height="64dp"
+            android:orientation="vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            tools:background="@color/primary">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/dayName"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:gravity="bottom"
+                android:textColor="@color/primary_text"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Название дня недели" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/dayDate"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="bottom"
+                android:textColor="@color/secondary_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Название дня недели" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/divider" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"

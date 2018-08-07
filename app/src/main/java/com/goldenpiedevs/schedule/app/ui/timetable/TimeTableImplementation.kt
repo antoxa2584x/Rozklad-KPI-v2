@@ -12,7 +12,6 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import io.realm.Realm
 import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.temporal.IsoFields
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
 

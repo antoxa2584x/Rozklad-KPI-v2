@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
+import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import com.goldenpiedevs.schedule.app.R
@@ -64,4 +65,11 @@ fun TimeTableAdapter.ViewHolder.colorIfToday(weekNumber: Int, title: AppCompatTe
             setTextColor(ContextCompat.getColor(title.context, R.color.primary_text))
         }
     }
+}
+
+fun <T : RecyclerView.ViewHolder> T.listen(event: (position: Int, type: Int) -> Unit): T {
+    itemView.setOnClickListener {
+        event.invoke(adapterPosition, itemViewType)
+    }
+    return this
 }

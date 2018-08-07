@@ -11,55 +11,60 @@ import io.realm.annotations.RealmClass
 
 @RealmClass
 open class LessonModel : RealmObject() {
+
     @PrimaryKey
     @SerializedName("lesson_id")
-    var lessonId: String? = null
+    var lessonId: Int = 0
 
     @Index
     @SerializedName("lesson_name")
-    var lessonName: String? = null
+    var lessonName: String = ""
 
     @SerializedName("teacher_name")
-    var teacherName: String? = null
+    var teacherName: String = ""
     @SerializedName("rooms")
     var rooms: RealmList<RoomModel> = RealmList()
     @SerializedName("teachers")
     var teachers: RealmList<TeacherModel> = RealmList()
     @SerializedName("lesson_week")
-    var lessonWeek: Int? = null
+    var lessonWeek: Int = -1
     @SerializedName("lesson_room")
-    var lessonRoom: String? = null
+    var lessonRoom: String = ""
     @SerializedName("day_name")
-    var dayName: String? = null
+    var dayName: String = ""
     @SerializedName("group_id")
-    var groupId: String? = null
+    var groupId: String = ""
     @SerializedName("lesson_type")
-    var lessonType: String? = null
+    var lessonType: String = ""
     @SerializedName("rate")
-    var rate: String? = null
+    var rate: String = ""
     @SerializedName("lesson_full_name")
-    var lessonFullName: String? = null
+    var lessonFullName: String = ""
     @SerializedName("day_number")
-    var dayNumber: String? = null
+    var dayNumber: String = ""
 
     @SerializedName("time_start")
-    var timeStart: String? = null
-        get() = field!!.substring(0, field!!.length - 3)
+    var timeStart: String = ""
+        get() = field.substring(0, field.length - 3)
 
     @SerializedName("time_end")
-    var timeEnd: String? = null
-        get() = field!!.substring(0, field!!.length - 3)
+    var timeEnd: String = ""
+        get() = field.substring(0, field.length - 3)
 
     @SerializedName("lesson_number")
-    var lessonNumber: String? = null
+    var lessonNumber: String = ""
 
-    var hasNote: Boolean = false
-        get() {
-            val realm = Realm.getDefaultInstance()
-            val note = realm.where(NoteModel::class.java).equalTo("lessonId", lessonId).count() > 0
-            if (!realm.isClosed)
-                realm.close()
-            return note
-        }
+    var noteModel: NoteModel? = null
 
+    var hasNote: Boolean = noteModel != null
+
+    fun getTime() = "$timeStart-$timeEnd"
+
+    fun getLesson(id: Int): LessonModel {
+        val realm = Realm.getDefaultInstance()
+        val lessonModel = realm.where(LessonModel::class.java).equalTo("lessonId", id).findFirst()
+        if (!realm.isClosed)
+            realm.close()
+        return lessonModel!!
+    }
 }

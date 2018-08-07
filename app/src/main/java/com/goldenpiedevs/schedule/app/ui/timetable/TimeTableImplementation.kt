@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
+import android.content.Intent
 import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.NestedScrollView
 import android.view.View
@@ -9,6 +10,8 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
+import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
+import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import io.realm.Realm
 import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
@@ -50,8 +53,9 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     private fun getCurrentDayModel(collection: RealmList<DayModel>): DayModel =
             collection.find { it.dayNumber == LocalDateTime.now().dayOfWeek.value } ?: DayModel()
 
-    override fun onLessonClicked(id: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onLessonClicked(id: Int) {
+        view.getContext().startActivity(Intent(view.getContext(), LessonActivity::class.java)
+                .putExtra(LessonImplementation.LESSON_ID, id))
     }
 
     override fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View) {

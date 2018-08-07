@@ -10,14 +10,14 @@ import org.osmdroid.util.GeoPoint
 open class RoomModel : RealmObject() {
     @PrimaryKey
     @SerializedName("room_id")
-    var roomId: String? = null
+    var roomId: String = ""
 
     @SerializedName("room_longitude")
-    var roomLongitude: Double? = null
+    var roomLongitude: Double = 0.0
     @SerializedName("room_name")
-    var roomName: String? = null
+    var roomName: String = ""
     @SerializedName("room_latitude")
-    var roomLatitude: Double? = null
+    var roomLatitude: Double = 0.0
 
-    fun getGeoPoint():GeoPoint= GeoPoint(roomLatitude!!, roomLongitude!!)
+    fun getGeoPoint(): GeoPoint = GeoPoint(roomLatitude, roomLongitude)
 }

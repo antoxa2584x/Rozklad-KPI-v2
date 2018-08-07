@@ -1,11 +1,32 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.os.Bundle
+import com.goldenpiedevs.schedule.app.core.dao.timetable.LessonModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 
-class LessonImplementation: BasePresenterImpl<LessonView>(), LessonPresenter {
+class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
+    companion object {
+        const val LESSON_ID = "LESSON_ID"
+    }
+
+    private lateinit var lessonModel: LessonModel
+
     override fun showLessonData(bundle: Bundle) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        lessonModel = LessonModel().getLesson(bundle.getInt(LESSON_ID))
+
+        val room = lessonModel.rooms.first()!!
+        val noteModel = lessonModel.noteModel!!
+
+        with(view) {
+            showLessonName(lessonModel.lessonFullName)
+            showLessonTime(lessonModel.getTime())
+            showLessonType(lessonModel.lessonType)
+            showLessonTeachers(lessonModel.teachers)
+            showLessonRoom(room.roomName)
+            showLessonLocation(room.getGeoPoint())
+            showNoteText(noteModel.note)
+            showNotePhotos(noteModel.photos)
+        }
     }
 
     override fun onNoteSave() {
@@ -13,6 +34,10 @@ class LessonImplementation: BasePresenterImpl<LessonView>(), LessonPresenter {
     }
 
     override fun showNoteEditView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (lessonModel.hasNote) {
+
+        } else {
+
+        }
     }
 }

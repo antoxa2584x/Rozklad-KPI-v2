@@ -7,7 +7,7 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
 
 interface TimeTablePresenter : BasePresenter<TimeTableView> {
     fun getData()
-    fun onLessonClicked(id: String)
+    fun onLessonClicked(id: Int)
     fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View)
     fun showCurrentDay()
 }

@@ -15,6 +15,12 @@ import kotlinx.android.synthetic.main.timetable_list_item.view.*
 class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
     : RealmRecyclerViewAdapter<DayModel, TimeTableAdapter.ViewHolder>(data, true) {
 
+    lateinit var listener: (Int) -> Unit
+
+    constructor(data: OrderedRealmCollection<DayModel>, listener: (Int) -> Unit) : this(data) {
+        this.listener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.timetable_list_item, parent, false))
@@ -23,9 +29,11 @@ class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.list.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.dayName.text = getItem(position)!!.dayName
-        holder.list.adapter = LessonsAdapter(getItem(position)!!.lessons)
+        holder.list.adapter = LessonsAdapter(getItem(position)!!.lessons) {
+            listener(it)
+        }
 
-        holder.colorIfToday(data!![position].lessons.first()!!.lessonWeek!!, holder.dayName)
+        holder.colorIfToday(data!![position].lessons.first()!!.lessonWeek, holder.dayName)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

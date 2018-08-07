@@ -41,10 +41,14 @@ class TimeTableFragment : BaseFragment(), TimeTableView {
     override fun showWeekData(isFirstWeek: Boolean, orderedRealmCollection: OrderedRealmCollection<DayModel>) {
         if (isFirstWeek) {
             if (firstWeekList.adapter == null)
-                firstWeekList.adapter = TimeTableAdapter(orderedRealmCollection)
+                firstWeekList.adapter = TimeTableAdapter(orderedRealmCollection) {
+                    presenter.onLessonClicked(it)
+                }
         } else {
             if (secondWeekList.adapter == null)
-                secondWeekList.adapter = TimeTableAdapter(orderedRealmCollection)
+                secondWeekList.adapter = TimeTableAdapter(orderedRealmCollection) {
+                    presenter.onLessonClicked(it)
+                }
         }
     }
 

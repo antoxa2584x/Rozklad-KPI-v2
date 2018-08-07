@@ -14,5 +14,5 @@ interface LessonView : BaseView {
     fun showLessonLocation(geoPoint: GeoPoint)
     fun showLessonTime(string: String)
     fun showNoteText(string: String)
-    fun showNotePhotos(fileNames: ArrayList<String>)
+    fun showNotePhotos(fileNames: OrderedRealmCollection<String>)
 }

@@ -14,6 +14,12 @@ import kotlinx.android.synthetic.main.timetable_card_content.view.*
 class LessonsAdapter(data: OrderedRealmCollection<LessonModel>)
     : RealmRecyclerViewAdapter<LessonModel, LessonsAdapter.ViewHolder>(data, true) {
 
+    lateinit var listener: (Int) -> Unit
+
+    constructor(data: OrderedRealmCollection<LessonModel>, listener: (Int) -> Unit) : this(data) {
+        this.listener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): ViewHolder {
         return LessonsAdapter.ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.timetable_card_content, parent, false))
@@ -23,10 +29,12 @@ class LessonsAdapter(data: OrderedRealmCollection<LessonModel>)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = getItem(position)!!
         holder.currentLesson.visibility = if (model.hasNote) View.VISIBLE else View.INVISIBLE
-        holder.lessonTitle.text = model.lessonFullName!!
-        holder.time.text = "${model.timeStart}-${model.timeEnd}"
+        holder.lessonTitle.text = model.lessonFullName
+        holder.time.text = model.getTime()
         holder.location.text = "${model.lessonRoom} ${model.lessonType}"
         holder.number.text = model.lessonNumber
+
+        holder.itemView.setOnClickListener { listener(model.lessonId) }
     }
 
 

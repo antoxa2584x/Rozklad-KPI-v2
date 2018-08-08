@@ -6,7 +6,8 @@ import com.goldenpiedevs.schedule.app.core.injection.module.ContextModule
 import com.goldenpiedevs.schedule.app.core.injection.module.NetworkManagerModule
 import com.goldenpiedevs.schedule.app.core.injection.module.NetworkingApiModule
 import com.goldenpiedevs.schedule.app.core.injection.module.NetworkingConfigurationModule
-import com.goldenpiedevs.schedule.app.ui.launcher.LauncherImplementation
+import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupImplementation
+import com.goldenpiedevs.schedule.app.ui.main.MainImplementation
 import io.reactivex.disposables.CompositeDisposable
 
 
@@ -43,7 +44,8 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V> {
 
     private fun inject() {
         when (this) {
-            is LauncherImplementation -> injector.inject(this)
+            is ChooseGroupImplementation -> injector.inject(this)
+            is MainImplementation -> injector.inject(this)
         }
     }
 }

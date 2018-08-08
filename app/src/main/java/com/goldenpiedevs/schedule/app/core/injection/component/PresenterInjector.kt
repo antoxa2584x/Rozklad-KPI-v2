@@ -5,7 +5,8 @@ import com.goldenpiedevs.schedule.app.core.injection.module.NetworkManagerModule
 import com.goldenpiedevs.schedule.app.core.injection.module.NetworkingApiModule
 import com.goldenpiedevs.schedule.app.core.injection.module.NetworkingConfigurationModule
 import com.goldenpiedevs.schedule.app.ui.base.BaseView
-import com.goldenpiedevs.schedule.app.ui.launcher.LauncherImplementation
+import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupImplementation
+import com.goldenpiedevs.schedule.app.ui.main.MainImplementation
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -16,7 +17,8 @@ import javax.inject.Singleton
     NetworkingApiModule::class,
     NetworkManagerModule::class])
 interface PresenterInjector {
-    fun inject(launcherImplementation: LauncherImplementation)
+    fun inject(launcherImplementation: ChooseGroupImplementation)
+    fun inject(mainImplementation: MainImplementation)
 
     @Component.Builder
     interface Builder {

@@ -9,13 +9,11 @@
 
     <!-- Your product logo - 144dp color version of your app icon -->
     <item
-        android:left="144dp"
-        android:right="144dp">
+        android:left="72dp"
+        android:right="72dp">
 
         <bitmap
             android:gravity="center"
             android:src="@drawable/kpi_icon" />
-
     </item>
-
 </layer-list>

@@ -34,6 +34,10 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (getActivityLayout() == -1)
+            return
+
         setContentView(getActivityLayout())
         activityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: nextId.getAndIncrement()
 

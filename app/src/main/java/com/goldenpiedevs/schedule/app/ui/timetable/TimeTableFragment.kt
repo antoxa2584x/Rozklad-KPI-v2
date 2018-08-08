@@ -1,12 +1,12 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
-import com.goldenpiedevs.schedule.app.ui.view.CenteredLayoutManager
 import com.goldenpiedevs.schedule.app.ui.view.adapter.TimeTableAdapter
 import io.realm.OrderedRealmCollection
 import kotlinx.android.synthetic.main.time_table_layout.*
@@ -34,7 +34,7 @@ class TimeTableFragment : BaseFragment(), TimeTableView {
     private fun setUpRecyclerView(vararg recyclerView: RecyclerView) {
         recyclerView.forEach {
             it.isNestedScrollingEnabled = false
-            it.layoutManager = CenteredLayoutManager(context)
+            it.layoutManager = LinearLayoutManager(context)
         }
     }
 

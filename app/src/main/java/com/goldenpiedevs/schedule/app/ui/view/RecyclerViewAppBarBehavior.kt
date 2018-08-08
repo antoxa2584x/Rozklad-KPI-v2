@@ -19,7 +19,7 @@ class RecyclerViewAppBarBehavior(context: Context, attrs: AttributeSet) : AppBar
         if (target is RecyclerView) {
             if (scrollListenerMap[target] == null) {
                 val recyclerViewScrollListener = RecyclerViewScrollListener(coordinatorLayout, child, this)
-                scrollListenerMap.put(target, recyclerViewScrollListener)
+                scrollListenerMap[target] = recyclerViewScrollListener
                 target.addOnScrollListener(recyclerViewScrollListener)
             }
             scrollListenerMap[target]?.let {

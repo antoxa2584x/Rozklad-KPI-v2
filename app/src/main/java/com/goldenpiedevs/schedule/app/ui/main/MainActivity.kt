@@ -27,7 +27,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView {
             setSupportFragmentManager(supportFragmentManager)
             onTimeTableClick()
 
-            loadTimeTable() //TODO: Find crash if response is successful
+            loadTimeTable()
         }
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(

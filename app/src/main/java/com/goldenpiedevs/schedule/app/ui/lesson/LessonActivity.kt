@@ -2,7 +2,7 @@ package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.os.Bundle
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.dao.timetable.TeacherModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import io.realm.OrderedRealmCollection
 import org.osmdroid.util.GeoPoint
@@ -33,7 +33,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showLessonTeachers(teachers: OrderedRealmCollection<TeacherModel>) {
+    override fun showLessonTeachers(teachers: OrderedRealmCollection<DaoTeacherModel>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

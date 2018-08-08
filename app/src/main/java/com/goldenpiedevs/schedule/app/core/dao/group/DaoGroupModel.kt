@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class GroupModel : RealmObject() {
+open class DaoGroupModel : RealmObject() {
     @PrimaryKey
     @SerializedName("group_id")
     var groupId: Int? = 0

@@ -1,6 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.dao.timetable
 
-import com.goldenpiedevs.schedule.app.core.dao.note.NoteModel
+import com.goldenpiedevs.schedule.app.core.dao.note.DaoNoteModel
 import com.google.gson.annotations.SerializedName
 import io.realm.Realm
 import io.realm.RealmList
@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
 @RealmClass
-open class LessonModel : RealmObject() {
+open class DaoLessonModel : RealmObject() {
 
     @PrimaryKey
     @SerializedName("lesson_id")
@@ -23,9 +23,9 @@ open class LessonModel : RealmObject() {
     @SerializedName("teacher_name")
     var teacherName: String = ""
     @SerializedName("rooms")
-    var rooms: RealmList<RoomModel> = RealmList()
+    var rooms: RealmList<DaoRoomModel> = RealmList()
     @SerializedName("teachers")
-    var teachers: RealmList<TeacherModel> = RealmList()
+    var teachers: RealmList<DaoTeacherModel> = RealmList()
     @SerializedName("lesson_week")
     var lessonWeek: Int = -1
     @SerializedName("lesson_room")
@@ -54,15 +54,15 @@ open class LessonModel : RealmObject() {
     @SerializedName("lesson_number")
     var lessonNumber: String = ""
 
-    var noteModel: NoteModel? = null
+    var noteModel: DaoNoteModel? = null
 
     var hasNote: Boolean = noteModel != null
 
     fun getTime() = "$timeStart-$timeEnd"
 
-    fun getLesson(id: Int): LessonModel {
+    fun getLesson(id: Int): DaoLessonModel {
         val realm = Realm.getDefaultInstance()
-        val lessonModel = realm.where(LessonModel::class.java).equalTo("lessonId", id).findFirst()
+        val lessonModel = realm.where(DaoLessonModel::class.java).equalTo("lessonId", id).findFirst()
         if (!realm.isClosed)
             realm.close()
         return lessonModel!!

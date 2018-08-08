@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
 @RealmClass
-open class TeacherModel : RealmObject() {
+open class DaoTeacherModel : RealmObject() {
     @PrimaryKey
     @SerializedName("teacher_id")
     var teacherId: String? = null

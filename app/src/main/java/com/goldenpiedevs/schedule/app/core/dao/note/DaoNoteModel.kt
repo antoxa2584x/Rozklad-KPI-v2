@@ -5,7 +5,7 @@ import io.realm.RealmObject
 import io.realm.annotations.RealmClass
 
 @RealmClass
-open class NoteModel : RealmObject() {
+open class DaoNoteModel : RealmObject() {
     var lessonId: String = ""
     var note: String = ""
     var photos: RealmList<String> = RealmList()

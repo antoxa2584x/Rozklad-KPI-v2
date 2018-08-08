@@ -9,25 +9,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.ext.context
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
-import com.goldenpiedevs.schedule.app.core.ext.today
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.timetable_list_item.view.*
 
 
-class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
-    : RealmRecyclerViewAdapter<DayModel, TimeTableAdapter.ViewHolder>(data, true) {
+class TimeTableAdapter(data: OrderedRealmCollection<DaoDayModel>?)
+    : RealmRecyclerViewAdapter<DaoDayModel, TimeTableAdapter.ViewHolder>(data, false) {
 
-    lateinit var listener: (Int) -> Unit
-
-    constructor(data: OrderedRealmCollection<DayModel>, listener: (Int) -> Unit) : this(data) {
+    constructor(data: OrderedRealmCollection<DaoDayModel>, listener: (Int) -> Unit) : this(data) {
         this.listener = listener
     }
 
+    lateinit var listener: (Int) -> Unit
     private var primaryColor: Int = 0
     private var secondaryColor: Int = 0
 
@@ -54,26 +52,18 @@ class TimeTableAdapter(data: OrderedRealmCollection<DayModel>?)
             listener(it)
         }
 
-        if (day.lessons.first()!!.lessonWeek - 1 == currentWeek) {
-            if (day.dayNumber >= today.dayOfWeek.value) {
-                holder.dayDate.text = today.plusDays((day.dayNumber - today.dayOfWeek.value).toLong()).toString()
-            } else if (day.dayNumber < today.dayOfWeek.value) {
-                holder.dayDate.text = today.plusWeeks(2)
-                        .plusDays((day.dayNumber - today.dayOfWeek.value).toLong()).toString()
-            }
-        } else {
-            holder.dayDate.text = today.plusWeeks(1)
-                    .plusDays((day.dayNumber - today.dayOfWeek.value).toLong()).toString()
-        }
+        holder.dayDate.text = day.getDayDate()
 
         if (day.lessons.first()!!.lessonWeek - 1 != currentWeek)
             return
 
+        //Many if statements for more performance of View's
         if (holder.dayName.text.toString().toLowerCase() == todayName) {
             holder.dateLayout.setBackgroundResource(R.color.primary_dark)
 
             if (holder.dayName.currentTextColor != Color.WHITE)
                 holder.dayName.setTextColor(Color.WHITE)
+
             holder.dayDate.apply {
                 if (currentTextColor != Color.WHITE)
                     setTextColor(Color.WHITE)

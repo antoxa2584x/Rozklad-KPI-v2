@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
 import com.goldenpiedevs.schedule.app.ui.view.CenteredLayoutManager
 import com.goldenpiedevs.schedule.app.ui.view.adapter.TimeTableAdapter
@@ -38,7 +38,7 @@ class TimeTableFragment : BaseFragment(), TimeTableView {
         }
     }
 
-    override fun showWeekData(isFirstWeek: Boolean, orderedRealmCollection: OrderedRealmCollection<DayModel>) {
+    override fun showWeekData(isFirstWeek: Boolean, orderedRealmCollection: OrderedRealmCollection<DaoDayModel>) {
         if (isFirstWeek) {
             if (firstWeekList.adapter == null)
                 firstWeekList.adapter = TimeTableAdapter(orderedRealmCollection) {

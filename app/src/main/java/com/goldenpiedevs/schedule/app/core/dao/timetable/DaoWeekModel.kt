@@ -8,7 +8,7 @@ import io.realm.annotations.RealmClass
 
 @RealmClass
 open class DaoWeekModel : RealmObject() {
-    var days: RealmList<DayModel> = RealmList()
+    var days: RealmList<DaoDayModel> = RealmList()
     var weekNumber: String? = null
 
     fun saveTimetable(body: BaseResponseModel<TimeTableData>) {
@@ -32,5 +32,18 @@ open class DaoWeekModel : RealmObject() {
 
         if (!realm.isClosed)
             realm.close()
+    }
+
+    private fun getWeekDays(realm: Realm, weekNumber: Int): RealmList<DaoDayModel> {
+        return realm.where(DaoWeekModel::class.java)
+                .equalTo("weekNumber", weekNumber.toString()).findFirst()!!.days
+    }
+
+    fun getFirstWeekDays(realm: Realm): RealmList<DaoDayModel> {
+        return getWeekDays(realm, 1)
+    }
+
+    fun getSecondWeekDays(realm: Realm): RealmList<DaoDayModel> {
+        return getWeekDays(realm, 2)
     }
 }

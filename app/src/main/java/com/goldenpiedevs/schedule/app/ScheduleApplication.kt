@@ -21,5 +21,6 @@ class ScheduleApplication : MultiDexApplication() {
                 .build()
 
         Realm.setDefaultConfiguration(config)
+
     }
 }

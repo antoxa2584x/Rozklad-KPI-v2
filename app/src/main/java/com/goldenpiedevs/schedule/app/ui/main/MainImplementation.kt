@@ -69,6 +69,7 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         }
     }
 
+    //Just get new data. Show next time)
     override fun loadTimeTable() {
         launch {
             lessonsManager.loadTimeTable(AppPreference.groupId)

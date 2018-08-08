@@ -6,17 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.dao.timetable.LessonModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.timetable_card_content.view.*
 
-class LessonsAdapter(data: OrderedRealmCollection<LessonModel>)
-    : RealmRecyclerViewAdapter<LessonModel, LessonsAdapter.ViewHolder>(data, true) {
+class LessonsAdapter(data: OrderedRealmCollection<DaoLessonModel>)
+    : RealmRecyclerViewAdapter<DaoLessonModel, LessonsAdapter.ViewHolder>(data, true) {
 
     lateinit var listener: (Int) -> Unit
 
-    constructor(data: OrderedRealmCollection<LessonModel>, listener: (Int) -> Unit) : this(data) {
+    constructor(data: OrderedRealmCollection<DaoLessonModel>, listener: (Int) -> Unit) : this(data) {
         this.listener = listener
     }
 

@@ -12,7 +12,7 @@ import android.widget.ImageView
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
-import com.goldenpiedevs.schedule.app.core.dao.group.GroupModel
+import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
 import com.jakewharton.rxbinding2.widget.RxAutoCompleteTextView
@@ -91,10 +91,10 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                             }
 
                             val list = it.body()!!.data
-                            val itemsAdapter = ArrayAdapter<GroupModel>(view.getContext(),
+                            val itemsAdapter = ArrayAdapter<DaoGroupModel>(view.getContext(),
                                     R.layout.centered_material_list_item, list!!)
 
-                            autoCompleteTextView.setAdapter<ArrayAdapter<GroupModel>>(itemsAdapter)
+                            autoCompleteTextView.setAdapter<ArrayAdapter<DaoGroupModel>>(itemsAdapter)
 
                             if (!list.isNotEmpty()) {
                                 autoCompleteTextView.dismissDropDown()
@@ -108,7 +108,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     private fun addOnAutoCompleteTextViewItemClickedSubscriber(autoCompleteTextView: AutoCompleteTextView) {
         val adapterViewItemClickEventObservable = RxAutoCompleteTextView.itemClickEvents(autoCompleteTextView)
                 .map {
-                    val item = autoCompleteTextView.adapter.getItem(it.position()) as GroupModel
+                    val item = autoCompleteTextView.adapter.getItem(it.position()) as DaoGroupModel
                     item.groupId
                 }
                 .observeOn(Schedulers.io())
@@ -121,7 +121,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                         { view.onError() }))
     }
 
-    private fun awaitNextScreen(body: GroupModel?) {
+    private fun awaitNextScreen(body: DaoGroupModel?) {
         view.showProgreeDialog()
 
         launch {

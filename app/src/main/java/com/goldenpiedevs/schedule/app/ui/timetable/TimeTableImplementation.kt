@@ -5,8 +5,8 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.NestedScrollView
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoWeekModel
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DayModel
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
@@ -22,20 +22,18 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         const val ANIMATION_DELAY = 1500L
     }
 
-    private lateinit var firstWeekDays: RealmList<DayModel>
-    private lateinit var secondWeekDays: RealmList<DayModel>
+    private lateinit var firstWeekDaoDays: RealmList<DaoDayModel>
+    private lateinit var secondWeekDaoDays: RealmList<DaoDayModel>
     private val realm = Realm.getDefaultInstance()
 
     override fun getData() {
 
-        firstWeekDays = realm.where(DaoWeekModel::class.java)
-                .equalTo("weekNumber", 1.toString()).findFirst()!!.days
-        secondWeekDays = realm.where(DaoWeekModel::class.java)
-                .equalTo("weekNumber", 2.toString()).findFirst()!!.days
+        firstWeekDaoDays = DaoWeekModel().getFirstWeekDays(realm)
+        secondWeekDaoDays = DaoWeekModel().getSecondWeekDays(realm)
 
         with(view) {
-            showWeekData(true, firstWeekDays)
-            showWeekData(false, secondWeekDays)
+            showWeekData(true, firstWeekDaoDays)
+            showWeekData(false, secondWeekDaoDays)
         }
     }
 
@@ -44,14 +42,14 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     }
 
     private fun updateCurrentDay() {
-        val currentDay: Int = (if (isFirstWeek) firstWeekDays else secondWeekDays)
+        val currentDay: Int = (if (isFirstWeek) firstWeekDaoDays else secondWeekDaoDays)
                 .let { it.indexOf(getCurrentDayModel(it)) }
 
         view.showCurrentDay(isFirstWeek, currentDay)
     }
 
-    private fun getCurrentDayModel(collection: RealmList<DayModel>): DayModel =
-            collection.find { it.dayNumber == LocalDateTime.now().dayOfWeek.value } ?: DayModel()
+    private fun getCurrentDayModel(collection: RealmList<DaoDayModel>): DaoDayModel =
+            collection.find { it.dayNumber == LocalDateTime.now().dayOfWeek.value } ?: DaoDayModel()
 
     override fun onLessonClicked(id: Int) {
         view.getContext().startActivity(Intent(view.getContext(), LessonActivity::class.java)

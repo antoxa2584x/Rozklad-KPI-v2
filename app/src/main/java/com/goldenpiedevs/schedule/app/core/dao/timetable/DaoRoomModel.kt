@@ -7,7 +7,7 @@ import io.realm.annotations.RealmClass
 import org.osmdroid.util.GeoPoint
 
 @RealmClass
-open class RoomModel : RealmObject() {
+open class DaoRoomModel : RealmObject() {
     @PrimaryKey
     @SerializedName("room_id")
     var roomId: String = ""

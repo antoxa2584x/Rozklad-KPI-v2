@@ -1,7 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.os.Bundle
-import com.goldenpiedevs.schedule.app.core.dao.timetable.LessonModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 
 class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
@@ -9,19 +9,19 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
         const val LESSON_ID = "LESSON_ID"
     }
 
-    private lateinit var lessonModel: LessonModel
+    private lateinit var daoLessonModel: DaoLessonModel
 
     override fun showLessonData(bundle: Bundle) {
-        lessonModel = LessonModel().getLesson(bundle.getInt(LESSON_ID))
+        daoLessonModel = DaoLessonModel().getLesson(bundle.getInt(LESSON_ID))
 
-        val room = lessonModel.rooms.first()!!
-        val noteModel = lessonModel.noteModel
+        val room = daoLessonModel.rooms.first()!!
+        val noteModel = daoLessonModel.noteModel
 
         with(view) {
-            showLessonName(lessonModel.lessonFullName)
-            showLessonTime(lessonModel.getTime())
-            showLessonType(lessonModel.lessonType)
-            showLessonTeachers(lessonModel.teachers)
+            showLessonName(daoLessonModel.lessonFullName)
+            showLessonTime(daoLessonModel.getTime())
+            showLessonType(daoLessonModel.lessonType)
+            showLessonTeachers(daoLessonModel.teachers)
             showLessonRoom(room.roomName)
             showLessonLocation(room.getGeoPoint())
 
@@ -35,7 +35,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     }
 
     override fun showNoteEditView() {
-        if (lessonModel.hasNote) {
+        if (daoLessonModel.hasNote) {
 
         } else {
 

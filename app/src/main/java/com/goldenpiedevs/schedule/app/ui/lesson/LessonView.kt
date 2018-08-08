@@ -6,7 +6,6 @@ import io.realm.OrderedRealmCollection
 import org.osmdroid.util.GeoPoint
 
 interface LessonView : BaseView {
-    fun onNoteEditClick()
     fun showLessonName(string: String)
     fun showLessonTeachers(teachers: OrderedRealmCollection<DaoTeacherModel>)
     fun showLessonRoom(string: String)

@@ -7,4 +7,5 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
 interface ChooseGroupPresenter : BasePresenter<ChooseGroupView> {
     fun setAutocompleteTextView(autoCompleteTextView: AutoCompleteTextView)
     fun blurView(view: View)
+    fun requestPermissions()
 }

@@ -25,6 +25,7 @@ class ChooseGroupActivity : BaseActivity<ChooseGroupPresenter, ChooseGroupView>(
             attachView(this@ChooseGroupActivity)
             setAutocompleteTextView(groupNameAutocomplete)
             blurView(bluredBack)
+            requestPermissions()
         }
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)

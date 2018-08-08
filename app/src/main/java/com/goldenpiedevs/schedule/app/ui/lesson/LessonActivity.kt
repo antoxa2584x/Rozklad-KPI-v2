@@ -1,14 +1,19 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import io.realm.OrderedRealmCollection
+import kotlinx.android.synthetic.main.lesson_activity_layout.*
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
+
 
 class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
-    override fun getPresenterChild(): LessonPresenter = presenter;
+    override fun getPresenterChild(): LessonPresenter = presenter
 
     private lateinit var presenter: LessonPresenter
 
@@ -25,40 +30,47 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         }
     }
 
-    override fun onNoteEditClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun showLessonName(string: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        lessonTitle.text = string
     }
 
     override fun showLessonTeachers(teachers: OrderedRealmCollection<DaoTeacherModel>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showLessonRoom(string: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        location.visibility = View.VISIBLE
+        location.subText = string
     }
 
     override fun showLessonType(string: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        type.visibility = View.VISIBLE
+        type.subText = string
     }
 
     override fun showLessonLocation(geoPoint: GeoPoint) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        map.visibility = View.VISIBLE
+
+        val mapController = map.controller
+        map.setBuiltInZoomControls(false)
+        mapController.setZoom(19.0)
+        mapController.setCenter(geoPoint)
+
+        val startMarker = Marker(map)
+        startMarker.position = geoPoint
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        startMarker.icon = ContextCompat.getDrawable(this, R.drawable.ic_room_location)
+        map.overlays.add(startMarker)
     }
 
     override fun showLessonTime(string: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        time.visibility = View.VISIBLE
+        time.subText = string
     }
 
     override fun showNoteText(string: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showNotePhotos(fileNames: OrderedRealmCollection<String>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

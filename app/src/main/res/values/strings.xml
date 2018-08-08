@@ -8,4 +8,8 @@
     <string name="first_week">Перший тиждень</string>
     <string name="second_week">Другий тиждень</string>
     <string name="week">тиждень</string>
+    <string name="type">Тип</string>
+    <string name="teacher">Викладач</string>
+    <string name="time">Час</string>
+    <string name="location">Розташування</string>
 </resources>

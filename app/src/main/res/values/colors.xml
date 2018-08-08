@@ -7,6 +7,7 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
+    <color name="icons_dark">#8A000000</color>
     <color name="divider">#BDBDBD</color>
 
     <color name="blur">#55212121</color>

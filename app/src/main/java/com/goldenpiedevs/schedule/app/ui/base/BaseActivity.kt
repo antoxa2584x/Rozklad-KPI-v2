@@ -2,9 +2,12 @@ package com.goldenpiedevs.schedule.app.ui.base
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.ext.getStatusBarHeight
 import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -43,11 +46,15 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
 
         toolbar?.let {
             setSupportActionBar(it)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                it.setPadding(0, getStatusBarHeight(), 0, 0)
         }
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
+            setDisplayShowTitleEnabled(false)
         }
     }
 
@@ -64,6 +71,16 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
 
     override fun dismissProgreeDialog() {
         dialog!!.dismiss()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item!!.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {

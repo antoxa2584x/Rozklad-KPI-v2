@@ -16,7 +16,7 @@ import org.threeten.bp.format.TextStyle
 import org.threeten.bp.temporal.IsoFields
 import java.util.*
 
-val today:LocalDate = LocalDate.now()
+val today: LocalDate = LocalDate.now()
 val todayName: String = today.dayOfWeek.getDisplayName(TextStyle.FULL, Locale("uk", "UA"))
 val currentWeek = LocalDateTime.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2
 val isFirstWeek = currentWeek == 0
@@ -55,4 +55,13 @@ fun <T : RecyclerView.ViewHolder> T.listen(event: (position: Int, type: Int) -> 
         event.invoke(adapterPosition, itemViewType)
     }
     return this
+}
+
+fun Context.getStatusBarHeight(): Int {
+    var result = 0
+    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+    if (resourceId > 0) {
+        result = resources.getDimensionPixelSize(resourceId)
+    }
+    return result
 }

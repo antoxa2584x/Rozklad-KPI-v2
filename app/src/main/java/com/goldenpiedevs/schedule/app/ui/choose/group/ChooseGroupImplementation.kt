@@ -1,7 +1,11 @@
 package com.goldenpiedevs.schedule.app.ui.choose.group
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -28,7 +32,6 @@ import javax.inject.Inject
 
 
 class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGroupPresenter {
-
     companion object {
         private const val MIN_LENGTH_TO_START = 2
     }
@@ -39,6 +42,14 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     lateinit var lessonsManager: LessonsManager
 
     private lateinit var autoCompleteTextView: AutoCompleteTextView
+
+    override fun requestPermissions() {
+        if (ContextCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(view.getContext() as Activity,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+    }
+
 
     override fun setAutocompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
         this.autoCompleteTextView =

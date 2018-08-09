@@ -66,8 +66,9 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
     }
 
     override fun showProgreeDialog() {
-        dialog = indeterminateProgressDialog(R.string.loading)
         hideSoftKeyboard()
+
+        dialog = indeterminateProgressDialog(R.string.loading)
         dialog!!.show()
     }
 

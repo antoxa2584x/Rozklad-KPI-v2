@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.core.injection.module
 
-import android.app.Application
 import com.goldenpiedevs.schedule.app.BuildConfig
 import com.goldenpiedevs.schedule.app.core.api.utils.ToJson
 import com.google.gson.FieldNamingPolicy
@@ -10,7 +9,6 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.Coroutin
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
@@ -32,23 +30,14 @@ object NetworkingConfigurationModule {
     @Provides
     @Reusable
     @JvmStatic
-    fun provideCache(app: Application): Cache {
-        val cacheSize = 10 * 1024 * 1024
-        return Cache(app.cacheDir, cacheSize.toLong())
-    }
-
-    @Provides
-    @Reusable
-    @JvmStatic
     fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
         level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
-            .cache(cache)
-            .addInterceptor(httpLoggingInterceptor)
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
+            .addNetworkInterceptor(httpLoggingInterceptor)
             .build()
 
 

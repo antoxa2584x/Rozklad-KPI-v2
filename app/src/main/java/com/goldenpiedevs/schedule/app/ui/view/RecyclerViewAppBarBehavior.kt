@@ -17,12 +17,13 @@ class RecyclerViewAppBarBehavior(context: Context, attrs: AttributeSet) : AppBar
                                target: View, velocityX: Float, velocityY: Float, consumed: Boolean): Boolean {
         var isConsumed = consumed
         if (target is RecyclerView) {
-            if (scrollListenerMap[target] == null) {
+            scrollListenerMap[target] ?: run {
                 RecyclerViewScrollListener(coordinatorLayout, child, this).let {
                     scrollListenerMap[target] = it
                     target.addOnScrollListener(it)
                 }
             }
+
             scrollListenerMap[target]?.let {
                 it.velocity = velocityY
                 isConsumed = it.scrolledY > 0

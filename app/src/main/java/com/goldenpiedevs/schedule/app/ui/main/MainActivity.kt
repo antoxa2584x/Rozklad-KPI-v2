@@ -81,7 +81,5 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         appbar.isActivated = isCollapsing
     }
 
-    override fun onBackPressed() {
-        presenter.onBackPressed()
-    }
+    override fun onBackPressed() = presenter.onBackPressed()
 }

@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
-import com.goldenpiedevs.schedule.app.core.ext.context
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import io.realm.OrderedRealmCollection
@@ -29,9 +28,15 @@ class TimeTableAdapter(data: OrderedRealmCollection<DaoDayModel>?)
     private var primaryColor: Int = 0
     private var secondaryColor: Int = 0
 
+    private lateinit var itemDecorator: DividerItemDecoration
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         primaryColor = ContextCompat.getColor(parent.context, R.color.primary_text)
         secondaryColor = ContextCompat.getColor(parent.context, R.color.secondary_text)
+
+        itemDecorator = DividerItemDecoration(parent.context, DividerItemDecoration.VERTICAL).apply {
+            setDrawable(ContextCompat.getDrawable(parent.context, R.drawable.divider)!!)
+        }
 
         return ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.timetable_list_item, parent, false))
@@ -40,47 +45,43 @@ class TimeTableAdapter(data: OrderedRealmCollection<DaoDayModel>?)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val day = getItem(position)!!
 
-        holder.list.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.dayName.text = day.dayName
+        holder.apply {
+            list.layoutManager = LinearLayoutManager(itemView.context)
+            dayName.text = day.dayName
 
-        val itemDecorator = DividerItemDecoration(holder.context, DividerItemDecoration.VERTICAL)
-        itemDecorator.setDrawable(ContextCompat.getDrawable(holder.context, R.drawable.divider)!!)
+            list.addItemDecoration(itemDecorator)
 
-        holder.list.addItemDecoration(DividerItemDecoration(holder.context, DividerItemDecoration.VERTICAL))
+            list.adapter = LessonsAdapter(day.lessons) { listener(it) }
 
-        holder.list.adapter = LessonsAdapter(day.lessons) {
-            listener(it)
-        }
+            dayDate.text = day.getDayDate()
 
-        holder.dayDate.text = day.getDayDate()
+            if (day.lessons.first()!!.lessonWeek - 1 != currentWeek) return
 
-        if (day.lessons.first()!!.lessonWeek - 1 != currentWeek)
-            return
+            //Many if statements for more performance of View's
+            if (dayName.text.toString().toLowerCase() == todayName) {
+                dateLayout.setBackgroundResource(R.color.primary_dark)
 
-        //Many if statements for more performance of View's
-        if (holder.dayName.text.toString().toLowerCase() == todayName) {
-            holder.dateLayout.setBackgroundResource(R.color.primary_dark)
+                if (dayName.currentTextColor != Color.WHITE)
+                    dayName.setTextColor(Color.WHITE)
 
-            if (holder.dayName.currentTextColor != Color.WHITE)
-                holder.dayName.setTextColor(Color.WHITE)
+                dayDate.apply {
+                    if (currentTextColor != Color.WHITE)
+                        setTextColor(Color.WHITE)
+                    if (alpha != 0.8f)
+                        alpha = 0.8f
+                }
+            } else {
+                dateLayout.setBackgroundResource(android.R.color.transparent)
 
-            holder.dayDate.apply {
-                if (currentTextColor != Color.WHITE)
-                    setTextColor(Color.WHITE)
-                if (alpha != 0.8f)
-                    alpha = 0.8f
-            }
-        } else {
-            holder.dateLayout.setBackgroundResource(android.R.color.transparent)
+                if (dayName.currentTextColor != primaryColor)
+                    dayName.setTextColor(primaryColor)
 
-            if (holder.dayName.currentTextColor != primaryColor)
-                holder.dayName.setTextColor(primaryColor)
-
-            holder.dayDate.apply {
-                if (currentTextColor != secondaryColor)
-                    setTextColor(secondaryColor)
-                if (alpha != 1f)
-                    alpha = 1f
+                dayDate.apply {
+                    if (currentTextColor != secondaryColor)
+                        setTextColor(secondaryColor)
+                    if (alpha != 1f)
+                        alpha = 1f
+                }
             }
         }
     }

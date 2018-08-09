@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import io.realm.OrderedRealmCollection
 import kotlinx.android.synthetic.main.lesson_activity_layout.*
@@ -35,39 +34,52 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     override fun showLessonTeachers(string: String) {
-        teacher.visibility = View.VISIBLE
-        teacher.subText = string
+        teacher.apply {
+            visibility = View.VISIBLE
+            subText = string
+        }
     }
 
     override fun showLessonRoom(string: String) {
-        location.visibility = View.VISIBLE
-        location.subText = string
+        location.apply {
+            visibility = View.VISIBLE
+            subText = string
+        }
     }
 
     override fun showLessonType(string: String) {
-        type.visibility = View.VISIBLE
-        type.subText = string
+        type.apply {
+            visibility = View.VISIBLE
+            subText = string
+        }
     }
 
     override fun showLessonLocation(geoPoint: GeoPoint) {
-        map.visibility = View.VISIBLE
+        val startMarker = Marker(map).apply {
+            position = geoPoint
+            setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+            icon = ContextCompat.getDrawable(this@LessonActivity, R.drawable.ic_room_location)
 
-        val mapController = map.controller
-        map.setBuiltInZoomControls(false)
-        mapController.setZoom(19.0)
-        mapController.setCenter(geoPoint)
+            //Ignore marker click
+            setOnMarkerClickListener { _, _ -> true }
+        }
 
-        val startMarker = Marker(map)
-        startMarker.position = geoPoint
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-        startMarker.icon = ContextCompat.getDrawable(this, R.drawable.ic_room_location)
-        startMarker.setOnMarkerClickListener { _, _ ->  true}
-        map.overlays.add(startMarker)
+        map.apply {
+            visibility = View.VISIBLE
+            setBuiltInZoomControls(false)
+            overlays.add(startMarker)
+            controller.apply {
+                setZoom(19.0)
+                setCenter(geoPoint)
+            }
+        }
     }
 
     override fun showLessonTime(string: String) {
-        time.visibility = View.VISIBLE
-        time.subText = string
+        time.apply {
+            visibility = View.VISIBLE
+            subText = string
+        }
     }
 
     override fun showNoteText(string: String) {

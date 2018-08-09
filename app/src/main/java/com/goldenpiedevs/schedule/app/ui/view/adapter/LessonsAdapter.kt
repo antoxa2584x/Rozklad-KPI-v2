@@ -28,13 +28,15 @@ class LessonsAdapter(data: OrderedRealmCollection<DaoLessonModel>)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = getItem(position)!!
-        holder.currentLesson.visibility = if (model.hasNote) View.VISIBLE else View.INVISIBLE
-        holder.lessonTitle.text = model.lessonFullName
-        holder.time.text = model.getTime()
-        holder.location.text = "${model.lessonRoom} ${model.lessonType}"
-        holder.number.text = model.lessonNumber
 
-        holder.itemView.setOnClickListener { listener(model.lessonId) }
+        holder.apply {
+            currentLesson.visibility = if (model.hasNote) View.VISIBLE else View.INVISIBLE
+            lessonTitle.text = model.lessonFullName
+            time.text = model.getTime()
+            location.text = "${model.lessonRoom} ${model.lessonType}"
+            number.text = model.lessonNumber
+            itemView.setOnClickListener { listener(model.lessonId) }
+        }
     }
 
 

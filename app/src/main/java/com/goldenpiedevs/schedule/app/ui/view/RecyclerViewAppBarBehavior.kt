@@ -18,9 +18,10 @@ class RecyclerViewAppBarBehavior(context: Context, attrs: AttributeSet) : AppBar
         var isConsumed = consumed
         if (target is RecyclerView) {
             if (scrollListenerMap[target] == null) {
-                val recyclerViewScrollListener = RecyclerViewScrollListener(coordinatorLayout, child, this)
-                scrollListenerMap[target] = recyclerViewScrollListener
-                target.addOnScrollListener(recyclerViewScrollListener)
+                RecyclerViewScrollListener(coordinatorLayout, child, this).let {
+                    scrollListenerMap[target] = it
+                    target.addOnScrollListener(it)
+                }
             }
             scrollListenerMap[target]?.let {
                 it.velocity = velocityY
@@ -33,9 +34,8 @@ class RecyclerViewAppBarBehavior(context: Context, attrs: AttributeSet) : AppBar
     private class RecyclerViewScrollListener(coordinatorLayout: CoordinatorLayout,
                                              child: AppBarLayout, barBehavior: RecyclerViewAppBarBehavior) : RecyclerView.OnScrollListener() {
         var scrolledY: Int = 0
-            private set
-
         var velocity: Float = 0f
+
         private var dragging: Boolean = false
         private val coordinatorLayoutRef: WeakReference<CoordinatorLayout> = WeakReference(coordinatorLayout)
         private val childRef: WeakReference<AppBarLayout> = WeakReference(child)
@@ -46,7 +46,7 @@ class RecyclerViewAppBarBehavior(context: Context, attrs: AttributeSet) : AppBar
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            scrolledY += dy
+            scrolledY.plus(dy)
             if (scrolledY <= 0 && !dragging && childRef.get() != null
                     && coordinatorLayoutRef.get() != null && behaviorWeakReference.get() != null) {
                 behaviorWeakReference.get()!!.onNestedFling(coordinatorLayoutRef.get()!!,

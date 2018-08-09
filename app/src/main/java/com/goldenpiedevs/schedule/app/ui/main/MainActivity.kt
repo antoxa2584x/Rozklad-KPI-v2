@@ -6,7 +6,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.ext.app
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
 

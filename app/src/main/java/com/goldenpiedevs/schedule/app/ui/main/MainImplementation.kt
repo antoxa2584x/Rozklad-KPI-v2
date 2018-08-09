@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
+import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
@@ -9,22 +10,29 @@ import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
+import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
-
     @Inject
     lateinit var lessonsManager: LessonsManager
 
     private lateinit var supportFragmentManager: FragmentManager
+    private lateinit var navigationView: NavigationView
 
     override fun setSupportFragmentManager(supportFragmentManager: FragmentManager) {
         this.supportFragmentManager = supportFragmentManager
     }
 
+    override fun setNavigationView(navigationView: NavigationView) {
+        this.navigationView = navigationView
+    }
+
     override fun onTimeTableClick() {
+        navigationView.setCheckedItem(R.id.timetable)
+
         supportFragmentManager.beginTransaction()
                 .replace(container, TimeTableFragment())
                 .commit()
@@ -46,7 +54,13 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun onMapClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        navigationView.setCheckedItem(R.id.timetable)
+        view.toggleToolbarCollapseMode(false)
+
+        supportFragmentManager.beginTransaction()
+                .add(container, MapFragment())
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onGroupChangeClick() {
@@ -63,6 +77,7 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
+            navigationView.setCheckedItem(R.id.timetable)
             supportFragmentManager.popBackStack()
         } else {
             (view.getContext() as AppCompatActivity).finish()
@@ -75,5 +90,4 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
             lessonsManager.loadTimeTable(AppPreference.groupId)
         }
     }
-
 }

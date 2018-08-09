@@ -35,8 +35,7 @@
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax"
-                    app:srcCompat="@drawable/photo5429151808665791091" />
+                    app:layout_collapseMode="parallax" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -58,6 +57,7 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
+        app:menu="@menu/drawer_menu"
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

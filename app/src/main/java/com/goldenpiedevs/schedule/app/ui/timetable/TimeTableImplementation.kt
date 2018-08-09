@@ -17,7 +17,6 @@ import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
-
     companion object {
         const val ANIMATION_DELAY = 1500L
     }

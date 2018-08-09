@@ -9,6 +9,7 @@ import android.view.MenuItem
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.getStatusBarHeight
 import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
+import com.goldenpiedevs.schedule.app.ui.main.MainActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.concurrent.atomic.AtomicLong
@@ -47,8 +48,9 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         toolbar?.let {
             setSupportActionBar(it)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-                it.setPadding(0, getStatusBarHeight(), 0, 0)
+            if (this@BaseActivity !is MainActivity)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                    it.setPadding(0, getStatusBarHeight(), 0, 0)
         }
 
         supportActionBar?.apply {

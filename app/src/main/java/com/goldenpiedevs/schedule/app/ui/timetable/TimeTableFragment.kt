@@ -57,7 +57,6 @@ class TimeTableFragment : BaseFragment(), TimeTableView {
             it.post {
                 presenter.scrollToView(activity!!.findViewById(R.id.appbar), baseScrollView, it.getChildAt(currentDay))
             }
-
         }
     }
 }

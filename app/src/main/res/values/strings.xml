@@ -12,4 +12,6 @@
     <string name="teacher">Викладач</string>
     <string name="time">Час</string>
     <string name="location">Розташування</string>
+    <string name="timetable">Розклад</string>
+    <string name="map">Мапа КПИ</string>
 </resources>

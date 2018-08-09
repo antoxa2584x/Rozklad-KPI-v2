@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
 
     <application
         android:name=".ScheduleApplication"
@@ -15,8 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:theme="@style/AppTheme.Launcher"
-            android:name=".ui.launcher.LauncherActivity">
+        <activity
+            android:name=".ui.launcher.LauncherActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +26,9 @@
         <activity android:name=".ui.choose.group.ChooseGroupActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.lesson.LessonActivity" />
+        <activity
+            android:name=".ui.map.MapFragment"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
     </application>
 </manifest>

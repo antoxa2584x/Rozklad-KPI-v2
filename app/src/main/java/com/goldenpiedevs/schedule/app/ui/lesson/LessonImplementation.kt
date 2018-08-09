@@ -44,7 +44,6 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                 showNoteText(it.note)
                 showNotePhotos(it.photos)
             }
-
         }
     }
 

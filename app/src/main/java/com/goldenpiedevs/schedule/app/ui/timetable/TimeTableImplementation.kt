@@ -51,8 +51,10 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
             collection.find { it.dayNumber == LocalDateTime.now().dayOfWeek.value } ?: DaoDayModel()
 
     override fun onLessonClicked(id: Int) {
-        view.getContext().startActivity(Intent(view.getContext(), LessonActivity::class.java)
-                .putExtra(LessonImplementation.LESSON_ID, id))
+        with(view.getContext()) {
+            startActivity(Intent(this, LessonActivity::class.java)
+                    .putExtra(LessonImplementation.LESSON_ID, id))
+        }
     }
 
     override fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View) {

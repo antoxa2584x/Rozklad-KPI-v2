@@ -44,10 +44,12 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     private lateinit var autoCompleteTextView: AutoCompleteTextView
 
     override fun requestPermissions() {
-        if (ContextCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(view.getContext() as Activity,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+        with(view.getContext() as Activity) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED)
+                ActivityCompat.requestPermissions(this,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+        }
     }
 
 
@@ -62,7 +64,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     private fun showMainScreen() {
         with(view as AppCompatActivity) {
             finish()
-            startActivity(Intent(view.getContext(), MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 

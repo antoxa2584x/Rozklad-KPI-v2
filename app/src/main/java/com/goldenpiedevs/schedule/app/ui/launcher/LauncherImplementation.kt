@@ -14,9 +14,9 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
         Timer().schedule(500) {
             with(view as AppCompatActivity) {
                 if (AppPreference.isFirstLaunch) {
-                    startActivity(Intent(view.getContext(), ChooseGroupActivity::class.java))
+                    startActivity(Intent(this, ChooseGroupActivity::class.java))
                 } else {
-                    startActivity(Intent(view.getContext(), MainActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                 }
 
                 Timer().schedule(200) {

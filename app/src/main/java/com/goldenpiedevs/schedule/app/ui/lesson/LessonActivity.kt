@@ -34,7 +34,9 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         lessonTitle.text = string
     }
 
-    override fun showLessonTeachers(teachers: OrderedRealmCollection<DaoTeacherModel>) {
+    override fun showLessonTeachers(string: String) {
+        teacher.visibility = View.VISIBLE
+        teacher.subText = string
     }
 
     override fun showLessonRoom(string: String) {
@@ -59,6 +61,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         startMarker.position = geoPoint
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         startMarker.icon = ContextCompat.getDrawable(this, R.drawable.ic_room_location)
+        startMarker.setOnMarkerClickListener { _, _ ->  true}
         map.overlays.add(startMarker)
     }
 

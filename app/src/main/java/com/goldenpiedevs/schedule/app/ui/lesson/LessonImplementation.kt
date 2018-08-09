@@ -23,7 +23,14 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
             showLessonName(daoLessonModel.lessonFullName)
             showLessonTime(daoLessonModel.getTime())
             showLessonType(daoLessonModel.lessonType)
-            showLessonTeachers(daoLessonModel.teachers)
+
+            if (!daoLessonModel.teachers.isEmpty()) {
+                showLessonTeachers(daoLessonModel.teachers.let { it ->
+                    var string = ""
+                    it.map { it.teacherFullName }.forEach { string += if (string.isEmpty()) it else "\n$it" }
+                    string
+                })
+            }
 
             room?.let {
                 showLessonRoom(it.roomName)

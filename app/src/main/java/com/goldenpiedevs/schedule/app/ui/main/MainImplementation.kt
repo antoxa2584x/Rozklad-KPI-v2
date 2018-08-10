@@ -47,7 +47,7 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
             //String immutable, seems it does not like apply
             var title = todayName
             title = title.substring(0, 1).toUpperCase() + title.substring(1)
-            title = "$title, ${currentWeek + 1} ${view.getContext().getString(R.string.week)}"
+            title += ", ${currentWeek + 1} ${view.getContext().getString(R.string.week)}"
 
             setActivityTitle(title)
         }

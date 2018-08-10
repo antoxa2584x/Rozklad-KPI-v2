@@ -39,7 +39,6 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
                 0
         )
 
-        navView.setCheckedItem(R.id.timetable)
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 

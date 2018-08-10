@@ -84,9 +84,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
                 .map {
-                    val str = it.text().toString().toUpperCase()
-                    if (str.contains("И")) str.replace("И", "i")
-                    str
+                    it.text().toString().toUpperCase().replace("И", "i")
                 }
                 .switchMap {
                     groupManager.autocomplete(it)
@@ -103,9 +101,10 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                                 return@subscribe
                             }
 
-                            val list = it.body()!!.data
+                            val list = it.body()!!.data!!
+
                             val itemsAdapter = ArrayAdapter<DaoGroupModel>(view.getContext(),
-                                    R.layout.centered_material_list_item, list!!)
+                                    R.layout.centered_material_list_item, list)
 
                             autoCompleteTextView.setAdapter<ArrayAdapter<DaoGroupModel>>(itemsAdapter)
 

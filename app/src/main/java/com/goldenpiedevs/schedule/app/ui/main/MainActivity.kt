@@ -5,9 +5,12 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
+import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.ext.appLocale
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
+import java.util.*
 
 class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +41,8 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
                 0,
                 0
         )
+
+        compactCalendarView.setDayColumnNames(arrayOf("Пн","Вт","Ср","Чт","Пт","Сб","Нд"))
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()

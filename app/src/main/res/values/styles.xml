@@ -36,4 +36,13 @@
         <item name="android:color">@color/secondary_text</item>
         <item name="android:height">20dp</item>
     </style>
+
+    <style name="TextAppearance.Toolbar.Expanded.Title" parent="TextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextAppearance.Toolbar.Expanded.Subtitle" parent="TextAppearance">
+        <item name="android:textSize">0dp</item>
+    </style>
 </resources>

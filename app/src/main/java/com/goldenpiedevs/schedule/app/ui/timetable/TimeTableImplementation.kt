@@ -15,6 +15,9 @@ import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import io.realm.Realm
 import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.temporal.IsoFields
+import java.util.*
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
     companion object {
@@ -37,18 +40,18 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     }
 
     override fun showCurrentDay() {
-        updateCurrentDay()
+        updateCurrentDay(isFirstWeek, LocalDateTime.now().dayOfWeek.value, false)
     }
 
-    private fun updateCurrentDay() {
-        val currentDay: Int = (if (isFirstWeek) firstWeekDaoDays else secondWeekDaoDays)
-                .let { it.indexOf(getCurrentDayModel(it)) }
+    private fun updateCurrentDay(week: Boolean, day: Int, forceDisableAnimDelay: Boolean) {
+        val currentDay: Int = (if (week) firstWeekDaoDays else secondWeekDaoDays)
+                .let { it.indexOf(getCurrentDayModel(it, day)) }
 
-        view.showCurrentDay(isFirstWeek, currentDay)
+        view.showCurrentDay(week, currentDay, forceDisableAnimDelay)
     }
 
-    private fun getCurrentDayModel(collection: RealmList<DaoDayModel>): DaoDayModel =
-            collection.find { it.dayNumber == LocalDateTime.now().dayOfWeek.value } ?: DaoDayModel()
+    private fun getCurrentDayModel(collection: RealmList<DaoDayModel>, day: Int): DaoDayModel =
+            collection.find { it.dayNumber == day } ?: DaoDayModel()
 
     override fun onLessonClicked(id: Int) {
         with(view.getContext()) {
@@ -57,12 +60,24 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         }
     }
 
-    override fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View) {
+    override fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View, forceDisableAnimDelay: Boolean) {
         scrollView.postDelayed({
             appBarLayout.post { appBarLayout.setExpanded(false, true) }
             scrollView.smoothScrollTo(0, (((view.bottom + view.top) / 2)
                     - view.context.resources.getDimensionPixelSize(R.dimen.header_size)))
-        }, if (AppPreference.animateScrollToCard) ANIMATION_DELAY else 0)
+        }, when {
+            forceDisableAnimDelay -> 0
+            AppPreference.animateScrollToCard -> ANIMATION_DELAY
+            else -> 0
+        })
+    }
+
+    override fun scrollToDay(dateClicked: Date?) {
+        val localDate = LocalDateTime.ofEpochSecond(dateClicked!!.time / 1000L, 0, ZoneOffset.UTC).toLocalDate()
+        val week = localDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2 == 0
+        val day = localDate.dayOfWeek.value
+
+        updateCurrentDay(week, day, true)
     }
 
     override fun detachView() {

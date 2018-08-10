@@ -6,5 +6,5 @@ import io.realm.OrderedRealmCollection
 
 interface TimeTableView : BaseView {
     fun showWeekData(isFirstWeek: Boolean, orderedRealmCollection: OrderedRealmCollection<DaoDayModel>)
-    fun showCurrentDay(isFirstWeek: Boolean, currentDay: Int)
+    fun showCurrentDay(isFirstWeek: Boolean, currentDay: Int, forceDisableAnimDelay: Boolean)
 }

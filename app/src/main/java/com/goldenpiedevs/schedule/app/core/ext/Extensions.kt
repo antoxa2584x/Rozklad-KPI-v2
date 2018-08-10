@@ -16,10 +16,13 @@ import org.threeten.bp.format.TextStyle
 import org.threeten.bp.temporal.IsoFields
 import java.util.*
 
+val appLocale = Locale("uk", "UA")
+
 val today: LocalDate = LocalDate.now()
-val todayName: String = today.dayOfWeek.getDisplayName(TextStyle.FULL, Locale("uk", "UA"))
+val todayName: String = today.dayOfWeek.getDisplayName(TextStyle.FULL, appLocale)
 val currentWeek = LocalDateTime.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2
 val isFirstWeek = currentWeek == 0
+
 
 val AppCompatActivity.app: ScheduleApplication
     get() = application as ScheduleApplication

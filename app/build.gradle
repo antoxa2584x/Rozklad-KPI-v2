@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -43,7 +44,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation "com.hendraanggrian:collapsingtoolbarlayout-subtitle:$support_lib_version"
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
 

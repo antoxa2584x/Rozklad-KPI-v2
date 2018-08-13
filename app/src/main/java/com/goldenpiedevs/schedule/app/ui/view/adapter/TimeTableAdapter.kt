@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.view.adapter
 
+import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -10,19 +11,32 @@ import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
+import com.goldenpiedevs.schedule.app.core.ext.context
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayName
-import io.realm.OrderedRealmCollection
-import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.timetable_list_item.view.*
+import kotlinx.android.synthetic.main.timetable_week_name_layout.view.*
 
 
-class TimeTableAdapter(data: OrderedRealmCollection<DaoDayModel>?)
-    : RealmRecyclerViewAdapter<DaoDayModel, TimeTableAdapter.ViewHolder>(data, false) {
+class TimeTableAdapter(val data: ArrayList<DaoDayModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    constructor(data: OrderedRealmCollection<DaoDayModel>, listener: (Int) -> Unit) : this(data) {
-        this.listener = listener
+    companion object {
+        const val TITLE = 1
+        const val DAY = 2
     }
+
+    constructor(data: ArrayList<DaoDayModel>, context: Context, listener: (Int) -> Unit) : this(data) {
+        this.listener = listener
+        primaryColor = ContextCompat.getColor(context, R.color.primary_text)
+        secondaryColor = ContextCompat.getColor(context, R.color.secondary_text)
+
+        itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+            setDrawable(ContextCompat.getDrawable(context, R.drawable.divider)!!)
+        }
+    }
+
+    override fun getItemCount(): Int = data.size
 
     lateinit var listener: (Int) -> Unit
     private var primaryColor: Int = 0
@@ -30,63 +44,84 @@ class TimeTableAdapter(data: OrderedRealmCollection<DaoDayModel>?)
 
     private lateinit var itemDecorator: DividerItemDecoration
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        primaryColor = ContextCompat.getColor(parent.context, R.color.primary_text)
-        secondaryColor = ContextCompat.getColor(parent.context, R.color.secondary_text)
-
-        itemDecorator = DividerItemDecoration(parent.context, DividerItemDecoration.VERTICAL).apply {
-            setDrawable(ContextCompat.getDrawable(parent.context, R.drawable.divider)!!)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        when (viewType) {
+            TITLE -> return TitleViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.timetable_week_name_layout, parent, false))
+            DAY -> return DayViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.timetable_list_item, parent, false))
         }
-
-        return ViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.timetable_list_item, parent, false))
+        @Suppress("UNREACHABLE_CODE")
+        return null!!
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val day = getItem(position)!!
+    override fun getItemViewType(position: Int): Int {
+        return if (data[position].dayNumber < 0) TITLE else DAY
+    }
 
-        holder.apply {
-            list.layoutManager = LinearLayoutManager(itemView.context)
-            dayName.text = day.dayName
-
-            list.addItemDecoration(itemDecorator)
-
-            list.adapter = LessonsAdapter(day.lessons) { listener(it) }
-
-            dayDate.text = day.getDayDate()
-
-            if (day.lessons.first()!!.lessonWeek - 1 != currentWeek) return
-
-            //Many if statements for more performance of View's
-            if (dayName.text.toString().toLowerCase() == todayName) {
-                dateLayout.setBackgroundResource(R.color.primary_dark)
-
-                if (dayName.currentTextColor != Color.WHITE)
-                    dayName.setTextColor(Color.WHITE)
-
-                dayDate.apply {
-                    if (currentTextColor != Color.WHITE)
-                        setTextColor(Color.WHITE)
-                    if (alpha != 0.8f)
-                        alpha = 0.8f
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder.itemViewType) {
+            TITLE -> {
+                (holder as TitleViewHolder).apply {
+                    title.text = context.getText(
+                            when (position) {
+                                0 -> R.string.first_week
+                                else -> R.string.second_week
+                            })
                 }
-            } else {
-                dateLayout.setBackgroundResource(android.R.color.transparent)
+            }
 
-                if (dayName.currentTextColor != primaryColor)
-                    dayName.setTextColor(primaryColor)
+            DAY -> {
+                val day = data[position]
 
-                dayDate.apply {
-                    if (currentTextColor != secondaryColor)
-                        setTextColor(secondaryColor)
-                    if (alpha != 1f)
-                        alpha = 1f
+                (holder as DayViewHolder).apply {
+                    list.layoutManager = LinearLayoutManager(itemView.context)
+                    dayName.text = day.dayName
+
+                    list.addItemDecoration(itemDecorator)
+
+                    list.adapter = LessonsAdapter(day.lessons.toList() as ArrayList<DaoLessonModel>) { listener(it) }
+
+                    dayDate.text = day.getDayDate()
+
+                    if (day.lessons.first()!!.lessonWeek - 1 != currentWeek) return
+
+                    //Many if statements for more performance of View's
+                    if (dayName.text.toString().toLowerCase() == todayName) {
+                        dateLayout.setBackgroundResource(R.color.primary_dark)
+
+                        if (dayName.currentTextColor != Color.WHITE)
+                            dayName.setTextColor(Color.WHITE)
+
+                        dayDate.apply {
+                            if (currentTextColor != Color.WHITE)
+                                setTextColor(Color.WHITE)
+                            if (alpha != 0.8f)
+                                alpha = 0.8f
+                        }
+                    } else {
+                        dateLayout.setBackgroundResource(android.R.color.transparent)
+
+                        if (dayName.currentTextColor != primaryColor)
+                            dayName.setTextColor(primaryColor)
+
+                        dayDate.apply {
+                            if (currentTextColor != secondaryColor)
+                                setTextColor(secondaryColor)
+                            if (alpha != 1f)
+                                alpha = 1f
+                        }
+                    }
                 }
             }
         }
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title = view.title!!
+    }
+
+    class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dayName = view.dayName!!
         val dayDate = view.dayDate!!
         val list = view.list!!

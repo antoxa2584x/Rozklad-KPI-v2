@@ -9,7 +9,6 @@ import java.util.*
 interface TimeTablePresenter : BasePresenter<TimeTableView> {
     fun getData()
     fun onLessonClicked(id: Int)
-    fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View, forceDisableAnimDelay: Boolean)
     fun showCurrentDay()
     fun scrollToDay(dateClicked: Date?)
 }

@@ -34,16 +34,20 @@ open class DaoWeekModel : RealmObject() {
             realm.close()
     }
 
-    private fun getWeekDays(realm: Realm, weekNumber: Int): RealmList<DaoDayModel> {
-        return realm.where(DaoWeekModel::class.java)
-                .equalTo("weekNumber", weekNumber.toString()).findFirst()!!.days
+    private fun getWeekDays(weekNumber: Int): ArrayList<DaoDayModel> {
+        val realm = Realm.getDefaultInstance()
+        val data = realm.copyFromRealm(realm.where(DaoWeekModel::class.java)
+                .equalTo("weekNumber", weekNumber.toString()).findFirst()!!.days) as ArrayList<DaoDayModel>
+        if (!realm.isClosed)
+            realm.close()
+        return data
     }
 
-    fun getFirstWeekDays(realm: Realm): RealmList<DaoDayModel> {
-        return getWeekDays(realm, 1)
+    fun getFirstWeekDays(): ArrayList<DaoDayModel> {
+        return getWeekDays(1)
     }
 
-    fun getSecondWeekDays(realm: Realm): RealmList<DaoDayModel> {
-        return getWeekDays(realm, 2)
+    fun getSecondWeekDays(): ArrayList<DaoDayModel> {
+        return getWeekDays(2)
     }
 }

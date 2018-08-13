@@ -62,7 +62,7 @@ open class DaoLessonModel : RealmObject() {
 
     fun getLesson(id: Int): DaoLessonModel {
         val realm = Realm.getDefaultInstance()
-        val lessonModel = realm.where(DaoLessonModel::class.java).equalTo("lessonId", id).findFirst()
+        val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java).equalTo("lessonId", id).findFirst()!!)
         if (!realm.isClosed)
             realm.close()
         return lessonModel!!

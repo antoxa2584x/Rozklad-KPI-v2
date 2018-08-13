@@ -9,6 +9,7 @@ import io.realm.annotations.RealmClass
 
 @RealmClass
 open class DaoDayModel : RealmObject() {
+
     @SerializedName("day_name")
     var dayName: String = ""
     @SerializedName("day_number")

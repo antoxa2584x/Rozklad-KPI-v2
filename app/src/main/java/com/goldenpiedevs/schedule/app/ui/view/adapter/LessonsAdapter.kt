@@ -7,18 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
-import io.realm.OrderedRealmCollection
-import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.timetable_card_content.view.*
 
-class LessonsAdapter(data: OrderedRealmCollection<DaoLessonModel>)
-    : RealmRecyclerViewAdapter<DaoLessonModel, LessonsAdapter.ViewHolder>(data, true) {
+class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
+
 
     lateinit var listener: (Int) -> Unit
+    lateinit var data: ArrayList<DaoLessonModel>
 
-    constructor(data: OrderedRealmCollection<DaoLessonModel>, listener: (Int) -> Unit) : this(data) {
+    constructor(data: ArrayList<DaoLessonModel>, listener: (Int) -> Unit) : this() {
         this.listener = listener
+        this.data = data
     }
+
+    override fun getItemCount(): Int = data.size
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): ViewHolder {
         return LessonsAdapter.ViewHolder(LayoutInflater.from(parent.context)
@@ -27,7 +29,7 @@ class LessonsAdapter(data: OrderedRealmCollection<DaoLessonModel>)
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val model = getItem(position)!!
+        val model = data[position]
 
         holder.apply {
             currentLesson.visibility = if (model.hasNote) View.VISIBLE else View.INVISIBLE
@@ -38,7 +40,6 @@ class LessonsAdapter(data: OrderedRealmCollection<DaoLessonModel>)
             itemView.setOnClickListener { listener(model.lessonId) }
         }
     }
-
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val currentLesson = itemView.currentLesson!!

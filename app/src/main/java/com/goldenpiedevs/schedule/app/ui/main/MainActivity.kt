@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.view.Menu
 import android.view.MenuItem
-import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import android.view.View
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.ext.appLocale
+import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
-import java.util.*
+
 
 class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var presenter: MainPresenter
+    private var showMenu = true
 
     override fun getPresenterChild(): MainPresenter = presenter
 
@@ -42,7 +44,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
                 0
         )
 
-        compactCalendarView.setDayColumnNames(arrayOf("Пн","Вт","Ср","Чт","Пт","Сб","Нд"))
+        compactCalendarView.setDayColumnNames(arrayOf("Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"))
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
@@ -50,12 +52,41 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         navView.setNavigationItemSelectedListener(this)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu!!.findItem(R.id.calendar).isVisible = showMenu
+
+        compactCalendarView.visibility = when {
+            !showMenu -> View.GONE
+            AppPreference.isCalebdarOpen -> View.VISIBLE
+            else -> View.GONE
+        }
+
+        menu.findItem(R.id.calendar).setIcon(
+                if (AppPreference.isCalebdarOpen)
+                    R.drawable.ic_calendar_view_day
+                else R.drawable.ic_calendar)
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.timetable_menu, menu)
+        return true
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (!item.isChecked)
+        if (!item.isChecked) {
+            showMenu = false
             when (item.itemId) {
-                R.id.timetable -> onBackPressed()
+                R.id.timetable -> {
+                    onBackPressed()
+                    showMenu = true
+                }
                 R.id.map -> presenter.onMapClick()
             }
+            invalidateOptionsMenu()
+        }
 
         drawerLayout.closeDrawers()
 
@@ -63,11 +94,11 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
     }
 
     override fun setActivityTitle(string: String) {
-        collapsingToolbar.title = string
+        toolbar.title = string
     }
 
     override fun setActivitySubtitle(string: String) {
-        collapsingToolbar.subtitle = string
+        toolbar.subtitle = string
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -76,14 +107,25 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
                 drawerLayout.openDrawer(GravityCompat.START)
                 true
             }
+            R.id.calendar -> {
+                AppPreference.isCalebdarOpen = !AppPreference.isCalebdarOpen
+                compactCalendarView.visibility =
+                        if (AppPreference.isCalebdarOpen) View.VISIBLE else View.GONE
+
+                invalidateOptionsMenu()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun toggleToolbarCollapseMode(isCollapsing: Boolean) {
-        appbar.setExpanded(isCollapsing, true)
-        appbar.isActivated = isCollapsing
+
     }
 
-    override fun onBackPressed() = presenter.onBackPressed()
+    override fun onBackPressed() {
+        presenter.onBackPressed()
+        showMenu = true
+        invalidateOptionsMenu()
+    }
 }

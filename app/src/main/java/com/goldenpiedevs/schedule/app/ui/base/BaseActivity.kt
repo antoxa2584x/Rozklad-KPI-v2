@@ -65,14 +65,14 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         outState!!.putLong(KEY_ACTIVITY_ID, activityId)
     }
 
-    override fun showProgreeDialog() {
+    override fun showProgressDialog() {
         hideSoftKeyboard()
 
         dialog = indeterminateProgressDialog(R.string.loading)
         dialog!!.show()
     }
 
-    override fun dismissProgreeDialog() {
+    override fun dismissProgressDialog() {
         dialog!!.dismiss()
     }
 

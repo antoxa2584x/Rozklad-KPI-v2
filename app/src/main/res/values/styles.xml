@@ -44,4 +44,11 @@
     <style name="TextAppearance.Toolbar.Expanded.Subtitle" parent="TextAppearance">
         <item name="android:textSize">0dp</item>
     </style>
+
+    <style name="Widget.Design.CollapsingToolbar.Subtitle" parent="Widget.Design.CollapsingToolbar">
+        <item name="expandedSubtitleTextAppearance">@style/TextAppearance.AppCompat.Headline</item>
+        <item name="collapsedSubtitleTextAppearance">
+            @style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle
+        </item>
+    </style>
 </resources>

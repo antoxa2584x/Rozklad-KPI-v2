@@ -10,4 +10,7 @@ import retrofit2.http.Path
 interface LessonsService {
     @GET("groups/{id}/timetable")
     fun getGroupTimeTable(@Path("id") id: Int?): Deferred<Response<BaseResponseModel<TimeTableData>>>
+
+    @GET("teachers/{id}/lessons")
+    fun getTeacherTimeTable(@Path("id") id: Int?): Deferred<Response<BaseResponseModel<TimeTableData>>>
 }

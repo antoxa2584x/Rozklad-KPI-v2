@@ -27,6 +27,8 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
             attachView(this@LessonActivity)
             showLessonData(intent.extras)
         }
+
+        teacher.setOnClickListener { presenter.onTeacherClick() }
     }
 
     override fun showLessonName(string: String) {
@@ -88,6 +90,10 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     override fun showNotePhotos(fileNames: OrderedRealmCollection<String>) {
+    }
+
+    override fun showTeacherSelectDialog() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onDestroy() {

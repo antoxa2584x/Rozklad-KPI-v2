@@ -6,6 +6,7 @@ import com.goldenpiedevs.schedule.app.core.injection.module.NetworkingApiModule
 import com.goldenpiedevs.schedule.app.core.injection.module.NetworkingConfigurationModule
 import com.goldenpiedevs.schedule.app.ui.base.BaseView
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupImplementation
+import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import com.goldenpiedevs.schedule.app.ui.main.MainImplementation
 import dagger.BindsInstance
 import dagger.Component
@@ -19,6 +20,7 @@ import javax.inject.Singleton
 interface PresenterInjector {
     fun inject(launcherImplementation: ChooseGroupImplementation)
     fun inject(mainImplementation: MainImplementation)
+    fun inject(lessonImplementation: LessonImplementation)
 
     @Component.Builder
     interface Builder {

@@ -34,12 +34,12 @@ abstract class BaseFragment : Fragment(), BaseView {
         outState.putLong(KEY_FRAGMENT_ID, fragmentId)
     }
 
-    override fun showProgreeDialog() {
-        if (isAdded) (activity as BaseActivity<*, *>).showProgreeDialog()
+    override fun showProgressDialog() {
+        if (isAdded) (activity as BaseActivity<*, *>).showProgressDialog()
 
     }
 
-    override fun dismissProgreeDialog() {
-        if (isAdded) (activity as BaseActivity<*, *>).dismissProgreeDialog()
+    override fun dismissProgressDialog() {
+        if (isAdded) (activity as BaseActivity<*, *>).dismissProgressDialog()
     }
 }

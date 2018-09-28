@@ -15,9 +15,20 @@ import java.util.*
 
 class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.CompactCalendarViewListener {
 
+    companion object {
+        const val TEACHER_ID = "teacher_id"
+
+        fun getInstance(teacherId: String) = TimeTableFragment().apply {
+            arguments = Bundle().apply {
+                putString(TEACHER_ID, teacherId)
+            }
+        }
+    }
+
     private lateinit var presenter: TimeTablePresenter
 
     override fun getFragmentLayout(): Int = R.layout.recyler_view_layout
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

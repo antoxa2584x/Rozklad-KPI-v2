@@ -5,4 +5,32 @@
         <attr name="liv_subtitle" format="string" />
         <attr name="liv_icon" format="reference" />
     </declare-styleable>
+    <declare-styleable name="SubtitleCollapsingToolbarLayout">
+        <!-- Toolbar attrs -->
+        <attr name="title" />
+        <attr name="subtitle" />
+
+        <!-- CollapsingToolbarLayout attrs -->
+        <attr name="expandedTitleMargin" />
+        <attr name="expandedTitleMarginStart" />
+        <attr name="expandedTitleMarginTop" />
+        <attr name="expandedTitleMarginEnd" />
+        <attr name="expandedTitleMarginBottom" />
+        <attr name="expandedTitleTextAppearance" />
+        <attr name="collapsedTitleTextAppearance" />
+        <attr name="contentScrim" />
+        <attr name="statusBarScrim" />
+        <attr name="toolbarId" />
+        <attr name="scrimVisibleHeightTrigger" />
+        <attr name="scrimAnimationDuration" />
+        <attr name="collapsedTitleGravity" />
+        <attr name="expandedTitleGravity" />
+        <attr name="titleEnabled" />
+
+        <!-- SubtitleCollapsingToolbarLayout attrs -->
+        <attr name="expandedSubtitleTextAppearance" format="reference" />
+        <attr name="collapsedSubtitleTextAppearance" format="reference" />
+        <attr name="fixMenuPadding" format="boolean" />
+    </declare-styleable>
+
 </resources>

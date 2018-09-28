@@ -136,13 +136,13 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     }
 
     private fun awaitNextScreen(body: DaoGroupModel?) {
-        view.showProgreeDialog()
+        view.showProgressDialog()
 
         GlobalScope.launch {
             val isSuccessful = lessonsManager.loadTimeTable(body!!.groupId).await()
 
             launch(Dispatchers.Main) {
-                view.dismissProgreeDialog()
+                view.dismissProgressDialog()
 
                 if (isSuccessful) {
                     showMainScreen()

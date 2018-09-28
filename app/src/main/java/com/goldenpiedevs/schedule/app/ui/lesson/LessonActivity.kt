@@ -54,8 +54,10 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         }
     }
 
+    private var startMarker: Marker? = null
+
     override fun showLessonLocation(geoPoint: GeoPoint) {
-        val startMarker = Marker(map).apply {
+        startMarker = Marker(map).apply {
             position = geoPoint
             setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             icon = ContextCompat.getDrawable(this@LessonActivity, R.drawable.ic_room_location)
@@ -69,7 +71,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
             setBuiltInZoomControls(false)
             overlays.add(startMarker)
             controller.apply {
-                setZoom(19.0)
+                setZoom(17.0)
                 setCenter(geoPoint)
             }
         }
@@ -88,4 +90,10 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     override fun showNotePhotos(fileNames: OrderedRealmCollection<String>) {
     }
 
+    override fun onDestroy() {
+        map.overlays.remove(startMarker)
+        startMarker = null
+
+        super.onDestroy()
+    }
 }

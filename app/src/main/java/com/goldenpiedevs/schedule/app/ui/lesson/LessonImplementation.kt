@@ -16,9 +16,6 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     override fun showLessonData(bundle: Bundle) {
         daoLessonModel = DaoLessonModel().getLesson(bundle.getInt(LESSON_ID))
 
-        val room = daoLessonModel.rooms.first()
-        val noteModel = daoLessonModel.noteModel
-
         with(view) {
             showLessonName(daoLessonModel.lessonFullName)
             showLessonTime(daoLessonModel.getTime())
@@ -32,15 +29,21 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                 })
             }
 
-            room?.let {
-                showLessonRoom(it.roomName)
+            with(daoLessonModel.rooms){
+                if(isEmpty())
+                    return
 
-                if (ContextCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED)
-                    showLessonLocation(it.getGeoPoint())
+                this.first()?.let {
+                    showLessonRoom(it.roomName)
+
+                    if (ContextCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED)
+                        showLessonLocation(it.getGeoPoint())
+                }
+
             }
 
-            noteModel?.let {
+            daoLessonModel.noteModel?.let {
                 showNoteText(it.note)
                 showNotePhotos(it.photos)
             }

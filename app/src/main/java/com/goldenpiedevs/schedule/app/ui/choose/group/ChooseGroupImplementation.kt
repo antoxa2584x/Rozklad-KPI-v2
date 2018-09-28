@@ -25,7 +25,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.blurry.Blurry
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -136,10 +138,10 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     private fun awaitNextScreen(body: DaoGroupModel?) {
         view.showProgreeDialog()
 
-        launch {
+        GlobalScope.launch {
             val isSuccessful = lessonsManager.loadTimeTable(body!!.groupId).await()
 
-            launch(UI) {
+            launch(Dispatchers.Main) {
                 view.dismissProgreeDialog()
 
                 if (isSuccessful) {

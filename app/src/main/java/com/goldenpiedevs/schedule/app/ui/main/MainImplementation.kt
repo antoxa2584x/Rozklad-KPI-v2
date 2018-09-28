@@ -12,6 +12,7 @@ import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
@@ -86,7 +87,7 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
     //Just get new data. Show next time)
     override fun loadTimeTable() {
-        launch {
+        GlobalScope.launch {
             lessonsManager.loadTimeTable(AppPreference.groupId)
         }
     }

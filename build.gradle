@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.60'
+    ext.kotlin_version = '1.2.71'
     ext.support_lib_version = '27.1.1'
 
     repositories {
@@ -16,7 +16,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.realm:realm-gradle-plugin:5.3.1"
+        classpath "io.realm:realm-gradle-plugin:5.4.2"
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
@@ -30,6 +30,11 @@ allprojects {
             name 'OSS-Sonatype'
         }
         maven { url 'https://maven.fabric.io/public' }
+    }
+    configurations.all {
+        resolutionStrategy.force "com.android.support:exifinterface:$support_lib_version"
+        resolutionStrategy.force "com.android.support:appcompat-v7:$support_lib_version"
+        resolutionStrategy.force "com.android.support:design:$support_lib_version"
     }
 }
 

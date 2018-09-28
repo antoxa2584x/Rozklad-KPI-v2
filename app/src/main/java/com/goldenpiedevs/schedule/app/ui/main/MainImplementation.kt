@@ -88,7 +88,7 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     //Just get new data. Show next time)
     override fun loadTimeTable() {
         GlobalScope.launch {
-            lessonsManager.loadTimeTable(AppPreference.groupId)
+            lessonsManager.loadTimeTable(AppPreference.groupId).await()
         }
     }
 }

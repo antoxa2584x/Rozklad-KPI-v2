@@ -31,7 +31,7 @@ object NetworkingConfigurationModule {
     @Reusable
     @JvmStatic
     fun provideHttpLoggingInterceptor() = CustomHttpLoggingInterceptor().apply {
-        level = if (BuildConfig.DEBUG) CustomHttpLoggingInterceptor.Level.BASIC else CustomHttpLoggingInterceptor.Level.NONE
+        level = if (BuildConfig.DEBUG) CustomHttpLoggingInterceptor.Level.BODY else CustomHttpLoggingInterceptor.Level.NONE
     }
 
     @Provides

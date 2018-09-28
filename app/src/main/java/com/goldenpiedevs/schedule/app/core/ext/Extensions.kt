@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ScheduleApplication
+import io.realm.RealmList
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.TextStyle
@@ -68,3 +69,6 @@ fun Context.getStatusBarHeight(): Int {
     }
     return result
 }
+
+fun <T> List<T>.toArrayList() = ArrayList<T>(this)
+fun <T> RealmList<T>.toArrayList() = ArrayList<T>(this)

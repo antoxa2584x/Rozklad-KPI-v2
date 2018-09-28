@@ -54,7 +54,7 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
     override fun onMonthScroll(firstDayOfNewMonth: Date?) {}
 
-    override fun showWeekData(data: ArrayList<DaoDayModel>) {
+    override fun showWeekData(data: List<DaoDayModel>) {
         list.adapter ?: run {
             list.adapter = TimeTableAdapter(data, context) { presenter.onLessonClicked(it) }
         }

@@ -26,7 +26,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     private lateinit var daoLessonModel: DaoLessonModel
 
     override fun showLessonData(bundle: Bundle) {
-        daoLessonModel = DaoLessonModel().getLesson(bundle.getInt(LESSON_ID))
+        daoLessonModel = DaoLessonModel.getLesson(bundle.getInt(LESSON_ID))
 
         with(view) {
             showLessonName(daoLessonModel.lessonFullName)

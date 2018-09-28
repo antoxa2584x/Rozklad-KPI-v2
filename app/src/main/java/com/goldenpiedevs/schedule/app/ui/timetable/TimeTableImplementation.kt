@@ -2,7 +2,6 @@ package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.content.Intent
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoWeekModel
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
 import com.goldenpiedevs.schedule.app.core.ext.today
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
@@ -12,18 +11,17 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.IsoFields
 import java.util.*
-import kotlin.collections.ArrayList
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
 
-    private lateinit var data: ArrayList<DaoDayModel>
+    private lateinit var data: List<DaoDayModel>
 
     override fun getData() {
-        data = ArrayList<DaoDayModel>().apply {
+        data = mutableListOf<DaoDayModel>().apply {
             add(DaoDayModel())
-            addAll(DaoWeekModel().getFirstWeekDays())
+            addAll(DaoDayModel.firstWeek())
             add(DaoDayModel())
-            addAll(DaoWeekModel().getSecondWeekDays())
+            addAll(DaoDayModel.secondWeek())
         }
 
         view.showWeekData(data)
@@ -36,8 +34,8 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     private fun getCurrentDay(week: Boolean, day: Int) {
         val currentDay: Int = data.indexOf(
                 data.find {
-                    it.dayNumber == day
-                            && it.lessons.first()!!.lessonWeek == if (week) 1 else 2
+                    it.dayNumber == day &&
+                            it.lessons.first()!!.lessonWeek.toInt() == if (week) 1 else 2
                 })
 
         if (currentDay < 0)

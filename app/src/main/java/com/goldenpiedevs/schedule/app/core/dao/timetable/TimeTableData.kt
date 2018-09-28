@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TimeTableData(
         @SerializedName("weeks")
-        val weeks: WeeksModel? = null,
+        val weeks: DaoLessonModel? = null,
         @SerializedName("group")
         val group: DaoGroupModel? = null
 )

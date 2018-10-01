@@ -37,7 +37,7 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
         with(presenter) {
             attachView(this@TimeTableFragment)
-            getData()
+            getData(arguments)
             showCurrentDay()
         }
 
@@ -45,7 +45,9 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
             layoutManager = LinearLayoutManagerWithSmoothScroller(context)
         }
 
-        activity!!.compactCalendarView.setListener(this)
+        if (arguments == null) {
+            activity!!.compactCalendarView.setListener(this)
+        }
     }
 
     override fun onDayClick(dateClicked: Date?) {

@@ -3,7 +3,6 @@ package com.goldenpiedevs.schedule.app.core.api.lessons
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
-import com.goldenpiedevs.schedule.app.core.ext.saveBodyToDB
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.GlobalScope
@@ -14,21 +13,18 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
         val response = lessonsService.getGroupTimeTable(groupID).await()
 
         if (response.isSuccessful) {
-            val body = response.body()!!
-
-            body.data?.saveBodyToDB()
-
-            body.data?.groupBy { it.dayNumber.toInt() }?.forEach { (key, value) ->
-                DaoDayModel.saveOrUpdate(key, value)
-            }
-
             val group = groupManager.getGroupInfo(groupID).await()
 
+            response.body()?.let {
+                DaoDayModel.saveGroupTimeTable(it.data!!, group!!.groupFullName)
+            } ?: return@async false
+
             AppPreference.apply {
-                group?.let {
+                group?.let { it ->
                     isFirstLaunch = false
                     groupName = it.groupFullName
                     groupId = it.groupId
+
                 }
             }
         }
@@ -41,7 +37,10 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
 
         if (response.isSuccessful) {
             val body = response.body()!!
-            body.data?.saveBodyToDB()
+
+            body.data?.let {
+                DaoDayModel.saveTeacherTimeTable(it, teacherId)
+            }
 
             DaoTeacherModel.getTeacher(teacherId).apply {
                 hasLoadedSchedule = true

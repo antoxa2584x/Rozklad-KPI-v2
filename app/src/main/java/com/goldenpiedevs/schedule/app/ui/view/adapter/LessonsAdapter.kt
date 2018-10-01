@@ -13,9 +13,9 @@ class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
 
 
     lateinit var listener: (Int) -> Unit
-    lateinit var data: ArrayList<DaoLessonModel>
+    lateinit var data: List<DaoLessonModel>
 
-    constructor(data: ArrayList<DaoLessonModel>, listener: (Int) -> Unit) : this() {
+    constructor(data: List<DaoLessonModel>, listener: (Int) -> Unit) : this() {
         this.listener = listener
         this.data = data
     }

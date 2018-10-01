@@ -9,11 +9,14 @@ import io.realm.RealmObject
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
+import java.util.*
 
 @RealmClass
 open class DaoLessonModel : RealmObject() {
 
     @PrimaryKey
+    var id = UUID.randomUUID().toString()
+
     @SerializedName("lesson_id")
     var lessonId: Int = 0
 

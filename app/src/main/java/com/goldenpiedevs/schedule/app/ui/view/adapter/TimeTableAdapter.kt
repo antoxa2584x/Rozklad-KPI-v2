@@ -56,7 +56,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (data[position].dayNumber < 0) TITLE else DAY
+        return if (data[position].dayNumber.toInt() < 0) TITLE else DAY
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -80,7 +80,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
 
                     list.addItemDecoration(itemDecorator)
 
-                    list.adapter = LessonsAdapter(day.lessons.toList() as ArrayList<DaoLessonModel>) { listener(it) }
+                    list.adapter = LessonsAdapter(day.lessons.toList()) { listener(it) }
 
                     dayDate.text = day.getDayDate()
 

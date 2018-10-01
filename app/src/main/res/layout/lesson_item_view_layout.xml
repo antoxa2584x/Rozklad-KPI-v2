@@ -1,49 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
+    android:layout_height="wrap_content"
+    android:minHeight="72dp"
     android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        tools:src="@drawable/ic_launcher_background" />
+        app:tint="@color/icons_dark"
+        tools:src="@color/primary" />
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginEnd="16dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="16dp"
         android:layout_marginStart="32dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="8dp">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/title"
-            style="@style/TextAppearance.Primary"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:ellipsize="end"
+            android:gravity="bottom"
             android:maxLines="1"
-            tools:text="@string/lorem" />
+            android:textColor="@color/primary_text"
+            android:textSize="16sp"
+            tools:text="@tools:sample/lorem/random" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/subTitle"
-            style="@style/TextAppearance.Secondary"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="1"
-            tools:text="@string/lorem" />
+            android:gravity="bottom"
+            android:minHeight="20dp"
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:text="@tools:sample/lorem/random"
+            tools:visibility="visible" />
 
-    </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
 
-</android.support.v7.widget.LinearLayoutCompat>
+</LinearLayout>

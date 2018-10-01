@@ -4,6 +4,7 @@ import com.goldenpiedevs.schedule.app.core.api.utils.ToJson
 import com.goldenpiedevs.schedule.app.core.dao.BaseResponseModel
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import io.reactivex.Observable
+import kotlinx.coroutines.experimental.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,6 +16,9 @@ interface GroupService {
 
     @GET("groups/{id}")
     fun getGroup(@Path("id") groupName: Int): Observable<Response<BaseResponseModel<DaoGroupModel>>>
+
+    @GET("groups/{id}")
+    fun getGroupInfo(@Path("id") groupName: Int): Deferred<Response<BaseResponseModel<DaoGroupModel>>>
 
     companion object {
         const val LIMIT = "limit"

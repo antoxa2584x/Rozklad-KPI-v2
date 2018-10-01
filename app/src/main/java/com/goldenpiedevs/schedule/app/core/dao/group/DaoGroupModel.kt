@@ -7,20 +7,20 @@ import io.realm.annotations.PrimaryKey
 open class DaoGroupModel : RealmObject() {
     @PrimaryKey
     @SerializedName("group_id")
-    var groupId: Int? = 0
+    var groupId: Int = 0
 
     @SerializedName("group_okr")
-    var groupOkr: String? = null
+    var groupOkr: String = ""
     @SerializedName("group_full_name")
-    var groupFullName: String? = null
+    var groupFullName: String = ""
     @SerializedName("group_prefix")
-    var groupPrefix: String? = null
+    var groupPrefix: String = ""
     @SerializedName("group_type")
-    var groupType: String? = null
+    var groupType: String = ""
     @SerializedName("group_url")
-    var groupUrl: String? = null
+    var groupUrl: String = ""
 
     override fun toString(): String {
-        return groupFullName!!.toUpperCase()
+        return groupFullName.toUpperCase()
     }
 }

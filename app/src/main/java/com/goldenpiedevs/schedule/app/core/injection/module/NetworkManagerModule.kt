@@ -18,5 +18,5 @@ object NetworkManagerModule {
     @Provides
     @Reusable
     @JvmStatic
-    fun provideLessonsManager(lessonsService: LessonsService) = LessonsManager(lessonsService)
+    fun provideLessonsManager(lessonsService: LessonsService, groupManager: GroupManager) = LessonsManager(lessonsService, groupManager)
 }

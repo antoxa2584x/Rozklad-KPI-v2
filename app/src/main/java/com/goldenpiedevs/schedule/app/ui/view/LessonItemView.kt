@@ -3,6 +3,7 @@ package com.goldenpiedevs.schedule.app.ui.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import com.goldenpiedevs.schedule.app.R
 import kotlinx.android.synthetic.main.lesson_item_view_layout.view.*
@@ -13,7 +14,15 @@ class LessonItemView constructor(
 
     var subText: String? = null
         set(value) {
-            subTitle.text = value
+            field = value
+            subTitle.text = field
+
+            value?.let {
+                when {
+                    it.isNotEmpty() -> subTitle.visibility = View.VISIBLE
+                    it.isEmpty() -> subTitle.visibility = View.GONE
+                }
+            }
         }
 
     init {
@@ -21,15 +30,14 @@ class LessonItemView constructor(
         inflater.inflate(R.layout.lesson_item_view_layout, this)
 
         attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, R.styleable.LessonItemView, 0, 0)
+            with(context.obtainStyledAttributes(it, R.styleable.LessonItemView, 0, 0)) {
+                title.text = getString(R.styleable.LessonItemView_liv_title)
 
-            title.text = typedArray.getString(R.styleable.LessonItemView_liv_title)
+                subText = getString(R.styleable.LessonItemView_liv_subtitle)
 
-            subText = typedArray.getString(R.styleable.LessonItemView_liv_subtitle)
-            subTitle.text = subText
-
-            icon.setImageDrawable(typedArray.getDrawable(R.styleable.LessonItemView_liv_icon))
-            typedArray.recycle()
+                icon.setImageDrawable(getDrawable(R.styleable.LessonItemView_liv_icon))
+                recycle()
+            }
         }
     }
 }

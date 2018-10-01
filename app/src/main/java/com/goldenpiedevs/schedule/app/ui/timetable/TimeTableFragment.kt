@@ -1,56 +1,72 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
+import com.goldenpiedevs.schedule.app.ui.view.LinearLayoutManagerWithSmoothScroller
 import com.goldenpiedevs.schedule.app.ui.view.adapter.TimeTableAdapter
-import io.realm.OrderedRealmCollection
-import kotlinx.android.synthetic.main.time_table_layout.*
+import kotlinx.android.synthetic.main.main_activity_layout.*
+import kotlinx.android.synthetic.main.recyler_view_layout.*
+import java.util.*
 
 
-class TimeTableFragment : BaseFragment(), TimeTableView {
+class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.CompactCalendarViewListener {
+
+    companion object {
+        const val TEACHER_ID = "teacher_id"
+
+        fun getInstance(teacherId: String) = TimeTableFragment().apply {
+            arguments = Bundle().apply {
+                putString(TEACHER_ID, teacherId)
+            }
+        }
+    }
+
     private lateinit var presenter: TimeTablePresenter
 
-    override fun getFragmentLayout(): Int = R.layout.time_table_layout
+    override fun getFragmentLayout(): Int = R.layout.recyler_view_layout
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setUpRecyclerView(firstWeekList, secondWeekList)
 
         presenter = TimeTableImplementation()
 
         with(presenter) {
             attachView(this@TimeTableFragment)
-            getData()
+            getData(arguments)
             showCurrentDay()
         }
-    }
 
-    private fun setUpRecyclerView(vararg recyclerView: RecyclerView) {
-        recyclerView.forEach {
-            it.isNestedScrollingEnabled = false
-            it.layoutManager = LinearLayoutManager(context)
+        list.apply {
+            layoutManager = LinearLayoutManagerWithSmoothScroller(context)
+        }
+
+        if (arguments == null) {
+            activity!!.compactCalendarView.setListener(this)
         }
     }
 
-    override fun showWeekData(isFirstWeek: Boolean, orderedRealmCollection: OrderedRealmCollection<DaoDayModel>) {
-        (if (isFirstWeek) firstWeekList else secondWeekList).apply {
-            adapter ?: run {
-                adapter = TimeTableAdapter(orderedRealmCollection) { presenter.onLessonClicked(it) }
-            }
+    override fun onDayClick(dateClicked: Date?) {
+        presenter.scrollToDay(dateClicked)
+    }
+
+    override fun onMonthScroll(firstDayOfNewMonth: Date?) {}
+
+    override fun showWeekData(data: List<DaoDayModel>) {
+        list.adapter ?: run {
+            list.adapter = TimeTableAdapter(data, context) { presenter.onLessonClicked(it) }
         }
     }
 
-    override fun showCurrentDay(isFirstWeek: Boolean, currentDay: Int) {
-        (if (isFirstWeek) firstWeekList else secondWeekList).let {
-            it.post {
-                presenter.scrollToView(activity!!.findViewById(R.id.appbar), baseScrollView, it.getChildAt(currentDay))
-            }
+    override fun showDay(currentDay: Int) {
+        list.let {
+            it?.postDelayed({
+                it.smoothScrollToPosition(currentDay)
+            }, 100)
         }
     }
 }

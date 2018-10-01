@@ -1,54 +1,64 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.content.Intent
-import android.support.design.widget.AppBarLayout
-import android.support.v4.widget.NestedScrollView
-import android.view.View
-import com.goldenpiedevs.schedule.app.R
+import android.os.Bundle
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoWeekModel
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.ext.today
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
-import io.realm.Realm
-import io.realm.RealmList
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.temporal.IsoFields
+import java.util.*
 
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
-    companion object {
-        const val ANIMATION_DELAY = 1500L
-    }
 
-    private lateinit var firstWeekDaoDays: RealmList<DaoDayModel>
-    private lateinit var secondWeekDaoDays: RealmList<DaoDayModel>
-    private val realm = Realm.getDefaultInstance()
+    private lateinit var data: List<DaoDayModel>
 
-    override fun getData() {
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    override fun getData(arguments: Bundle?) {
 
-        firstWeekDaoDays = DaoWeekModel().getFirstWeekDays(realm)
-        secondWeekDaoDays = DaoWeekModel().getSecondWeekDays(realm)
-
-        with(view) {
-            showWeekData(true, firstWeekDaoDays)
-            showWeekData(false, secondWeekDaoDays)
+        arguments?.let {
+            when{
+                arguments.containsKey(TimeTableFragment.TEACHER_ID)->{
+                    data = mutableListOf<DaoDayModel>().apply {
+                        add(DaoDayModel())
+                        addAll(DaoDayModel.firstWeekForTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
+                        add(DaoDayModel())
+                        addAll(DaoDayModel.secondWeekForTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
+                    }
+                }
+            }
+        }?:run {
+            data = mutableListOf<DaoDayModel>().apply {
+                add(DaoDayModel())
+                addAll(DaoDayModel.firstWeek())
+                add(DaoDayModel())
+                addAll(DaoDayModel.secondWeek())
+            }
         }
+
+        view.showWeekData(data)
     }
 
     override fun showCurrentDay() {
-        updateCurrentDay()
+        getCurrentDay(isFirstWeek, today.dayOfWeek.value)
     }
 
-    private fun updateCurrentDay() {
-        val currentDay: Int = (if (isFirstWeek) firstWeekDaoDays else secondWeekDaoDays)
-                .let { it.indexOf(getCurrentDayModel(it)) }
+    private fun getCurrentDay(week: Boolean, day: Int) {
+        val currentDay: Int = data.indexOf(
+                data.find {
+                    it.dayNumber.toInt() == day &&
+                            it.lessons.first()!!.lessonWeek.toInt() == if (week) 1 else 2
+                })
 
-        view.showCurrentDay(isFirstWeek, currentDay)
+        if (currentDay < 0)
+            return
+
+        view.showDay(currentDay)
     }
-
-    private fun getCurrentDayModel(collection: RealmList<DaoDayModel>): DaoDayModel =
-            collection.find { it.dayNumber == LocalDateTime.now().dayOfWeek.value } ?: DaoDayModel()
 
     override fun onLessonClicked(id: Int) {
         with(view.getContext()) {
@@ -57,18 +67,11 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         }
     }
 
-    override fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View) {
-        scrollView.postDelayed({
-            appBarLayout.post { appBarLayout.setExpanded(false, true) }
-            scrollView.smoothScrollTo(0, (((view.bottom + view.top) / 2)
-                    - view.context.resources.getDimensionPixelSize(R.dimen.header_size)))
-        }, if (AppPreference.animateScrollToCard) ANIMATION_DELAY else 0)
-    }
+    override fun scrollToDay(dateClicked: Date?) {
+        val localDate = LocalDateTime.ofEpochSecond(dateClicked!!.time / 1000L, 0, ZoneOffset.MAX).toLocalDate()
+        val week = localDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2 == 0
+        val day = localDate.dayOfWeek.value
 
-    override fun detachView() {
-        if (!realm.isClosed)
-            realm.close()
-
-        super.detachView()
+        getCurrentDay(week, day)
     }
 }

@@ -1,13 +1,12 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
-import android.support.design.widget.AppBarLayout
-import android.support.v4.widget.NestedScrollView
-import android.view.View
+import android.os.Bundle
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
+import java.util.*
 
 interface TimeTablePresenter : BasePresenter<TimeTableView> {
-    fun getData()
+    fun getData(arguments: Bundle?)
     fun onLessonClicked(id: Int)
-    fun scrollToView(appBarLayout: AppBarLayout, scrollView: NestedScrollView, view: View)
     fun showCurrentDay()
+    fun scrollToDay(dateClicked: Date?)
 }

@@ -7,4 +7,6 @@ interface LessonPresenter : BasePresenter<LessonView> {
     fun showLessonData(bundle: Bundle)
     fun onNoteSave()
     fun showNoteEditView()
+    fun onTeacherClick()
+    fun onTeacherClick(id: String)
 }

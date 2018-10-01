@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.dao.timetable
 
+import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import com.goldenpiedevs.schedule.app.core.dao.note.DaoNoteModel
 import com.google.gson.annotations.SerializedName
 import io.realm.Realm
@@ -8,11 +9,14 @@ import io.realm.RealmObject
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
+import java.util.*
 
 @RealmClass
 open class DaoLessonModel : RealmObject() {
 
     @PrimaryKey
+    var id = UUID.randomUUID().toString()
+
     @SerializedName("lesson_id")
     var lessonId: Int = 0
 
@@ -26,8 +30,10 @@ open class DaoLessonModel : RealmObject() {
     var rooms: RealmList<DaoRoomModel> = RealmList()
     @SerializedName("teachers")
     var teachers: RealmList<DaoTeacherModel> = RealmList()
+    @SerializedName("groups")
+    var groups: RealmList<DaoGroupModel> = RealmList()
     @SerializedName("lesson_week")
-    var lessonWeek: Int = -1
+    var lessonWeek: String = ""
     @SerializedName("lesson_room")
     var lessonRoom: String = ""
     @SerializedName("day_name")
@@ -60,11 +66,13 @@ open class DaoLessonModel : RealmObject() {
 
     fun getTime() = "$timeStart-$timeEnd"
 
-    fun getLesson(id: Int): DaoLessonModel {
-        val realm = Realm.getDefaultInstance()
-        val lessonModel = realm.where(DaoLessonModel::class.java).equalTo("lessonId", id).findFirst()
-        if (!realm.isClosed)
-            realm.close()
-        return lessonModel!!
+    companion object {
+        fun getLesson(id: Int): DaoLessonModel {
+            val realm = Realm.getDefaultInstance()
+            val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java).equalTo("lessonId", id).findFirst()!!)
+            if (!realm.isClosed)
+                realm.close()
+            return lessonModel!!
+        }
     }
 }

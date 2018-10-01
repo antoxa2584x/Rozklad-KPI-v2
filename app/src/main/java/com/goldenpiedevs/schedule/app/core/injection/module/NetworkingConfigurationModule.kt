@@ -1,6 +1,7 @@
 package com.goldenpiedevs.schedule.app.core.injection.module
 
 import com.goldenpiedevs.schedule.app.BuildConfig
+import com.goldenpiedevs.schedule.app.core.api.utils.CustomHttpLoggingInterceptor
 import com.goldenpiedevs.schedule.app.core.api.utils.ToJson
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -10,7 +11,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -30,14 +30,14 @@ object NetworkingConfigurationModule {
     @Provides
     @Reusable
     @JvmStatic
-    fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
-        level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
+    fun provideHttpLoggingInterceptor() = CustomHttpLoggingInterceptor().apply {
+        level = if (BuildConfig.DEBUG) CustomHttpLoggingInterceptor.Level.BODY else CustomHttpLoggingInterceptor.Level.NONE
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
-            .addNetworkInterceptor(httpLoggingInterceptor)
+    fun provideOkHttpClient(customHttpLoggingInterceptor: CustomHttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
+            .addNetworkInterceptor(customHttpLoggingInterceptor)
             .build()
 
 

@@ -28,6 +28,8 @@
         <activity
             android:name=".ui.map.MapFragment"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".ui.fragment.keeper.FragmentKeeperActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="d1532bea837e3abf29e92dca516b1c1ab497ea4e" />

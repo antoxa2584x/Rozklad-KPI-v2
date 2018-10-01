@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="fab_scroll_threshold">4dp</dimen>
-    <dimen name="header_size">250dp</dimen>
+    <dimen name="header_size">280dp</dimen>
+    <dimen name="appbar_horizontal_padding">16dp</dimen>
+    <dimen name="appbar_horizontal_padding_large">24dp</dimen>
 </resources>

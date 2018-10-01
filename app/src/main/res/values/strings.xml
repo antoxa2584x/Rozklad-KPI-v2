@@ -1,4 +1,8 @@
 <resources>
+    <string name="notification_preference_file_name" translatable="false">notification_prefs</string>
+    <string name="notification_preference_notification_delay_key" translatable="false">notification_delay_key</string>
+    <string name="notification_preference_show_notification_key" translatable="false">show_notification_key</string>
+
     <string name="app_name">Розклад КПI</string>
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="loading">Завантаження…</string>
@@ -15,4 +19,9 @@
     <string name="timetable">Розклад</string>
     <string name="map">Мапа КПI</string>
     <string name="next_lesson">Наступна пара…</string>
+    <string name="notifications">Уведомления</string>
+    <string name="notify_before_fore">Уведомлять перед парой за:</string>
+    <string name="fifteen_min">15 минут</string>
+    <string name="show_notifications">Показывать уведомления</string>
+    <string name="min">мин.</string>
 </resources>

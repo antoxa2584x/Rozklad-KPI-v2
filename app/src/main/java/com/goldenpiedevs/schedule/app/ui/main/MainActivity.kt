@@ -11,6 +11,7 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, NavigationView.OnNavigationItemSelectedListener {

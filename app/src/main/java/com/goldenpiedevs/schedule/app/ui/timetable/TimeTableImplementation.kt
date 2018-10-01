@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
-import android.content.Intent
 import android.os.Bundle
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
@@ -8,6 +7,7 @@ import com.goldenpiedevs.schedule.app.core.ext.today
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
+import org.jetbrains.anko.startActivity
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.IsoFields
@@ -21,8 +21,8 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     override fun getData(arguments: Bundle?) {
 
         arguments?.let {
-            when{
-                arguments.containsKey(TimeTableFragment.TEACHER_ID)->{
+            when {
+                arguments.containsKey(TimeTableFragment.TEACHER_ID) -> {
                     data = mutableListOf<DaoDayModel>().apply {
                         add(DaoDayModel())
                         addAll(DaoDayModel.firstWeekForTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
@@ -31,7 +31,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
                     }
                 }
             }
-        }?:run {
+        } ?: run {
             data = mutableListOf<DaoDayModel>().apply {
                 add(DaoDayModel())
                 addAll(DaoDayModel.firstWeek())
@@ -60,11 +60,8 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         view.showDay(currentDay)
     }
 
-    override fun onLessonClicked(id: Int) {
-        with(view.getContext()) {
-            startActivity(Intent(this, LessonActivity::class.java)
-                    .putExtra(LessonImplementation.LESSON_ID, id))
-        }
+    override fun onLessonClicked(id: String) {
+        view.getContext().startActivity<LessonActivity>(LessonImplementation.LESSON_ID to id)
     }
 
     override fun scrollToDay(dateClicked: Date?) {

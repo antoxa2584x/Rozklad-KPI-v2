@@ -64,12 +64,14 @@ open class DaoLessonModel : RealmObject() {
 
     var hasNote: Boolean = noteModel != null
 
+    var showNotification = true
+
     fun getTime() = "$timeStart-$timeEnd"
 
     companion object {
-        fun getLesson(id: Int): DaoLessonModel {
+        fun getLesson(lessonId: String): DaoLessonModel {
             val realm = Realm.getDefaultInstance()
-            val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java).equalTo("lessonId", id).findFirst()!!)
+            val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java).equalTo("id", lessonId).findFirst()!!)
             if (!realm.isClosed)
                 realm.close()
             return lessonModel!!

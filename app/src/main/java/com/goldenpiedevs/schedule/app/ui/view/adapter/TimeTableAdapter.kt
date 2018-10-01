@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.getDayDate
 import com.goldenpiedevs.schedule.app.core.ext.context
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayName
@@ -26,7 +27,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
         const val DAY = 2
     }
 
-    constructor(data: List<DaoDayModel>, context: Context, listener: (Int) -> Unit) : this(data) {
+    constructor(data: List<DaoDayModel>, context: Context, listener: (String) -> Unit) : this(data) {
         this.listener = listener
         primaryColor = ContextCompat.getColor(context, R.color.primary_text)
         secondaryColor = ContextCompat.getColor(context, R.color.secondary_text)
@@ -38,7 +39,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
 
     override fun getItemCount(): Int = data.size
 
-    lateinit var listener: (Int) -> Unit
+    lateinit var listener: (String) -> Unit
     private var primaryColor: Int = 0
     private var secondaryColor: Int = 0
 
@@ -82,7 +83,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
 
                     list.adapter = LessonsAdapter(day.lessons.toList()) { listener(it) }
 
-                    dayDate.text = day.getDayDate()
+                    dayDate.text = day.lessons.first()!!.getDayDate()
 
                     if (day.lessons.first()!!.lessonWeek.toInt() - 1 != currentWeek) return
 

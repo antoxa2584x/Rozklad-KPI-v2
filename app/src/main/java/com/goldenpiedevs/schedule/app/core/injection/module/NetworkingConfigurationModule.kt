@@ -22,14 +22,12 @@ import javax.inject.Singleton
 object NetworkingConfigurationModule {
     @Provides
     @Reusable
-    @JvmStatic
     fun provideGson(): Gson = GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .create()
 
     @Provides
     @Reusable
-    @JvmStatic
     fun provideHttpLoggingInterceptor() = CustomHttpLoggingInterceptor().apply {
         level = if (BuildConfig.DEBUG) CustomHttpLoggingInterceptor.Level.BODY else CustomHttpLoggingInterceptor.Level.NONE
     }
@@ -40,10 +38,8 @@ object NetworkingConfigurationModule {
             .addNetworkInterceptor(customHttpLoggingInterceptor)
             .build()
 
-
     @Provides
     @Reusable
-    @JvmStatic
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addConverterFactory(object : Converter.Factory() {

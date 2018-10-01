@@ -1,7 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.dao.timetable
 
-import com.goldenpiedevs.schedule.app.core.ext.currentWeek
-import com.goldenpiedevs.schedule.app.core.ext.today
+import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.google.gson.annotations.SerializedName
 import io.realm.Realm
 import io.realm.RealmList
@@ -23,24 +22,6 @@ open class DaoDayModel : RealmObject() {
     var lessons: RealmList<DaoLessonModel> = RealmList()
     var parentGroup = ""
     var parentTeacherId = "-1"
-
-    fun getDayDate(): String {
-        lessons.first()?.let {
-            if (it.lessonWeek.toInt() - 1 == currentWeek) {
-                if (dayNumber.toInt() >= today.dayOfWeek.value) {
-                    return today.plusDays((dayNumber.toInt() - today.dayOfWeek.value).toLong()).toString()
-                } else if (dayNumber.toInt() < today.dayOfWeek.value) {
-                    return today.plusWeeks(2)
-                            .plusDays((dayNumber.toInt() - today.dayOfWeek.value).toLong()).toString()
-                }
-            } else {
-                return today.plusWeeks(1)
-                        .plusDays((dayNumber.toInt() - today.dayOfWeek.value).toLong()).toString()
-            }
-        }
-
-        return ""
-    }
 
     companion object {
         fun firstWeek(): List<DaoDayModel> {
@@ -65,7 +46,7 @@ open class DaoDayModel : RealmObject() {
             return lessonModel
         }
 
-        fun saveGroupTimeTable(key: ArrayList<DaoLessonModel>, groupName: String) {
+        fun saveGroupTimeTable(key: ArrayList<DaoLessonModel>, groupName: String, notificationManager: NotificationManager) {
             val realm = Realm.getDefaultInstance()
 
             key.groupBy { it.lessonWeek.toInt() }.forEach { (weekNum, weekLessonsList) ->
@@ -79,6 +60,8 @@ open class DaoDayModel : RealmObject() {
                             modelIt.lessons.addAll(dayLessonsList)
                             it.copyToRealmOrUpdate(modelIt)
                         }
+
+                        notificationManager.createNotification(dayLessonsList)
                     } ?: run {
                         realm.executeTransaction {
                             it.copyToRealmOrUpdate(DaoDayModel().apply {
@@ -88,6 +71,8 @@ open class DaoDayModel : RealmObject() {
                                 dayNumber = dayNum.toString()
                                 dayName = dayLessonsList.first().dayName
                             })
+
+                            notificationManager.createNotification(dayLessonsList)
                         }
                     }
                 }

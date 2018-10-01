@@ -12,10 +12,10 @@ import kotlinx.android.synthetic.main.timetable_card_content.view.*
 class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
 
 
-    lateinit var listener: (Int) -> Unit
+    lateinit var listener: (String) -> Unit
     lateinit var data: List<DaoLessonModel>
 
-    constructor(data: List<DaoLessonModel>, listener: (Int) -> Unit) : this() {
+    constructor(data: List<DaoLessonModel>, listener: (String) -> Unit) : this() {
         this.listener = listener
         this.data = data
     }
@@ -37,7 +37,7 @@ class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
             time.text = model.getTime()
             location.text = "${model.lessonRoom} ${model.lessonType}"
             number.text = model.lessonNumber
-            itemView.setOnClickListener { listener(model.lessonId) }
+            itemView.setOnClickListener { listener(model.id) }
         }
     }
 

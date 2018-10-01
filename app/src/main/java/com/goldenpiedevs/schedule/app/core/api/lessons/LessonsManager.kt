@@ -3,12 +3,13 @@ package com.goldenpiedevs.schedule.app.core.api.lessons
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
+import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 
-class LessonsManager(private val lessonsService: LessonsService, private val groupManager: GroupManager) {
+class LessonsManager(private val lessonsService: LessonsService, private val groupManager: GroupManager, private val notificationManager: NotificationManager) {
     fun loadTimeTable(groupID: Int): Deferred<Boolean> = GlobalScope.async {
         val response = lessonsService.getGroupTimeTable(groupID).await()
 
@@ -16,7 +17,7 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
             val group = groupManager.getGroupInfo(groupID).await()
 
             response.body()?.let {
-                DaoDayModel.saveGroupTimeTable(it.data!!, group!!.groupFullName)
+                DaoDayModel.saveGroupTimeTable(it.data!!, group!!.groupFullName, notificationManager)
             } ?: return@async false
 
             AppPreference.apply {

@@ -14,4 +14,5 @@
     <string name="location">Розташування</string>
     <string name="timetable">Розклад</string>
     <string name="map">Мапа КПI</string>
+    <string name="next_lesson">Наступна пара…</string>
 </resources>

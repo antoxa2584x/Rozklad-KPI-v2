@@ -11,14 +11,14 @@ import com.goldenpiedevs.schedule.app.core.ext.todayName
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment
+import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
-    @Inject
-    lateinit var lessonsManager: LessonsManager
 
     private lateinit var supportFragmentManager: FragmentManager
     private lateinit var navigationView: NavigationView
@@ -64,6 +64,15 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
                 .commit()
     }
 
+    override fun updateCalendarState() {
+        AppPreference.isCalebdarOpen = !AppPreference.isCalebdarOpen
+        view.showCalendar(AppPreference.isCalebdarOpen)
+    }
+
+    override fun openSettings() {
+        view.getContext().startActivity<PreferenceActivity>()
+    }
+
     override fun onGroupChangeClick() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -83,12 +92,5 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         } else {
             (view.getContext() as AppCompatActivity).finish()
         }
-    }
-
-    //Just get new data. Show next time)
-    override fun loadTimeTable() {
-//        GlobalScope.launch {
-//            lessonsManager.loadTimeTable(AppPreference.groupId).await()
-//        }
     }
 }

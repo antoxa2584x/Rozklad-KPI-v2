@@ -7,6 +7,5 @@ import java.util.*
 interface TimeTablePresenter : BasePresenter<TimeTableView> {
     fun getData(arguments: Bundle?)
     fun onLessonClicked(id: String)
-    fun showCurrentDay()
     fun scrollToDay(dateClicked: Date?)
 }

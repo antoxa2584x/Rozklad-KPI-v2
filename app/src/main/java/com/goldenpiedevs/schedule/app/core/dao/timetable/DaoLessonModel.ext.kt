@@ -3,7 +3,6 @@ package com.goldenpiedevs.schedule.app.core.dao.timetable
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.today
 
-
 fun DaoLessonModel.getDayDate(): String {
     if (lessonWeek.toInt() - 1 == currentWeek) {
         if (dayNumber.toInt() >= today.dayOfWeek.value) {

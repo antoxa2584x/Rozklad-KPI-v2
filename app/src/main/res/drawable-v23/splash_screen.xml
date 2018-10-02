@@ -3,25 +3,14 @@
 <!-- The android:opacity=”opaque” line — this is critical in preventing a flash of black as your theme transitions. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
-    <item>
-
-        <shape
-            android:shape="rectangle">
-
-            <size
-                android:width="144dp"
-                android:height="144dp"/>
-
-            <solid
-                android:color="#00FFFFFF"/>
-        </shape>
-    </item>
 
     <!-- The background color, preferably the same as your normal theme -->
     <item android:drawable="@android:color/white" />
 
     <!-- Your product logo - 144dp color version of your app icon -->
-    <item>
+    <item
+        android:width="144dp"
+        android:height="144dp">
 
         <bitmap
             android:gravity="center"

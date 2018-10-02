@@ -38,7 +38,6 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
         with(presenter) {
             attachView(this@TimeTableFragment)
             getData(arguments)
-            showCurrentDay()
         }
 
         list.apply {

@@ -33,8 +33,6 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
             setSupportFragmentManager(supportFragmentManager)
             setNavigationView(navView)
             onTimeTableClick()
-
-            loadTimeTable()
         }
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
@@ -51,6 +49,8 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         actionBarDrawerToggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+
+        action_settings.setOnClickListener { presenter.openSettings() }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -71,8 +71,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.timetable_menu, menu)
+        menuInflater.inflate(R.menu.timetable_menu, menu)
         return true
     }
 
@@ -102,6 +101,10 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         toolbar.subtitle = string
     }
 
+    override fun showCalendar(calendarOpen: Boolean) {
+        compactCalendarView.visibility = if (calendarOpen) View.VISIBLE else View.GONE
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item!!.itemId) {
             android.R.id.home -> {
@@ -109,10 +112,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
                 true
             }
             R.id.calendar -> {
-                AppPreference.isCalebdarOpen = !AppPreference.isCalebdarOpen
-                compactCalendarView.visibility =
-                        if (AppPreference.isCalebdarOpen) View.VISIBLE else View.GONE
-
+                presenter.updateCalendarState()
                 invalidateOptionsMenu()
                 true
             }

@@ -14,5 +14,6 @@ interface MainPresenter : BasePresenter<MainView> {
     fun onSettingsClick()
     fun onTeachersClick()
     fun onBackPressed()
-    fun loadTimeTable()
+    fun updateCalendarState()
+    fun openSettings()
 }

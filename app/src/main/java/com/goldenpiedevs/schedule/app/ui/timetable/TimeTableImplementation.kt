@@ -1,12 +1,17 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.os.Bundle
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.*
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
 import com.goldenpiedevs.schedule.app.core.ext.today
+import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.startActivity
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
@@ -20,31 +25,36 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun getData(arguments: Bundle?) {
 
-        arguments?.let {
-            when {
-                arguments.containsKey(TimeTableFragment.TEACHER_ID) -> {
-                    data = mutableListOf<DaoDayModel>().apply {
-                        add(DaoDayModel())
-                        addAll(DaoDayModel.firstWeekForTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
-                        add(DaoDayModel())
-                        addAll(DaoDayModel.secondWeekForTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
+        var lessons: Sequence<DaoDayModel>
+
+        GlobalScope.launch {
+            lessons = DaoDayModel.getLessons()
+
+            arguments?.let {
+                when {
+                    arguments.containsKey(TimeTableFragment.TEACHER_ID) -> {
+                        data = mutableListOf<DaoDayModel>().apply {
+                            add(DaoDayModel())
+                            addAll(lessons.forWeek(1).forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
+                            add(DaoDayModel())
+                            addAll(lessons.forWeek(2).forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
+                        }
                     }
                 }
+            } ?: run {
+                data = mutableListOf<DaoDayModel>().apply {
+                    add(DaoDayModel())
+                    addAll(lessons.forWeek(1).forGroupWithName(AppPreference.groupName))
+                    add(DaoDayModel())
+                    addAll(lessons.forWeek(2).forGroupWithName(AppPreference.groupName))
+                }
             }
-        } ?: run {
-            data = mutableListOf<DaoDayModel>().apply {
-                add(DaoDayModel())
-                addAll(DaoDayModel.firstWeek())
-                add(DaoDayModel())
-                addAll(DaoDayModel.secondWeek())
+            launch(Dispatchers.Main) {
+                view.showWeekData(data)
+
+                getCurrentDay(isFirstWeek, today.dayOfWeek.value)
             }
         }
-
-        view.showWeekData(data)
-    }
-
-    override fun showCurrentDay() {
-        getCurrentDay(isFirstWeek, today.dayOfWeek.value)
     }
 
     private fun getCurrentDay(week: Boolean, day: Int) {

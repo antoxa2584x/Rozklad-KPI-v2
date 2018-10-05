@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.R.id.container
-import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
@@ -13,10 +12,7 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.startActivity
-import javax.inject.Inject
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 

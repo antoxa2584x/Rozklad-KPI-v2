@@ -7,6 +7,7 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import io.realm.OrderedRealmCollection
 import kotlinx.android.synthetic.main.lesson_activity_layout.*
+import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 
@@ -20,6 +21,8 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Configuration.getInstance().userAgentValue = packageName
 
         presenter = LessonImplementation()
 

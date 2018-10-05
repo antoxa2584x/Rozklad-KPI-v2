@@ -18,7 +18,7 @@
     <string name="location">Розташування</string>
     <string name="timetable">Розклад</string>
     <string name="map">Мапа КПI</string>
-    <string name="next_lesson">Наступна пара…</string>
+    <string name="next_lesson">Наступна пара у</string>
     <string name="notifications">Уведомления</string>
     <string name="notify_before_fore">Уведомлять перед парой за:</string>
     <string name="fifteen_min">15 минут</string>

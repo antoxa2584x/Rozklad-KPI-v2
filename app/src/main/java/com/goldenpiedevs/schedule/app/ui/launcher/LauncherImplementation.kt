@@ -19,6 +19,8 @@ class LauncherImplementation : BasePresenterImpl<LauncherView>(), LauncherPresen
                     startActivity(Intent(this, MainActivity::class.java))
                 }
 
+                overridePendingTransition(0, 0)
+
                 Timer().schedule(200) {
                     finish()
                 }

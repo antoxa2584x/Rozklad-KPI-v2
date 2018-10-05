@@ -77,25 +77,17 @@
                 app:srcCompat="@drawable/ic_settings"
                 app:tint="@color/icons_dark" />
 
-            <LinearLayout
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="16dp"
-                android:orientation="vertical"
-                android:paddingBottom="8dp">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:text="@string/settings"
-                    android:textColor="@color/primary_text"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                android:text="@string/settings"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp" />
         </LinearLayout>
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

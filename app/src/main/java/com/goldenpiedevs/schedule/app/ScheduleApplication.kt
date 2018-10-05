@@ -7,7 +7,6 @@ import com.goldenpiedevs.schedule.app.core.injection.component.AppComponent
 import com.goldenpiedevs.schedule.app.core.injection.component.DaggerAppComponent
 import com.goldenpiedevs.schedule.app.core.injection.module.*
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -20,12 +19,12 @@ class ScheduleApplication : MultiDexApplication() {
         super.onCreate()
 
         appComponent = initDagger()
-
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return
-        }
-
-        LeakCanary.install(this)
+//
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return
+//        }
+//
+//        LeakCanary.install(this)
         Fabric.with(this, Crashlytics())
 
         Kotpref.init(this)

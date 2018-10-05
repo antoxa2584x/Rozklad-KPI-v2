@@ -71,10 +71,20 @@ open class DaoLessonModel : RealmObject() {
     companion object {
         fun getLesson(lessonId: String): DaoLessonModel {
             val realm = Realm.getDefaultInstance()
-            val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java).equalTo("id", lessonId).findFirst()!!)
+            val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java)
+                    .equalTo("id", lessonId).findFirst()!!)
             if (!realm.isClosed)
                 realm.close()
             return lessonModel!!
+        }
+
+        fun getLessonsForGroup(groupId: Int): List<DaoLessonModel> {
+            val realm = Realm.getDefaultInstance()
+            val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java)
+                    .equalTo("groupId", groupId.toString()).findAll())
+            if (!realm.isClosed)
+                realm.close()
+            return lessonModel
         }
     }
 }

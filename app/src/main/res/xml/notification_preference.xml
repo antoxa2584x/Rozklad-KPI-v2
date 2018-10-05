@@ -9,7 +9,6 @@
 
         <ListPreference
             android:defaultValue="15"
-            android:inputType="textUri"
             android:key="@string/notification_preference_notification_delay_key"
             android:entries="@array/delays_text"
             android:entryValues="@array/delays"

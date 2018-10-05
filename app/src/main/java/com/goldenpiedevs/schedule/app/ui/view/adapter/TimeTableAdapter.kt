@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.getDayDate
 import com.goldenpiedevs.schedule.app.core.ext.context
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
@@ -65,10 +64,8 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
             TITLE -> {
                 (holder as TitleViewHolder).apply {
                     title.text = context.getText(
-                            when (position) {
-                                0 -> R.string.first_week
-                                else -> R.string.second_week
-                            })
+                            if (position == 0) R.string.first_week
+                            else R.string.second_week)
                 }
             }
 
@@ -85,10 +82,9 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
 
                     dayDate.text = day.lessons.first()!!.getDayDate()
 
-                    if (day.lessons.first()!!.lessonWeek.toInt() - 1 != currentWeek) return
-
                     //Many if statements for more performance of View's
-                    if (dayName.text.toString().toLowerCase() == todayName) {
+                    if (dayName.text.toString().toLowerCase() == todayName &&
+                            (day.weekNumber.toInt() - 1) == currentWeek) {
                         dateLayout.setBackgroundResource(R.color.primary_dark)
 
                         if (dayName.currentTextColor != Color.WHITE)
@@ -101,7 +97,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
                                 alpha = 0.8f
                         }
                     } else {
-                        dateLayout.setBackgroundResource(android.R.color.transparent)
+                        dateLayout.setBackgroundResource(android.R.color.white)
 
                         if (dayName.currentTextColor != primaryColor)
                             dayName.setTextColor(primaryColor)

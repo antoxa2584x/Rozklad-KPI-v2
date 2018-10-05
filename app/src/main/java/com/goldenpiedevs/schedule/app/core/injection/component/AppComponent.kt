@@ -5,6 +5,7 @@ import com.goldenpiedevs.schedule.app.core.notifications.work.ShowNotificationWo
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupImplementation
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import com.goldenpiedevs.schedule.app.ui.main.MainImplementation
+import com.goldenpiedevs.schedule.app.ui.preference.NotificationPreferenceFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -19,4 +20,5 @@ interface AppComponent {
     fun inject(mainImplementation: MainImplementation)
     fun inject(lessonImplementation: LessonImplementation)
     fun inject(showNotificationWork: ShowNotificationWork)
+    fun inject(notificationPreferenceFragment: NotificationPreferenceFragment)
 }

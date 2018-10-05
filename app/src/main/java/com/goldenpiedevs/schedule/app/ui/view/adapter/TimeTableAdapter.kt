@@ -19,14 +19,14 @@ import kotlinx.android.synthetic.main.timetable_list_item.view.*
 import kotlinx.android.synthetic.main.timetable_week_name_layout.view.*
 
 
-class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TITLE = 1
         const val DAY = 2
     }
 
-    constructor(data: List<DaoDayModel>, context: Context, listener: (String) -> Unit) : this(data) {
+    constructor(data: MutableList<DaoDayModel>, context: Context, listener: (String) -> Unit) : this(data) {
         this.listener = listener
         primaryColor = ContextCompat.getColor(context, R.color.primary_text)
         secondaryColor = ContextCompat.getColor(context, R.color.secondary_text)
@@ -112,6 +112,16 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
                 }
             }
         }
+    }
+
+    fun clear() {
+        data.clear()
+        notifyDataSetChanged()
+    }
+
+    fun update(data: List<DaoDayModel>) {
+        this.data.addAll(data)
+        notifyDataSetChanged()
     }
 
     class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {

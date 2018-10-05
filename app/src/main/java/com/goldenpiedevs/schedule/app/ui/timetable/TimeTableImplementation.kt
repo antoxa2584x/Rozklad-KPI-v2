@@ -21,6 +21,7 @@ import java.util.*
 class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePresenter {
 
     private lateinit var data: List<DaoDayModel>
+    private var groupId = AppPreference.groupId
 
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun getData(arguments: Bundle?) {
@@ -34,23 +35,37 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
                 when {
                     arguments.containsKey(TimeTableFragment.TEACHER_ID) -> {
                         data = mutableListOf<DaoDayModel>().apply {
-                            add(DaoDayModel())
-                            addAll(lessons.forWeek(1).forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
-                            add(DaoDayModel())
-                            addAll(lessons.forWeek(2).forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID)))
+                            val week1 = lessons.forWeek(1).forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID))
+                            if (week1.isNotEmpty()) {
+                                add(DaoDayModel())
+                                addAll(week1)
+                            }
+
+                            val week2 = lessons.forWeek(2).forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID))
+                            if (week2.isNotEmpty()) {
+                                add(DaoDayModel())
+                                addAll(week2)
+                            }
                         }
                     }
                 }
             } ?: run {
                 data = mutableListOf<DaoDayModel>().apply {
-                    add(DaoDayModel())
-                    addAll(lessons.forWeek(1).forGroupWithName(AppPreference.groupName))
-                    add(DaoDayModel())
-                    addAll(lessons.forWeek(2).forGroupWithName(AppPreference.groupName))
+                    val week1 = lessons.forWeek(1).forGroupWithName(AppPreference.groupName)
+                    if (week1.isNotEmpty()) {
+                        add(DaoDayModel())
+                        addAll(week1)
+                    }
+
+                    val week2 = lessons.forWeek(2).forGroupWithName(AppPreference.groupName)
+                    if (week2.isNotEmpty()) {
+                        add(DaoDayModel())
+                        addAll(week2)
+                    }
                 }
             }
             launch(Dispatchers.Main) {
-                view.showWeekData(data)
+                view.showWeekData(data.toMutableList())
 
                 getCurrentDay(isFirstWeek, today.dayOfWeek.value)
             }
@@ -80,5 +95,13 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         val day = localDate.dayOfWeek.value
 
         getCurrentDay(week, day)
+    }
+
+    override fun onResume() {
+        if (groupId != AppPreference.groupId) {
+            view.clearTimetable()
+            getData(null)
+        }
+        super.onResume()
     }
 }

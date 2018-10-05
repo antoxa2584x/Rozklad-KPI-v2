@@ -16,7 +16,7 @@ class PreferenceImplementation : BasePresenterImpl<PreferenceView>(), Preference
     override fun openNotificationPreference() {
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.container, NotificationPreferenceFragment())
+                .replace(R.id.container, ApplicationPreferenceFragment())
                 .commit()
     }
 

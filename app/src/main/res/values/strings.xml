@@ -4,7 +4,6 @@
     <string name="notification_preference_show_notification_key" translatable="false">show_notification_key</string>
 
     <string name="app_name">Розклад КПI</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="loading">Завантаження…</string>
     <string name="choose_your_group">Оберіть свою групу</string>
     <string name="error">Помилка завантаження</string>
@@ -19,10 +18,15 @@
     <string name="timetable">Розклад</string>
     <string name="map">Мапа КПI</string>
     <string name="next_lesson">Наступна пара у</string>
-    <string name="notifications">Уведомления</string>
-    <string name="notify_before_fore">Уведомлять перед парой за:</string>
-    <string name="fifteen_min">15 минут</string>
-    <string name="show_notifications">Показывать уведомления</string>
-    <string name="min">мин.</string>
+    <string name="notifications">Повідомлення</string>
+    <string name="notify_before_fore">Повідомляти перед парою за:</string>
+    <string name="fifteen_min">15 хвилин</string>
+    <string name="show_notifications">Показувати повідомлення</string>
+    <string name="min">хв.</string>
     <string name="settings">Налаштування</string>
+    <string name="group">Група</string>
+    <string name="change_group">Змiнити групу</string>
+    <string name="update_timetable">Оновити розклад</string>
+    <string name="update_timetable_key">update_timetable_key</string>
+    <string name="change_group_key">change_group_key</string>
 </resources>

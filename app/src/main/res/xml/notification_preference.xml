@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/group">
+        <Preference
+            android:icon="@drawable/ic_cached"
+            android:key="@string/update_timetable_key"
+            android:title="@string/update_timetable" />
+        <Preference
+            android:key="@string/change_group_key"
+            android:title="@string/change_group" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/notifications">
         <SwitchPreference
             android:defaultValue="true"
@@ -9,9 +19,9 @@
 
         <ListPreference
             android:defaultValue="15"
-            android:key="@string/notification_preference_notification_delay_key"
             android:entries="@array/delays_text"
             android:entryValues="@array/delays"
+            android:key="@string/notification_preference_notification_delay_key"
             android:summary="@string/fifteen_min"
             android:title="@string/notify_before_fore" />
     </PreferenceCategory>

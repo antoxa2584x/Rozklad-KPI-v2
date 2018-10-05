@@ -32,6 +32,8 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V> {
         compositeDisposable.dispose()
     }
 
+    override fun onResume() {}
+
     private fun inject() {
         when (this) {
             is ChooseGroupImplementation -> injector.inject(this)

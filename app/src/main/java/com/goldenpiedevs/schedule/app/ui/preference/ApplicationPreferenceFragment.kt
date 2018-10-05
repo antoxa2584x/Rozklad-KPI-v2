@@ -1,5 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.preference
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
@@ -9,12 +11,17 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.NotificationPreference
+import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupActivity
 import javax.inject.Inject
 
-class NotificationPreferenceFragment : PreferenceFragmentCompat() {
+class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var notificationManager: NotificationManager
+
+    companion object {
+        const val CHANGE_GROUP_CODE = 565
+    }
 
     override fun onCreatePreferences(p0: Bundle?, p1: String?) {
         (activity?.applicationContext as ScheduleApplication).appComponent.inject(this)
@@ -33,5 +40,30 @@ class NotificationPreferenceFragment : PreferenceFragmentCompat() {
                 true
             }
         }
+
+        findPreference(getString(R.string.change_group_key)).apply {
+            setOnPreferenceClickListener {
+                startActivityForResult(Intent(context, ChooseGroupActivity::class.java), CHANGE_GROUP_CODE)
+                true
+
+            }
+        }
+
+        findPreference(getString(R.string.update_timetable_key)).apply {
+
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (resultCode == Activity.RESULT_OK) {
+            true -> {
+                when (requestCode) {
+                    CHANGE_GROUP_CODE -> {
+                        activity?.finish()
+                    }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

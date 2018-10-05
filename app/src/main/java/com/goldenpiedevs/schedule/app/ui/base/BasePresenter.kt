@@ -10,4 +10,5 @@ interface BasePresenter<in V : BaseView> {
 
     fun detachView()
 
+    fun onResume()
 }

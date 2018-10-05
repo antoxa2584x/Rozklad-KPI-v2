@@ -91,4 +91,9 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
 
         getPresenterChild().detachView()
     }
+
+    override fun onResume() {
+        getPresenterChild().onResume()
+        super.onResume()
+    }
 }

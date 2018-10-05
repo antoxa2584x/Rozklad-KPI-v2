@@ -70,6 +70,10 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         }
     }
 
+    override fun onToolbarClick() {
+        getCurrentDay(isFirstWeek, today.dayOfWeek.value)
+    }
+
     private fun getCurrentDay(week: Boolean, day: Int) {
         val currentDay: Int = data.indexOf(
                 data.find {

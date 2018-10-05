@@ -7,17 +7,25 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ScheduleApplication
+import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.NotificationPreference
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupActivity
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.indeterminateProgressDialog
 import javax.inject.Inject
 
 class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var notificationManager: NotificationManager
+    @Inject
+    lateinit var lessonsManager: LessonsManager
 
     companion object {
         const val CHANGE_GROUP_CODE = 565
@@ -45,12 +53,22 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
                 startActivityForResult(Intent(context, ChooseGroupActivity::class.java), CHANGE_GROUP_CODE)
                 true
-
             }
         }
 
         findPreference(getString(R.string.update_timetable_key)).apply {
+            setOnPreferenceClickListener {
+                val dialog = activity?.indeterminateProgressDialog("Оновлення розкладу")
 
+                GlobalScope.launch {
+                    lessonsManager.loadTimeTable(AppPreference.groupId).await()
+
+                    launch(Dispatchers.Main) {
+                        dialog?.dismiss()
+                    }
+                }
+                true
+            }
         }
     }
 

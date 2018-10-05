@@ -7,5 +7,5 @@ object AppPreference : KotprefModel() {
     var groupName by stringPref()
     var groupId by intPref()
 
-    var isCalebdarOpen by booleanPref(false)
+    var isCalendarOpen by booleanPref(false)
 }

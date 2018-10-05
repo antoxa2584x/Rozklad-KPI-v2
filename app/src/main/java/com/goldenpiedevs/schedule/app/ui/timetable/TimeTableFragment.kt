@@ -10,6 +10,7 @@ import com.goldenpiedevs.schedule.app.ui.view.LinearLayoutManagerWithSmoothScrol
 import com.goldenpiedevs.schedule.app.ui.view.adapter.TimeTableAdapter
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.recyler_view_layout.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
 
@@ -29,7 +30,6 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
     override fun getFragmentLayout(): Int = R.layout.recyler_view_layout
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,6 +47,8 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
         if (arguments == null) {
             activity!!.compactCalendarView.setListener(this)
         }
+
+        activity!!.toolbar.setOnClickListener { presenter.onToolbarClick() }
     }
 
     override fun onDayClick(dateClicked: Date?) {

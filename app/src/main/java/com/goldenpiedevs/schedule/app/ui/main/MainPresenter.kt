@@ -15,5 +15,4 @@ interface MainPresenter : BasePresenter<MainView> {
     fun onTeachersClick()
     fun onBackPressed()
     fun updateCalendarState()
-    fun openSettings()
 }

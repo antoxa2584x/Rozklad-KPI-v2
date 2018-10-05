@@ -21,6 +21,7 @@ val appLocale = Locale("uk", "UA")
 
 val today: LocalDate = LocalDate.now()
 val todayName: String = today.dayOfWeek.getDisplayName(TextStyle.FULL, appLocale)
+val todayNumberInWeek = today.dayOfWeek.value.toString()
 val currentWeek = LocalDateTime.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2
 val isFirstWeek = currentWeek == 0
 

@@ -23,6 +23,10 @@ abstract class BaseFragment : Fragment(), BaseView {
         return this.activity!!
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, @Nullable container: ViewGroup?, @Nullable savedInstanceState: Bundle?): View? {
         fragmentId = savedInstanceState?.getLong(BaseFragment.KEY_FRAGMENT_ID) ?: nextId.getAndIncrement()

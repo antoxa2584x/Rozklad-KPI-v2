@@ -2,6 +2,7 @@ package com.goldenpiedevs.schedule.app.ui.base
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -38,6 +39,9 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
 
         if (getActivityLayout() == -1)
             return

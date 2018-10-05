@@ -26,19 +26,24 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     private lateinit var daoLessonModel: DaoLessonModel
 
     override fun showLessonData(bundle: Bundle) {
-        daoLessonModel = DaoLessonModel.getLesson(bundle.getString(LESSON_ID))
+        daoLessonModel = DaoLessonModel.getLesson(bundle.getString(LESSON_ID)!!)
 
         with(view) {
             showLessonName(daoLessonModel.lessonFullName)
             showLessonTime(daoLessonModel.getTime())
             showLessonType(daoLessonModel.lessonType)
 
-            if (!daoLessonModel.teachers.isEmpty()) {
-                showLessonTeachers(daoLessonModel.teachers
-                        .asSequence()
-                        .map { it.teacherName }
-                        .joinToString(separator = "\n")
-                        .dropLast(1))
+            with(daoLessonModel.teachers) {
+                if (!isEmpty()) {
+                    if (size > 1) {
+                        showLessonTeachers(asSequence()
+                                .map { it.teacherName }
+                                .joinToString(separator = "\n")
+                                .dropLast(1))
+                    } else {
+                        showLessonTeachers(get(0)!!.teacherFullName)
+                    }
+                }
             }
 
             with(daoLessonModel.rooms) {

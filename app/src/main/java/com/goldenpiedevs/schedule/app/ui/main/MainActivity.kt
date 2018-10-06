@@ -145,8 +145,19 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
     }
 
     override fun onBackPressed() {
-        presenter.onBackPressed()
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers()
+            return
+        }
+
         showMenu = true
         invalidateOptionsMenu()
+
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            navView.setCheckedItem(R.id.timetable)
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

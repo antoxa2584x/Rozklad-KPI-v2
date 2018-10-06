@@ -2,7 +2,6 @@ package com.goldenpiedevs.schedule.app.ui.main
 
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.R.id.container
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
@@ -79,15 +78,6 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
     override fun onTeachersClick() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            navigationView.setCheckedItem(R.id.timetable)
-            supportFragmentManager.popBackStack()
-        } else {
-            (view.getContext() as AppCompatActivity).finish()
-        }
     }
 
     override fun onResume() {

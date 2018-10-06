@@ -11,6 +11,7 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
+import kotlinx.android.synthetic.main.navigation_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -50,7 +51,10 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
 
         navView.setNavigationItemSelectedListener(this)
 
-        action_settings.setOnClickListener { presenter.openSettings() }
+        action_settings.setOnClickListener {
+            presenter.onSettingsClick()
+            drawerLayout.closeDrawers()
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -58,12 +62,12 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
 
         compactCalendarView.visibility = when {
             !showMenu -> View.GONE
-            AppPreference.isCalebdarOpen -> View.VISIBLE
+            AppPreference.isCalendarOpen -> View.VISIBLE
             else -> View.GONE
         }
 
         menu.findItem(R.id.calendar).setIcon(
-                if (AppPreference.isCalebdarOpen)
+                if (AppPreference.isCalendarOpen)
                     R.drawable.ic_calendar_view_day
                 else R.drawable.ic_calendar)
 

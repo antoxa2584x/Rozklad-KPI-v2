@@ -54,7 +54,6 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
         }
     }
 
-
     override fun setAutocompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
         this.autoCompleteTextView =
                 autoCompleteTextView.also {
@@ -65,8 +64,15 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
 
     private fun showMainScreen() {
         with(view as AppCompatActivity) {
+            when (callingActivity == null) {
+                true -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                false -> {
+                    setResult(Activity.RESULT_OK)
+                }
+            }
             finish()
-            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 

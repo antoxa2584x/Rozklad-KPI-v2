@@ -8,4 +8,5 @@ interface TimeTablePresenter : BasePresenter<TimeTableView> {
     fun getData(arguments: Bundle?)
     fun onLessonClicked(id: String)
     fun scrollToDay(dateClicked: Date?)
+    fun onToolbarClick()
 }

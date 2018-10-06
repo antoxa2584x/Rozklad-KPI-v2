@@ -14,6 +14,10 @@ class PreferenceActivity : BaseActivity<PreferencePresenter, PreferenceView>(), 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(true)
+        }
+
         with(presenter) {
             attachView(this@PreferenceActivity)
             setSupportFragmentManager(supportFragmentManager)

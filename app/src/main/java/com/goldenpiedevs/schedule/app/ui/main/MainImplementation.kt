@@ -39,8 +39,6 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         super.attachView(view)
 
         with(view) {
-            setActivitySubtitle(AppPreference.groupName.toUpperCase())
-
             //String immutable, seems it does not like apply
             var title = todayName
             title = title.substring(0, 1).toUpperCase() + title.substring(1)
@@ -61,12 +59,8 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun updateCalendarState() {
-        AppPreference.isCalebdarOpen = !AppPreference.isCalebdarOpen
-        view.showCalendar(AppPreference.isCalebdarOpen)
-    }
-
-    override fun openSettings() {
-        view.getContext().startActivity<PreferenceActivity>()
+        AppPreference.isCalendarOpen = !AppPreference.isCalendarOpen
+        view.showCalendar(AppPreference.isCalendarOpen)
     }
 
     override fun onGroupChangeClick() {
@@ -74,7 +68,7 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun onSettingsClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view.getContext().startActivity<PreferenceActivity>()
     }
 
     override fun onTeachersClick() {
@@ -88,5 +82,10 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         } else {
             (view.getContext() as AppCompatActivity).finish()
         }
+    }
+
+    override fun onResume() {
+        view.setActivitySubtitle(AppPreference.groupName.toUpperCase())
+        super.onResume()
     }
 }

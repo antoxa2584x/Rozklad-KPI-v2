@@ -15,15 +15,14 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.getDayDate
 import com.goldenpiedevs.schedule.app.core.ext.context
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
-import com.goldenpiedevs.schedule.app.core.ext.todayName
+import com.goldenpiedevs.schedule.app.core.ext.todayNumberInWeek
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.timetable_card_content.view.*
 import kotlinx.android.synthetic.main.timetable_list_item.view.*
 import kotlinx.android.synthetic.main.timetable_week_name_layout.view.*
-import kotlinx.coroutines.experimental.GlobalScope
 
 
-class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TITLE = 1
@@ -35,7 +34,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
     private var primaryColor: Int = 0
     private var secondaryColor: Int = 0
 
-    constructor(data: List<DaoDayModel>, context: Context, listener: (String) -> Unit) : this(data) {
+    constructor(data: MutableList<DaoDayModel>, context: Context, listener: (String) -> Unit) : this(data) {
         this.listener = listener
 
         with(context) {
@@ -83,7 +82,7 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
                     dayDate.text = day.lessons.first()!!.getDayDate()
 
                     //Many if statements for more performance of View's
-                    if (dayName.text.toString().toLowerCase() == todayName &&
+                    if (day.dayNumber == todayNumberInWeek &&
                             (day.weekNumber.toInt() - 1) == currentWeek) {
                         dateLayout.setBackgroundResource(R.color.primary_dark)
 
@@ -137,6 +136,16 @@ class TimeTableAdapter(val data: List<DaoDayModel>) : RecyclerView.Adapter<Recyc
         }
     }
 
+    fun clear() {
+        data.clear()
+        notifyDataSetChanged()
+    }
+
+    fun update(data: List<DaoDayModel>) {
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
+    
     class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title = view.title!!
     }

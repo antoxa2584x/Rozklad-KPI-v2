@@ -10,6 +10,7 @@ import com.goldenpiedevs.schedule.app.ui.view.LinearLayoutManagerWithSmoothScrol
 import com.goldenpiedevs.schedule.app.ui.view.adapter.TimeTableAdapter
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.recyler_view_layout.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
 
@@ -29,7 +30,6 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
     override fun getFragmentLayout(): Int = R.layout.recyler_view_layout
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,6 +48,8 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
         if (arguments == null) {
             activity!!.compactCalendarView.setListener(this)
         }
+
+        activity!!.toolbar.setOnClickListener { presenter.onToolbarClick() }
     }
 
     override fun onDayClick(dateClicked: Date?) {
@@ -56,10 +58,12 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
     override fun onMonthScroll(firstDayOfNewMonth: Date?) {}
 
-    override fun showWeekData(data: List<DaoDayModel>) {
+    override fun showWeekData(data: MutableList<DaoDayModel>) {
         progressBar.visibility = View.GONE
 
-        list.adapter ?: run {
+        list.adapter?.let {
+            (it as TimeTableAdapter).update(data)
+        } ?: run {
             list.adapter = TimeTableAdapter(data, context) { presenter.onLessonClicked(it) }
         }
     }
@@ -70,5 +74,17 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
                 it.smoothScrollToPosition(currentDay)
             }, 100)
         }
+    }
+
+    override fun clearTimetable() {
+        list.adapter?.let {
+            progressBar.visibility = View.VISIBLE
+            (it as TimeTableAdapter).clear()
+        }
+    }
+
+    override fun onResume() {
+        presenter.onResume()
+        super.onResume()
     }
 }

@@ -56,7 +56,9 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
         presenter.scrollToDay(dateClicked)
     }
 
-    override fun onMonthScroll(firstDayOfNewMonth: Date?) {}
+    override fun onMonthScroll(firstDayOfNewMonth: Date) {
+        presenter.onCalendarScroll(firstDayOfNewMonth)
+    }
 
     override fun showWeekData(data: MutableList<DaoDayModel>) {
         progressBar.visibility = View.GONE

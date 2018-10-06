@@ -1,13 +1,18 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.*
+import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
 import com.goldenpiedevs.schedule.app.core.ext.today
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
+import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.android.Main
@@ -73,6 +78,13 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
 
     override fun onToolbarClick() {
         getCurrentDay(isFirstWeek, today.dayOfWeek.value)
+    }
+
+    override fun onCalendarScroll(firstDayOfNewMonth: Date) {
+        with(view) {
+            ((this as Fragment).activity as MainActivity).toolbar.title =
+                    getContext().resources.getStringArray(R.array.months)[firstDayOfNewMonth.getCurrentMonth()]
+        }
     }
 
     private fun getCurrentDay(week: Boolean, day: Int) {

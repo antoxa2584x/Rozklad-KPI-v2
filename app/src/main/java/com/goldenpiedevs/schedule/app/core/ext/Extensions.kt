@@ -73,3 +73,5 @@ fun Context.getStatusBarHeight(): Int {
 
 fun <T> List<T>.toArrayList() = ArrayList<T>(this)
 fun <T> RealmList<T>.toArrayList() = ArrayList<T>(this)
+
+fun Date.getCurrentMonth() = Calendar.getInstance().apply { time = this@getCurrentMonth }.get(Calendar.MONTH)

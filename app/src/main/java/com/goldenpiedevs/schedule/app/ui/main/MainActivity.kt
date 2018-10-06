@@ -31,6 +31,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
 
         with(presenter) {
             attachView(this@MainActivity)
+            showCurrentDayTitle()
             setSupportFragmentManager(supportFragmentManager)
             setNavigationView(navView)
             onTimeTableClick()
@@ -61,9 +62,18 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         menu!!.findItem(R.id.calendar).isVisible = showMenu
 
         compactCalendarView.visibility = when {
-            !showMenu -> View.GONE
-            AppPreference.isCalendarOpen -> View.VISIBLE
-            else -> View.GONE
+            !showMenu -> {
+                presenter.showCurrentDayTitle()
+                View.GONE
+            }
+            AppPreference.isCalendarOpen -> {
+                presenter.onCalendarOpen(compactCalendarView.firstDayOfCurrentMonth)
+                View.VISIBLE
+            }
+            else -> {
+                presenter.showCurrentDayTitle()
+                View.GONE
+            }
         }
 
         menu.findItem(R.id.calendar).setIcon(
@@ -106,7 +116,13 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
     }
 
     override fun showCalendar(calendarOpen: Boolean) {
-        compactCalendarView.visibility = if (calendarOpen) View.VISIBLE else View.GONE
+        compactCalendarView.visibility = if (calendarOpen) {
+            presenter.onCalendarOpen(compactCalendarView.firstDayOfCurrentMonth)
+            View.VISIBLE
+        } else {
+            presenter.showCurrentDayTitle()
+            View.GONE
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

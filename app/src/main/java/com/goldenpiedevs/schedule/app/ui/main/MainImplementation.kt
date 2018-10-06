@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.R.id.container
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
+import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
@@ -13,6 +14,7 @@ import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 import org.jetbrains.anko.startActivity
+import java.util.*
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
@@ -35,14 +37,12 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
                 .commit()
     }
 
-    override fun attachView(view: MainView) {
-        super.attachView(view)
-
+    override fun showCurrentDayTitle() {
         with(view) {
             //String immutable, seems it does not like apply
             var title = todayName
             title = title.substring(0, 1).toUpperCase() + title.substring(1)
-            title += ", ${currentWeek + 1} ${view.getContext().getString(R.string.week)}"
+            title += ", ${currentWeek + 1} ${getContext().getString(R.string.week)}"
 
             setActivityTitle(title)
         }
@@ -56,6 +56,12 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
                 .add(container, MapFragment())
                 .addToBackStack(null)
                 .commit()
+    }
+
+    override fun onCalendarOpen(firstDayOfNewMonth: Date) {
+        with(view) {
+            setActivityTitle(getContext().resources.getStringArray(R.array.months)[firstDayOfNewMonth.getCurrentMonth()])
+        }
     }
 
     override fun updateCalendarState() {

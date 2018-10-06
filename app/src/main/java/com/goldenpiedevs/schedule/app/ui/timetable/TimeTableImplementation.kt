@@ -22,6 +22,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
 
     private lateinit var data: MutableList<DaoDayModel>
     private var groupId = AppPreference.groupId
+    private var lastUpdate = AppPreference.lastTimeTableUpdate
 
     override fun getData(arguments: Bundle?) {
         GlobalScope.launch {
@@ -100,7 +101,12 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
             }
 
     override fun onResume() {
-        if (groupId != AppPreference.groupId) {
+        if (groupId != AppPreference.groupId || lastUpdate != AppPreference.lastTimeTableUpdate) {
+            with(AppPreference){
+                this@TimeTableImplementation.groupId = groupId
+                lastUpdate = lastTimeTableUpdate
+            }
+
             view.clearTimetable()
             getData(null)
         }

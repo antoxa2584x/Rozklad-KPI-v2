@@ -8,4 +8,6 @@ object AppPreference : KotprefModel() {
     var groupId by intPref()
 
     var isCalendarOpen by booleanPref(false)
+
+    var lastTimeTableUpdate by longPref(-1)
 }

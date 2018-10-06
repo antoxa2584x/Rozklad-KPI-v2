@@ -25,7 +25,7 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="TextAppearance" >
+    <style name="TextAppearance">
         <item name="android:gravity">bottom</item>
     </style>
 

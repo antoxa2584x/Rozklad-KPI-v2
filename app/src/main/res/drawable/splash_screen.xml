@@ -5,15 +5,13 @@
     android:opacity="opaque">
     <item>
 
-        <shape
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
 
             <size
                 android:width="144dp"
-                android:height="144dp"/>
+                android:height="144dp" />
 
-            <solid
-                android:color="#00FFFFFF"/>
+            <solid android:color="#00FFFFFF" />
         </shape>
     </item>
 

@@ -114,7 +114,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
 
     override fun onResume() {
         if (groupId != AppPreference.groupId || lastUpdate != AppPreference.lastTimeTableUpdate) {
-            with(AppPreference){
+            with(AppPreference) {
                 this@TimeTableImplementation.groupId = groupId
                 lastUpdate = lastTimeTableUpdate
             }

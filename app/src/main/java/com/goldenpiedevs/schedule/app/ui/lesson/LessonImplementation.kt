@@ -35,14 +35,9 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
 
             with(daoLessonModel.teachers) {
                 if (!isEmpty()) {
-                    if (size > 1) {
-                        showLessonTeachers(asSequence()
-                                .map { it.teacherName }
-                                .joinToString(separator = "\n")
-                                .dropLast(1))
-                    } else {
-                        showLessonTeachers(get(0)!!.teacherFullName)
-                    }
+                    showLessonTeachers(asSequence()
+                            .map { it.teacherName }
+                            .joinToString(separator = "\n"))
                 }
             }
 

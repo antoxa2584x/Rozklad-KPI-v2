@@ -24,7 +24,7 @@ class FragmentKeeperActivity : BaseActivity<FragmentKeeperPresenter, FragmentKee
         super.onCreate(savedInstanceState)
 
         presenter = FragmentKeeperImplementation()
-        with(presenter){
+        with(presenter) {
             attachView(this@FragmentKeeperActivity)
             setFragmentManager(supportFragmentManager)
             showFragmentForBundle(intent.extras)

@@ -21,7 +21,7 @@ class PreferenceImplementation : BasePresenterImpl<PreferenceView>(), Preference
     }
 
     override fun onBackPressed() {
-        with(supportFragmentManager){
+        with(supportFragmentManager) {
             if (backStackEntryCount > 0) {
                 popBackStack()
             } else {

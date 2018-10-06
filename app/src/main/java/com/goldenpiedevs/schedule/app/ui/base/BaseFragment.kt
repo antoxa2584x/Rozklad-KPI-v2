@@ -14,6 +14,8 @@ abstract class BaseFragment : Fragment(), BaseView {
         const val KEY_FRAGMENT_ID = "KEY_ACTIVITY_ID"
     }
 
+    private var root: View? = null
+
     private var nextId = AtomicLong(0)
     private var fragmentId: Long = 0
 
@@ -27,10 +29,12 @@ abstract class BaseFragment : Fragment(), BaseView {
         super.onCreate(savedInstanceState)
         retainInstance = true
     }
+
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, @Nullable container: ViewGroup?, @Nullable savedInstanceState: Bundle?): View? {
         fragmentId = savedInstanceState?.getLong(BaseFragment.KEY_FRAGMENT_ID) ?: nextId.getAndIncrement()
-        return view ?: inflater.inflate(getFragmentLayout(), container, false)
+        root = inflater.inflate(getFragmentLayout(), container, false)
+        return root
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

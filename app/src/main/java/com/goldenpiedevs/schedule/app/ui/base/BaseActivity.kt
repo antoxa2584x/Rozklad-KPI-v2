@@ -40,8 +40,11 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
+        try {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
+        } catch (e: IllegalStateException) {
+        }
 
         if (getActivityLayout() == -1)
             return
@@ -64,20 +67,19 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState!!.putLong(KEY_ACTIVITY_ID, activityId)
+        outState.putLong(KEY_ACTIVITY_ID, activityId)
     }
 
     override fun showProgressDialog() {
         hideSoftKeyboard()
 
         dialog = indeterminateProgressDialog(R.string.loading)
-        dialog!!.show()
     }
 
     override fun dismissProgressDialog() {
-        dialog!!.dismiss()
+        dialog?.dismiss()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

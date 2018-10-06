@@ -145,7 +145,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
         this.data.addAll(data)
         notifyDataSetChanged()
     }
-    
+
     class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title = view.title!!
     }

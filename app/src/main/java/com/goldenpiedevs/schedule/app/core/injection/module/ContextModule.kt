@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 
 @Module
-class ContextModule (private val application: ScheduleApplication){
+class ContextModule(private val application: ScheduleApplication) {
     @Provides
     @Singleton
     fun provideApplicationContext(): Context {

@@ -13,6 +13,8 @@ import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.navigation_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, NavigationView.OnNavigationItemSelectedListener {
@@ -24,6 +26,10 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
 
     override fun getActivityLayout(): Int = R.layout.main_activity_layout
 
+    companion object {
+        const val SHOW_MENU = "SHOW_MENU"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,7 +40,12 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
             showCurrentDayTitle()
             setSupportFragmentManager(supportFragmentManager)
             setNavigationView(navView)
-            onTimeTableClick()
+
+            if (savedInstanceState == null)
+                onTimeTableClick()
+            else {
+                showMenu = savedInstanceState.getBoolean(SHOW_MENU)
+            }
         }
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
@@ -90,19 +101,23 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        drawerLayout.closeDrawers()
+
         if (!item.isChecked) {
             showMenu = false
             when (item.itemId) {
                 R.id.timetable -> {
-                    onBackPressed()
-                    showMenu = true
+                    Timer().schedule(200) {
+                        runOnUiThread {
+                            onBackPressed()
+                            showMenu = true
+                        }
+                    }
                 }
                 R.id.map -> presenter.onMapClick()
             }
             invalidateOptionsMenu()
         }
-
-        drawerLayout.closeDrawers()
 
         return true
     }
@@ -140,12 +155,17 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(SHOW_MENU, showMenu)
+    }
+
     override fun toggleToolbarCollapseMode(isCollapsing: Boolean) {
 
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START) && !navView.menu.getItem(0).isChecked) {
             drawerLayout.closeDrawers()
             return
         }

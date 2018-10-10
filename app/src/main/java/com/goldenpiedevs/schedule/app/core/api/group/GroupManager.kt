@@ -10,7 +10,7 @@ class GroupManager(private var groupService: GroupService) {
     fun groupDetails(id: Int) =
             groupService.getGroup(id)
 
-    fun getGroupInfo(id: Int) = GlobalScope.async {
+    fun getGroupInfo(id: String) = GlobalScope.async {
         groupService.getGroupInfo(id).await().body()?.data
     }
 

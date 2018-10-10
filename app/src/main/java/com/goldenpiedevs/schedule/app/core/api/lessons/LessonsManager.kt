@@ -10,7 +10,7 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 
 class LessonsManager(private val lessonsService: LessonsService, private val groupManager: GroupManager, private val notificationManager: NotificationManager) {
-    fun loadTimeTable(groupID: Int): Deferred<Boolean> = GlobalScope.async {
+    fun loadTimeTable(groupID: String): Deferred<Boolean> = GlobalScope.async {
         val response = lessonsService.getGroupTimeTable(groupID).await()
 
         if (response.isSuccessful) {
@@ -32,6 +32,8 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
 
         response.isSuccessful
     }
+
+    fun loadTimeTable(groupID: Int) = loadTimeTable(groupID.toString())
 
     fun loadTeacherTimeTable(teacherId: Int): Deferred<Boolean> = GlobalScope.async {
         val response = lessonsService.getTeacherTimeTable(teacherId).await()

@@ -24,7 +24,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
-        android:imeOptions="actionNone"
+        android:imeOptions="actionSend"
         android:inputType="textCapCharacters"
         android:lines="1"
         android:maxLength="10"

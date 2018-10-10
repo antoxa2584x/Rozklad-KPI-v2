@@ -18,7 +18,7 @@ interface GroupService {
     fun getGroup(@Path("id") groupName: Int): Observable<Response<BaseResponseModel<DaoGroupModel>>>
 
     @GET("groups/{id}")
-    fun getGroupInfo(@Path("id") groupName: Int): Deferred<Response<BaseResponseModel<DaoGroupModel>>>
+    fun getGroupInfo(@Path("id") groupName: String): Deferred<Response<BaseResponseModel<DaoGroupModel>>>
 
     companion object {
         const val LIMIT = "limit"

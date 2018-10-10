@@ -10,9 +10,11 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import android.widget.TextView
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
@@ -59,7 +61,18 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                 autoCompleteTextView.also {
                     addOnAutoCompleteTextViewItemClickedSubscriber(it)
                     addOnAutoCompleteTextViewTextChangedObserver(it)
+                    addOnSendClickHandle(it)
                 }
+    }
+
+    private fun addOnSendClickHandle(autoCompleteTextView: AutoCompleteTextView) {
+        autoCompleteTextView.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                awaitNextScreen(autoCompleteTextView.text.toString().replace("И", "i"))
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 
     private fun showMainScreen() {
@@ -92,7 +105,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
                 .map {
-                    it.text().toString().toUpperCase().replace("И", "i")
+                    it.text().toString().replace("И", "i")
                 }
                 .switchMap {
                     groupManager.autocomplete(it)
@@ -137,15 +150,15 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
 
         compositeDisposable.add(
                 adapterViewItemClickEventObservable.subscribe(
-                        { awaitNextScreen(it.body()!!.data) },
+                        { awaitNextScreen(it.body()?.data?.groupId.toString()) },
                         { view.onError() }))
     }
 
-    private fun awaitNextScreen(body: DaoGroupModel?) {
+    private fun awaitNextScreen(groupId: String) {
         view.showProgressDialog()
 
         GlobalScope.launch {
-            val isSuccessful = lessonsManager.loadTimeTable(body!!.groupId).await()
+            val isSuccessful = lessonsManager.loadTimeTable(groupId).await()
 
             launch(Dispatchers.Main) {
                 view.dismissProgressDialog()

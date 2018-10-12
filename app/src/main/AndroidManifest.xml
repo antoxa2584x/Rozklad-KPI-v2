@@ -37,5 +37,10 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="d1532bea837e3abf29e92dca516b1c1ab497ea4e" />
+
+        <service
+            android:name="com.evernote.android.job.gcm.PlatformGcmService"
+            android:enabled="true"
+            tools:replace="android:enabled"/>
     </application>
 </manifest>

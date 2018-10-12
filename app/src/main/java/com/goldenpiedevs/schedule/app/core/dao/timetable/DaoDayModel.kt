@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.dao.timetable
 
+import com.evernote.android.job.JobManager
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.google.gson.annotations.SerializedName
 import io.realm.Realm
@@ -29,10 +30,16 @@ open class DaoDayModel : RealmObject() {
             val realm = Realm.getDefaultInstance()
 
             if (list.isNotEmpty())
-                realm.executeTransaction {
-                    it.where(DaoDayModel::class.java)
+                realm.executeTransaction { realm1 ->
+                    realm1.where(DaoDayModel::class.java)
                             .equalTo("parentGroup", groupName)
                             .findAll()
+                            .also { results ->
+                                results.map { it.lessons }.flatten().forEach {
+                                    if (it.notificationId != -1)
+                                        JobManager.instance().cancel(it.notificationId)
+                                }
+                            }
                             .deleteAllFromRealm()
                 }
 

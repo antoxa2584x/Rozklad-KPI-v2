@@ -66,6 +66,8 @@ open class DaoLessonModel : RealmObject() {
 
     var showNotification = true
 
+    var notificationId = -1
+
     fun getTime() = "$timeStart-$timeEnd"
 
     companion object {

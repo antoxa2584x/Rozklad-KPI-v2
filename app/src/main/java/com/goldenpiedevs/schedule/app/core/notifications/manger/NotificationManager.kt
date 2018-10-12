@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import com.evernote.android.job.JobManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.dateFormat
@@ -22,6 +23,7 @@ import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.NotificationPreference
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation.Companion.LESSON_ID
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import io.realm.Realm
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import org.threeten.bp.LocalDate
@@ -40,6 +42,9 @@ class NotificationManager(private val context: Context) {
 
     fun createNotification(lessons: List<DaoLessonModel>) {
         GlobalScope.launch {
+
+            val realm = Realm.getDefaultInstance()
+
             for (lesson in lessons) {
                 val time = LocalTime.parse(lesson.timeStart, DateTimeFormatter.ofPattern("HH:mm"))
                 val date = LocalDate.parse(lesson.getDayDate(), dateFormat)
@@ -50,8 +55,18 @@ class NotificationManager(private val context: Context) {
                 if (timeToNotify < 0)
                     timeToNotify += TimeUnit.DAYS.toMillis(14)
 
-                ShowNotificationWork.enqueueWork(lesson.id, timeToNotify)
+                if (lesson.notificationId != -1)
+                    JobManager.instance().cancel(lesson.notificationId)
+
+                lesson.notificationId = ShowNotificationWork.enqueueWork(lesson.id, timeToNotify)
             }
+
+            realm.executeTransaction {
+                it.copyToRealmOrUpdate(lessons)
+            }
+
+            if (!realm.isClosed)
+                realm.close()
         }
     }
 
@@ -99,12 +114,11 @@ class NotificationManager(private val context: Context) {
         }
 
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+        val wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK
                 or PowerManager.ACQUIRE_CAUSES_WAKEUP
                 or PowerManager.ON_AFTER_RELEASE, TAG)
 
         wakeLock?.acquire(500)
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel("notify_001",

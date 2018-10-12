@@ -24,57 +24,19 @@ open class DaoDayModel : RealmObject() {
     var parentTeacherId = "-1"
 
     companion object {
-//        fun firstWeek(): List<DaoDayModel> {
-//            val realm = Realm.getDefaultInstance()
-//            val lessonModel = realm.copyFromRealm(realm.where(DaoDayModel::class.java)
-//
-//                    .equalTo("weekNumber", 1.toString()).findAll())
-//
-//            if (!realm.isClosed)
-//                realm.close()
-//
-//            return lessonModel
-//        }
-//
-//        fun secondWeek(): List<DaoDayModel> {
-//            val realm = Realm.getDefaultInstance()
-//            val lessonModel = realm.copyFromRealm(realm.where(DaoDayModel::class.java)
-//                    .equalTo("weekNumber", 2.toString()).findAll())
-//
-//            if (!realm.isClosed)
-//                realm.close()
-//
-//            return lessonModel
-//        }
 
-//        fun firstWeekForTeacher(teacherID: String): Collection<DaoDayModel> {
-//            val realm = Realm.getDefaultInstance()
-//            val lessonModel = realm.copyFromRealm(realm.where(DaoDayModel::class.java)
-//                    .equalTo("weekNumber", 1.toString())
-//                    .equalTo("parentTeacherId", teacherID).findAll())
-//
-//            if (!realm.isClosed)
-//                realm.close()
-//
-//            return lessonModel
-//        }
-//
-//        fun secondWeekForTeacher(teacherID: String): Collection<DaoDayModel> {
-//            val realm = Realm.getDefaultInstance()
-//            val lessonModel = realm.copyFromRealm(realm.where(DaoDayModel::class.java)
-//                    .equalTo("weekNumber", 2.toString())
-//                    .equalTo("parentTeacherId", teacherID).findAll())
-//
-//            if (!realm.isClosed)
-//                realm.close()
-//
-//            return lessonModel
-//        }
-
-        fun saveGroupTimeTable(key: ArrayList<DaoLessonModel>, groupName: String, notificationManager: NotificationManager) {
+        fun saveGroupTimeTable(list: ArrayList<DaoLessonModel>, groupName: String, notificationManager: NotificationManager) {
             val realm = Realm.getDefaultInstance()
 
-            key.groupBy { it.lessonWeek.toInt() }.forEach { (weekNum, weekLessonsList) ->
+            if (list.isNotEmpty())
+                realm.executeTransaction {
+                    it.where(DaoDayModel::class.java)
+                            .equalTo("parentGroup", groupName)
+                            .findAll()
+                            .deleteAllFromRealm()
+                }
+
+            list.groupBy { it.lessonWeek.toInt() }.forEach { (weekNum, weekLessonsList) ->
                 weekLessonsList.groupBy { it.dayNumber.toInt() }.forEach { (dayNum, dayLessonsList) ->
                     val model = realm.where(DaoDayModel::class.java).equalTo("parentGroup", groupName)
                             .equalTo("dayNumber", dayNum.toString())

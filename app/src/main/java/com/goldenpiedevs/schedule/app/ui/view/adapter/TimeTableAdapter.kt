@@ -142,7 +142,11 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
     }
 
     fun update(data: List<DaoDayModel>) {
-        this.data.addAll(data)
+        this.data.apply{
+            clear()
+            addAll(data)
+        }
+
         notifyDataSetChanged()
     }
 

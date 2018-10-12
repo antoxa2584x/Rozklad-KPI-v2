@@ -13,8 +13,6 @@ import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.navigation_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.util.*
-import kotlin.concurrent.schedule
 
 
 class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +40,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
             setNavigationView(navView)
 
             if (savedInstanceState == null)
-                onTimeTableClick()
+                showTimeTable()
             else {
                 showMenu = savedInstanceState.getBoolean(SHOW_MENU)
             }
@@ -107,12 +105,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
             showMenu = false
             when (item.itemId) {
                 R.id.timetable -> {
-                    Timer().schedule(200) {
-                        runOnUiThread {
-                            onBackPressed()
-                            showMenu = true
-                        }
-                    }
+                    presenter.showTimeTable()
                 }
                 R.id.map -> presenter.onMapClick()
             }

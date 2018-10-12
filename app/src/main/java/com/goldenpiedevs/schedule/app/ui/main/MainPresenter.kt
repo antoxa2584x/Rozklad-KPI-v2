@@ -10,11 +10,12 @@ interface MainPresenter : BasePresenter<MainView> {
     fun setNavigationView(navigationView: NavigationView)
 
     fun showCurrentDayTitle()
-    fun onTimeTableClick()
+    fun showTimeTable()
     fun onMapClick()
     fun onGroupChangeClick()
     fun onSettingsClick()
     fun onTeachersClick()
+    fun onTimeTableClick()
     fun updateCalendarState()
     fun onCalendarOpen(firstDayOfNewMonth: Date)
 }

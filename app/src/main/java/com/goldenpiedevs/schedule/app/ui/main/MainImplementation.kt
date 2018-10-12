@@ -2,6 +2,7 @@ package com.goldenpiedevs.schedule.app.ui.main
 
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.R.id.container
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
@@ -12,8 +13,13 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.startActivity
 import java.util.*
+import kotlin.concurrent.schedule
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
@@ -28,12 +34,20 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         this.navigationView = navigationView
     }
 
-    override fun onTimeTableClick() {
+    override fun showTimeTable() {
         navigationView.setCheckedItem(R.id.timetable)
 
         supportFragmentManager.beginTransaction()
                 .replace(container, TimeTableFragment())
                 .commit()
+    }
+
+    override fun onTimeTableClick() {
+        Timer().schedule(200) {
+            GlobalScope.launch(Dispatchers.Main) {
+                (view as AppCompatActivity).onBackPressed()
+            }
+        }
     }
 
     override fun showCurrentDayTitle() {
@@ -73,7 +87,9 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun onSettingsClick() {
-        view.getContext().startActivity<PreferenceActivity>()
+        Timer().schedule(200) {
+            view.getContext().startActivity<PreferenceActivity>()
+        }
     }
 
     override fun onTeachersClick() {

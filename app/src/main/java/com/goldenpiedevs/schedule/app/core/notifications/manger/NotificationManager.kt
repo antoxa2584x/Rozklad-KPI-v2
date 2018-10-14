@@ -4,11 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.NotificationManager.IMPORTANCE_DEFAULT
+import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.os.PowerManager
 import android.support.v4.app.NotificationCompat
@@ -70,6 +71,7 @@ class NotificationManager(private val context: Context) {
         }
     }
 
+    @Suppress("DEPRECATION")
     @SuppressLint("InvalidWakeLockTag")
     fun showNotification(lessonId: String) {
         ShowNotificationWork.enqueueWork(lessonId, TimeUnit.DAYS.toMillis(14)) //repeat notification in 14 days
@@ -123,7 +125,13 @@ class NotificationManager(private val context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel("notify_001",
                     context.getString(R.string.app_name),
-                    IMPORTANCE_DEFAULT)
+                    IMPORTANCE_HIGH).apply {
+                enableLights(true)
+                enableVibration(true)
+                lightColor = Color.BLUE
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            }
+
             (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
         }
 

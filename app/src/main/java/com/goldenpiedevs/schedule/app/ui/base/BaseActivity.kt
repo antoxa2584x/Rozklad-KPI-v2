@@ -10,6 +10,7 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.getStatusBarHeight
 import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.concurrent.atomic.AtomicLong
@@ -66,6 +67,11 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         }
     }
 
+    override fun onResume() {
+        getPresenterChild().onResume()
+        super.onResume()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putLong(KEY_ACTIVITY_ID, activityId)
@@ -97,8 +103,7 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         getPresenterChild().detachView()
     }
 
-    override fun onResume() {
-        getPresenterChild().onResume()
-        super.onResume()
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 }

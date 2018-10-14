@@ -10,8 +10,13 @@ import com.goldenpiedevs.schedule.app.core.injection.module.*
 import com.goldenpiedevs.schedule.app.core.utils.AppJobCreator
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.fabric.sdk.android.Fabric
+import io.github.inflationx.calligraphy3.CalligraphyConfig
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor
+import io.github.inflationx.viewpump.ViewPump
 import io.realm.Realm
 import io.realm.RealmConfiguration
+
+
 
 
 class ScheduleApplication : MultiDexApplication() {
@@ -43,6 +48,14 @@ class ScheduleApplication : MultiDexApplication() {
                 .build()
 
         Realm.setDefaultConfiguration(config)
+
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(CalligraphyInterceptor(
+                        CalligraphyConfig.Builder()
+                                .setDefaultFontPath("fonts/ProductSansRegular.ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build())
     }
 
     private fun initDagger() =

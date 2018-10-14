@@ -28,11 +28,19 @@
         </activity>
         <activity android:name=".ui.choose.group.ChooseGroupActivity" />
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.lesson.LessonActivity" />
-        <activity android:name=".ui.fragment.keeper.FragmentKeeperActivity" />
+        <activity
+            android:name=".ui.lesson.LessonActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.SwipeBack" />
+        <activity
+            android:name=".ui.fragment.keeper.FragmentKeeperActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.SwipeBack" />
         <activity
             android:name=".ui.preference.PreferenceActivity"
-            android:label="@string/settings" />
+            android:label="@string/settings"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.SwipeBack" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -41,6 +49,6 @@
         <service
             android:name="com.evernote.android.job.gcm.PlatformGcmService"
             android:enabled="true"
-            tools:replace="android:enabled"/>
+            tools:replace="android:enabled" />
     </application>
 </manifest>

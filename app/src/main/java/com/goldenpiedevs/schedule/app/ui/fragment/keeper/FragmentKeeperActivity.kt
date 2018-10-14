@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
+import com.r0adkll.slidr.Slidr
 import kotlinx.android.synthetic.main.toolbar.*
 
 class FragmentKeeperActivity : BaseActivity<FragmentKeeperPresenter, FragmentKeeperView>(), FragmentKeeperView {
@@ -22,6 +23,8 @@ class FragmentKeeperActivity : BaseActivity<FragmentKeeperPresenter, FragmentKee
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Slidr.attach(this)
 
         presenter = FragmentKeeperImplementation()
 

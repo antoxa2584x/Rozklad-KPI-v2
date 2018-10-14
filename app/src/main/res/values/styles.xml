@@ -11,8 +11,18 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
+    <style name="AppTheme.SwipeBack" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="Toolbar.Theme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:background">@color/primary</item>
+    </style>
+
+    <style name="Toolbar.Theme.White" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/background_material_light</item>
+        <item name="navigationIcon">@drawable/ic_close</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

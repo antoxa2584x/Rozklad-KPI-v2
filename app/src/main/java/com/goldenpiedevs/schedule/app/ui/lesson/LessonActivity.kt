@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
+import com.r0adkll.slidr.Slidr
 import io.realm.OrderedRealmCollection
 import kotlinx.android.synthetic.main.lesson_activity_layout.*
 import org.osmdroid.config.Configuration
@@ -23,6 +24,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         super.onCreate(savedInstanceState)
 
         Configuration.getInstance().userAgentValue = packageName
+        Slidr.attach(this)
 
         presenter = LessonImplementation()
 
@@ -85,7 +87,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     override fun showLessonTime(string: String) {
         time.apply {
             visibility = View.VISIBLE
-            subText = string
+            text = string
         }
     }
 

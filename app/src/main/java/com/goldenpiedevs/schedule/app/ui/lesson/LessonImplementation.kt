@@ -3,6 +3,8 @@ package com.goldenpiedevs.schedule.app.ui.lesson
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
+import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
@@ -68,7 +70,21 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     override fun onTeacherClick() {
         when (daoLessonModel.teachers.size) {
             1 -> loadTeacherInfoOrOpen(null)
-            else -> view.showTeacherSelectDialog()
+            else -> showTeacherSelectDialog()
+        }
+    }
+
+    private fun showTeacherSelectDialog() {
+        AlertDialog.Builder(view.getContext()).apply {
+            setTitle(R.string.teacher)
+
+            setItems(daoLessonModel.teachers.map { it.teacherName }.toTypedArray()) { _, which ->
+                loadTeacherInfoOrOpen(daoLessonModel.teachers[which]!!.teacherId)
+            }
+
+            setNegativeButton(android.R.string.cancel, null)
+            create()
+            show()
         }
     }
 

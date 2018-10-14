@@ -13,10 +13,6 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.startActivity
 import java.util.*
 import kotlin.concurrent.schedule
@@ -43,10 +39,8 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun onTimeTableClick() {
-        Timer().schedule(200) {
-            GlobalScope.launch(Dispatchers.Main) {
-                (view as AppCompatActivity).onBackPressed()
-            }
+        Timer().schedule(300) {
+            (view as AppCompatActivity).onBackPressed()
         }
     }
 

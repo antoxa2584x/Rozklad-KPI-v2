@@ -102,12 +102,15 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         drawerLayout.closeDrawers()
 
         if (!item.isChecked) {
-            showMenu = false
             when (item.itemId) {
                 R.id.timetable -> {
+                    showMenu = true
                     presenter.showTimeTable()
                 }
-                R.id.map -> presenter.onMapClick()
+                R.id.map -> {
+                    showMenu = false
+                    presenter.onMapClick()
+                }
             }
             invalidateOptionsMenu()
         }

@@ -15,19 +15,23 @@ class FragmentKeeperImplementation : BasePresenterImpl<FragmentKeeperView>(), Fr
         supportFragmentManager = fragmentManager
     }
 
-    override fun showFragmentForBundle(bundle: Bundle?) {
+    override fun showFragmentForBundle(bundle: Bundle?, savedInstanceState: Bundle?) {
         bundle?.let {
             when {
-                it.containsKey(TimeTableFragment.TEACHER_ID) ->
-                    showTeacherTimeTableFragment(it.getString(TimeTableFragment.TEACHER_ID)!!)
+                it.containsKey(TimeTableFragment.TEACHER_ID) -> {
+                    view.setTitle(DaoTeacherModel.getTeacher(it.getString(TimeTableFragment.TEACHER_ID)!!.toInt()).teacherName)
+
+                    if (savedInstanceState == null)
+                        showTeacherTimeTableFragment(it.getString(TimeTableFragment.TEACHER_ID)!!)
+                }
             }
         }
     }
 
     private fun showTeacherTimeTableFragment(string: String) {
-        view.setTitle(DaoTeacherModel.getTeacher(string.toInt()).teacherName) //TODO
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, TimeTableFragment.getInstance(string))
+                .addToBackStack(null)
                 .commit()
     }
 }

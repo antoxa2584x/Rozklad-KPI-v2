@@ -24,10 +24,15 @@ class FragmentKeeperActivity : BaseActivity<FragmentKeeperPresenter, FragmentKee
         super.onCreate(savedInstanceState)
 
         presenter = FragmentKeeperImplementation()
+
         with(presenter) {
             attachView(this@FragmentKeeperActivity)
             setFragmentManager(supportFragmentManager)
-            showFragmentForBundle(intent.extras)
+            showFragmentForBundle(intent.extras, savedInstanceState)
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 }

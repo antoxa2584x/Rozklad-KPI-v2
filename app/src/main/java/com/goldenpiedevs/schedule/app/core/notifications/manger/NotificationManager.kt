@@ -111,8 +111,8 @@ class NotificationManager(private val context: Context) {
             setContentIntent(startIntent)
             setContentTitle("${context.getString(R.string.next_lesson)} ${lessonModel.lessonRoom}")
 
-            setStyle(NotificationCompat.BigTextStyle().bigText(lessonModel.lessonFullName))
-            setContentText(lessonModel.lessonFullName)
+            setStyle(NotificationCompat.BigTextStyle().bigText(lessonModel.lessonName))
+            setContentText(lessonModel.lessonName)
         }
 
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager

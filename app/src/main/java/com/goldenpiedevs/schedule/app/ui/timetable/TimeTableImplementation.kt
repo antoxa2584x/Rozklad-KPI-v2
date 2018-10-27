@@ -2,6 +2,7 @@ package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.*
 import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
@@ -103,7 +104,10 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     }
 
     override fun onLessonClicked(id: String) {
-        view.getContext().startActivity<LessonActivity>(LessonImplementation.LESSON_ID to id)
+        with(view.getContext() as AppCompatActivity) {
+            startActivity<LessonActivity>(LessonImplementation.LESSON_ID to id)
+            overridePendingTransition(R.anim.slide_in, 0)
+        }
     }
 
     override fun scrollToDay(dateClicked: Date?) =

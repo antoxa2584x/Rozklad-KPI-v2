@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +35,9 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
 
     private var primaryColor: Int = 0
     private var secondaryColor: Int = 0
+    private var viewPool = RecyclerView.RecycledViewPool()
+
+    private lateinit var itemDecorator: DividerItemDecoration
 
     constructor(data: MutableList<DaoDayModel>, context: Context, listener: (String) -> Unit) : this(data) {
         this.listener = listener
@@ -41,24 +46,36 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
             primaryColor = ContextCompat.getColor(this, R.color.primary_text)
             secondaryColor = ContextCompat.getColor(this, R.color.secondary_text)
         }
+
+        itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+            setDrawable(ContextCompat.getDrawable(context, R.drawable.divider)!!)
+        }
     }
 
     override fun getItemCount(): Int = data.size
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             TITLE -> return TitleViewHolder(LayoutInflater.from(parent.context)
                     .inflate(R.layout.timetable_week_name_layout, parent, false))
             DAY -> return DayViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.timetable_list_item, parent, false))
+                    .inflate(R.layout.timetable_list_item, parent, false)).apply {
+                list.apply {
+                    setRecycledViewPool(viewPool)
+                    addItemDecoration(itemDecorator)
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false).apply {
+                        isItemPrefetchEnabled = true
+                        initialPrefetchItemCount = 3
+                    }
+                }
+            }
         }
         @Suppress("UNREACHABLE_CODE")
         return null!!
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (data[position].dayNumber.toInt() < 0) TITLE else DAY
+        return if (data[position].dayNumber.toInt() == -1) TITLE else DAY
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -77,7 +94,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
                 (holder as DayViewHolder).apply {
                     dayName.text = day.dayName
 
-                    populateLessons(list, day.lessons)
+                    list.adapter = LessonsAdapter(day.lessons) { listener(it) }
 
                     dayDate.text = day.lessons.first()!!.getDayDate()
 
@@ -116,7 +133,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
     @SuppressLint("SetTextI18n")
     private fun populateLessons(list: LinearLayout, lessons: RealmList<DaoLessonModel>) {
         if (list.childCount != 0)
-            return
+            list.removeAllViews()
 
         for (lesson in lessons) {
             val view = LayoutInflater.from(list.context).inflate(R.layout.timetable_card_content, list, false)
@@ -124,7 +141,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
             view.apply {
                 with(lesson) {
                     currentLesson.visibility = if (hasNote) View.VISIBLE else View.INVISIBLE
-                    lessonTitle.text = lessonFullName
+                    lessonTitle.text = lessonName
                     time.text = lesson.getTime()
                     location.text = "$lessonRoom $lessonType"
                     this@apply.lessonNumber.text = lessonNumber
@@ -142,7 +159,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
     }
 
     fun update(data: List<DaoDayModel>) {
-        this.data.apply{
+        this.data.apply {
             clear()
             addAll(data)
         }

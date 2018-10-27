@@ -42,7 +42,9 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
         list.apply {
             isNestedScrollingEnabled = false
-            layoutManager = LinearLayoutManagerWithSmoothScroller(context)
+            layoutManager = LinearLayoutManagerWithSmoothScroller(context).apply {
+                setPreloadItemCount(5)
+            }
         }
 
         if (arguments == null) {

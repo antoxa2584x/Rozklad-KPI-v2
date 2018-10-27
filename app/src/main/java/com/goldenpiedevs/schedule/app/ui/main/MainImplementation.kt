@@ -82,7 +82,10 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
     override fun onSettingsClick() {
         Timer().schedule(200) {
-            view.getContext().startActivity<PreferenceActivity>()
+            with(view.getContext() as AppCompatActivity) {
+                startActivity<PreferenceActivity>()
+                overridePendingTransition(R.anim.slide_in, 0)
+            }
         }
     }
 

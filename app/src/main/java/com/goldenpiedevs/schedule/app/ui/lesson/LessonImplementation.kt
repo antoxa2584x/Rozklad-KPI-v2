@@ -28,37 +28,41 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     private lateinit var daoLessonModel: DaoLessonModel
 
     override fun showLessonData(bundle: Bundle) {
-        daoLessonModel = DaoLessonModel.getLesson(bundle.getString(LESSON_ID)!!)
+        GlobalScope.launch {
+            daoLessonModel = DaoLessonModel.getLesson(bundle.getString(LESSON_ID)!!)
 
-        with(view) {
-            showLessonName(daoLessonModel.lessonFullName)
-            showLessonTime(daoLessonModel.getTime())
-            showLessonType(daoLessonModel.lessonType)
+            launch(Dispatchers.Main) {
+                with(view) {
+                    showLessonName(daoLessonModel.lessonName)
+                    showLessonTime(daoLessonModel.getTime())
+                    showLessonType(daoLessonModel.lessonType)
 
-            with(daoLessonModel.teachers) {
-                if (!isEmpty()) {
-                    showLessonTeachers(asSequence()
-                            .map { it.teacherName }
-                            .joinToString(separator = "\n"))
+                    with(daoLessonModel.teachers) {
+                        if (!isEmpty()) {
+                            showLessonTeachers(asSequence()
+                                    .map { it.teacherName }
+                                    .joinToString(separator = "\n"))
+                        }
+                    }
+
+                    with(daoLessonModel.rooms) {
+                        if (isEmpty())
+                            return@with
+
+                        first()?.let {
+                            showLessonRoom(it.roomName)
+
+                            if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    == PackageManager.PERMISSION_GRANTED)
+                                showLessonLocation(it.getGeoPoint())
+                        }
+                    }
+
+                    daoLessonModel.noteModel?.let {
+                        showNoteText(it.note)
+                        showNotePhotos(it.photos)
+                    }
                 }
-            }
-
-            with(daoLessonModel.rooms) {
-                if (isEmpty())
-                    return
-
-                first()?.let {
-                    showLessonRoom(it.roomName)
-
-                    if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_GRANTED)
-                        showLessonLocation(it.getGeoPoint())
-                }
-            }
-
-            daoLessonModel.noteModel?.let {
-                showNoteText(it.note)
-                showNotePhotos(it.photos)
             }
         }
     }

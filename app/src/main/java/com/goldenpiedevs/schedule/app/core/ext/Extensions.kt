@@ -12,7 +12,6 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ScheduleApplication
 import io.realm.RealmList
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.TextStyle
 import org.threeten.bp.temporal.IsoFields
 import java.util.*
@@ -22,7 +21,7 @@ val appLocale = Locale("uk", "UA")
 val today: LocalDate = LocalDate.now()
 val todayName: String = today.dayOfWeek.getDisplayName(TextStyle.FULL, appLocale)
 val todayNumberInWeek = today.dayOfWeek.value.toString()
-val currentWeek = LocalDateTime.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2
+val currentWeek = today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2
 val isFirstWeek = currentWeek == 0
 
 
@@ -51,7 +50,7 @@ fun AppBarLayout.lockAppBar(locked: Boolean) {
         setExpanded(true, false)
         isActivated = true
         val lp = layoutParams as CoordinatorLayout.LayoutParams
-        lp.height = getResources().getDimension(R.dimen.header_size).toInt()
+        lp.height = resources.getDimension(R.dimen.header_size).toInt()
     }
 }
 

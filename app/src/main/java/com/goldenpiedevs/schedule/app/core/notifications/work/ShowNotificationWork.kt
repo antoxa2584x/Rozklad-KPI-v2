@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class ShowNotificationWork : Job() {
     override fun onRunJob(params: Params): Result {
-        (context as ScheduleApplication).appComponent.inject(this)
+        (context.applicationContext as ScheduleApplication).appComponent.inject(this)
 
         notificationManager.showNotification(params.extras.getString(LESSON_ID, ""))
         return Result.SUCCESS
@@ -18,7 +18,6 @@ class ShowNotificationWork : Job() {
 
     @Inject
     lateinit var notificationManager: NotificationManager
-
 
     companion object {
         const val TAG = "ShowNotificationWork"
@@ -29,7 +28,7 @@ class ShowNotificationWork : Job() {
                 putString(LESSON_ID, lessonId)
             }
 
-           return JobRequest.Builder(TAG)
+            return JobRequest.Builder(TAG)
                     .setExact(timeToNotify)
                     .setExtras(dataBuilder)
                     .build()

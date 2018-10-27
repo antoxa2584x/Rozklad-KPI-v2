@@ -1,7 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.view
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSmoothScroller
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -11,7 +10,7 @@ import android.util.AttributeSet
  * Created by Anton. A on 10.08.2018.
  * Version 1.0
  */
-class LinearLayoutManagerWithSmoothScroller : LinearLayoutManager {
+class LinearLayoutManagerWithSmoothScroller : PreloadLinearLayoutManager {
 
     constructor(context: Context) : super(context) {}
 

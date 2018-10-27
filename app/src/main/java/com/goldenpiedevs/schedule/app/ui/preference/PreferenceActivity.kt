@@ -30,5 +30,7 @@ class PreferenceActivity : BaseActivity<PreferencePresenter, PreferenceView>(), 
 
     override fun onBackPressed() {
         presenter.onBackPressed()
+        overridePendingTransition(0, R.anim.slide_out)
+
     }
 }

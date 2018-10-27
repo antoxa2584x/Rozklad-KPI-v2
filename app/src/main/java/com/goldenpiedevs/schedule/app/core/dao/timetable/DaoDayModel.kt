@@ -44,7 +44,7 @@ open class DaoDayModel : RealmObject() {
                 }
 
             list.groupBy { it.lessonWeek.toInt() }.forEach { (weekNum, weekLessonsList) ->
-                weekLessonsList.groupBy { it.dayNumber.toInt() }.forEach { (dayNum, dayLessonsList) ->
+                weekLessonsList.asSequence().sortedBy { it.lessonNumber }.groupBy { it.dayNumber.toInt() }.forEach { (dayNum, dayLessonsList) ->
                     val model = realm.where(DaoDayModel::class.java).equalTo("parentGroup", groupName)
                             .equalTo("dayNumber", dayNum.toString())
                             .equalTo("weekNumber", weekNum.toString()).findFirst()
@@ -77,7 +77,7 @@ open class DaoDayModel : RealmObject() {
             val realm = Realm.getDefaultInstance()
 
             key.groupBy { it.lessonWeek.toInt() }.forEach { (weekNum, weekLessonsList) ->
-                weekLessonsList.groupBy { it.dayNumber.toInt() }.forEach { (dayNum, dayLessonsList) ->
+                weekLessonsList.asSequence().sortedBy { it.lessonNumber }.groupBy { it.dayNumber.toInt() }.forEach { (dayNum, dayLessonsList) ->
                     val model = realm.where(DaoDayModel::class.java).equalTo("parentTeacherId", teacherId.toString())
                             .equalTo("dayNumber", dayNum.toString())
                             .equalTo("weekNumber", weekNum.toString()).findFirst()

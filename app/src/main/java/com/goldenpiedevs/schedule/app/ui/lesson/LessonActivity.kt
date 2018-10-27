@@ -101,6 +101,11 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(0, R.anim.slide_out)
+    }
+
     override fun onDestroy() {
         map.overlays.remove(startMarker)
         startMarker = null

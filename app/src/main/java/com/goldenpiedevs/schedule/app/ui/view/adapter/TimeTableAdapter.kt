@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.ui.view.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
@@ -10,16 +9,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
-import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.getDayDate
 import com.goldenpiedevs.schedule.app.core.ext.context
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayNumberInWeek
-import io.realm.RealmList
-import kotlinx.android.synthetic.main.timetable_card_content.view.*
 import kotlinx.android.synthetic.main.timetable_list_item.view.*
 import kotlinx.android.synthetic.main.timetable_week_name_layout.view.*
 
@@ -63,9 +58,19 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
                 list.apply {
                     setRecycledViewPool(viewPool)
                     addItemDecoration(itemDecorator)
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false).apply {
-                        isItemPrefetchEnabled = true
-                        initialPrefetchItemCount = 3
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                            .apply {
+                                isItemPrefetchEnabled = true
+                                initialPrefetchItemCount = 6
+                            }
+
+                    adapter = LessonsAdapter { listener(it) }
+                    setItemViewCacheSize(6)
+                    isDrawingCacheEnabled = true
+                    drawingCacheQuality = View.DRAWING_CACHE_QUALITY_LOW
+
+                    if (!hasObservers()) {
+                        setHasStableIds(true)
                     }
                 }
             }
@@ -94,9 +99,9 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
                 (holder as DayViewHolder).apply {
                     dayName.text = day.dayName
 
-                    list.adapter = LessonsAdapter(day.lessons) { listener(it) }
+                    (list.adapter as LessonsAdapter).data = day.lessons
 
-                    dayDate.text = day.lessons.first()!!.getDayDate()
+                    dayDate.text = day.lessons.first()?.getDayDate()
 
                     //Many if statements for more performance of View's
                     if (day.dayNumber == todayNumberInWeek &&
@@ -127,29 +132,6 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
                     }
                 }
             }
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun populateLessons(list: LinearLayout, lessons: RealmList<DaoLessonModel>) {
-        if (list.childCount != 0)
-            list.removeAllViews()
-
-        for (lesson in lessons) {
-            val view = LayoutInflater.from(list.context).inflate(R.layout.timetable_card_content, list, false)
-
-            view.apply {
-                with(lesson) {
-                    currentLesson.visibility = if (hasNote) View.VISIBLE else View.INVISIBLE
-                    lessonTitle.text = lessonName
-                    time.text = lesson.getTime()
-                    location.text = "$lessonRoom $lessonType"
-                    this@apply.lessonNumber.text = lessonNumber
-                    setOnClickListener { listener(id) }
-                }
-            }
-
-            list.addView(view)
         }
     }
 

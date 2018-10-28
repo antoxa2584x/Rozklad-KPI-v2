@@ -11,11 +11,15 @@ import kotlinx.android.synthetic.main.timetable_card_content.view.*
 
 class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
     lateinit var listener: (String) -> Unit
-    lateinit var data: List<DaoLessonModel>
 
-    constructor(data: List<DaoLessonModel>, listener: (String) -> Unit) : this() {
+    var data: List<DaoLessonModel> = listOf()
+        set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
+
+    constructor(listener: (String) -> Unit) : this() {
         this.listener = listener
-        this.data = data
     }
 
     override fun getItemCount(): Int = data.size
@@ -31,7 +35,7 @@ class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
 
         holder.apply {
             hasNote.visibility = if (model.hasNote) View.VISIBLE else View.INVISIBLE
-            lessonTitle.text = model.lessonFullName
+            lessonTitle.text = model.lessonName
             time.text = model.getTime()
             location.text = "${model.lessonRoom} ${model.lessonType}"
             number.text = model.lessonNumber

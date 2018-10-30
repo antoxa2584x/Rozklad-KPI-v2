@@ -50,33 +50,12 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
     override fun getItemCount(): Int = data.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when (viewType) {
-            TITLE -> return TitleViewHolder(LayoutInflater.from(parent.context)
+        return when (viewType) {
+            TITLE -> TitleViewHolder(LayoutInflater.from(parent.context)
                     .inflate(R.layout.timetable_week_name_layout, parent, false))
-            DAY -> return DayViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.timetable_list_item, parent, false)).apply {
-                list.apply {
-                    setRecycledViewPool(viewPool)
-                    addItemDecoration(itemDecorator)
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                            .apply {
-                                isItemPrefetchEnabled = true
-                                initialPrefetchItemCount = 6
-                            }
-
-                    adapter = LessonsAdapter { listener(it) }
-                    setItemViewCacheSize(6)
-                    isDrawingCacheEnabled = true
-                    drawingCacheQuality = View.DRAWING_CACHE_QUALITY_LOW
-
-                    if (!hasObservers()) {
-                        setHasStableIds(true)
-                    }
-                }
-            }
+            else -> DayViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.timetable_list_item, parent, false), viewPool, itemDecorator, listener)
         }
-        @Suppress("UNREACHABLE_CODE")
-        return null!!
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -88,8 +67,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
             TITLE -> {
                 (holder as TitleViewHolder).apply {
                     title.text = context.getText(
-                            if (position == 0) R.string.first_week
-                            else R.string.second_week)
+                            if (position == 0) R.string.first_week else R.string.second_week)
                 }
             }
 
@@ -149,11 +127,37 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
         notifyDataSetChanged()
     }
 
-    class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    internal class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title = view.title!!
     }
 
-    class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    internal class DayViewHolder(view: View, viewPool: RecyclerView.RecycledViewPool?,
+                                 itemDecorator: RecyclerView.ItemDecoration,
+                                 listener: (String) -> Unit) : RecyclerView.ViewHolder(view) {
+
+        init {
+            view.list!!.apply {
+                setRecycledViewPool(viewPool)
+                addItemDecoration(itemDecorator)
+
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                        .apply {
+                            isItemPrefetchEnabled = true
+                            initialPrefetchItemCount = 6
+                        }
+
+                adapter = LessonsAdapter { listener(it) }.apply {
+                    if (!hasObservers()) {
+                        setHasStableIds(true)
+                    }
+                }
+
+                setItemViewCacheSize(6)
+                isDrawingCacheEnabled = true
+                drawingCacheQuality = View.DRAWING_CACHE_QUALITY_LOW
+            }
+        }
+
         val dayName = view.dayName!!
         val dayDate = view.dayDate!!
         val list = view.list!!

@@ -45,6 +45,8 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun showCurrentDayTitle() {
+        view.setActivitySubtitle(AppPreference.groupName.toUpperCase())
+
         with(view) {
             //String immutable, seems it does not like apply
             var title = todayName

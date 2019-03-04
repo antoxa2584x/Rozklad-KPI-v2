@@ -13,10 +13,9 @@ import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationMana
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.NotificationPreference
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupActivity
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.indeterminateProgressDialog
 import javax.inject.Inject
 

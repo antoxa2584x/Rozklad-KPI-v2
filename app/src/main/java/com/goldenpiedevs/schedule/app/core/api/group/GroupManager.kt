@@ -1,7 +1,7 @@
 package com.goldenpiedevs.schedule.app.core.api.group
 
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class GroupManager(private var groupService: GroupService) {
     fun autocomplete(query: String) =

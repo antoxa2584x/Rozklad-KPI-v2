@@ -25,8 +25,8 @@ import com.goldenpiedevs.schedule.app.core.utils.NotificationPreference
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation.Companion.LESSON_ID
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
 import io.realm.Realm
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
-import kotlinx.android.synthetic.main.timetable_card_content.view.*
+import kotlinx.android.synthetic.main.day_list_lesson_item.view.*
 
 class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
     lateinit var listener: (String) -> Unit
@@ -26,7 +26,7 @@ class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): ViewHolder {
         return LessonsAdapter.ViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.timetable_card_content, parent, false))
+                .inflate(R.layout.day_list_lesson_item, parent, false))
     }
 
     @SuppressLint("SetTextI18n")

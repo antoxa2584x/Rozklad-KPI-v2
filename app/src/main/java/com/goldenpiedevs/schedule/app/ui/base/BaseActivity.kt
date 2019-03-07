@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.getStatusBarHeight
-import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import com.goldenpiedevs.schedule.app.ui.view.hideSoftKeyboard
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.indeterminateProgressDialog

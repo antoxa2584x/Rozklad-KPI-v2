@@ -31,14 +31,6 @@ val AppCompatActivity.app: ScheduleApplication
 val RecyclerView.ViewHolder.context: Context
     get() = itemView.context
 
-fun Activity.hideSoftKeyboard() {
-    currentFocus?.apply {
-        val inputMethodManager = getSystemService(Context
-                .INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-    }
-}
-
 fun AppBarLayout.lockAppBar(locked: Boolean) {
     if (locked) {
         setExpanded(false, true)

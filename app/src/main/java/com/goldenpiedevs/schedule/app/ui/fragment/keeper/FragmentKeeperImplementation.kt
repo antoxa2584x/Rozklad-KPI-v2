@@ -31,7 +31,6 @@ class FragmentKeeperImplementation : BasePresenterImpl<FragmentKeeperView>(), Fr
     private fun showTeacherTimeTableFragment(string: String) {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, TimeTableFragment.getInstance(string))
-                .addToBackStack(null)
                 .commit()
     }
 }

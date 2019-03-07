@@ -4,6 +4,8 @@ import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.group.GroupService
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsService
+import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
+import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersService
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import dagger.Module
 import dagger.Provides
@@ -14,6 +16,10 @@ object NetworkManagerModule {
     @Provides
     @Reusable
     fun provideGroupManager(groupService: GroupService) = GroupManager(groupService)
+
+    @Provides
+    @Reusable
+    fun provideTeachersManager(teachersService: TeachersService) = TeachersManager(teachersService)
 
     @Provides
     @Reusable

@@ -10,18 +10,18 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
 class LessonsManager(private val lessonsService: LessonsService, private val groupManager: GroupManager, private val notificationManager: NotificationManager) {
-    fun loadTimeTable(groupID: String): Deferred<Boolean> = GlobalScope.async {
+    fun loadTimeTableAsync(groupID: String): Deferred<Boolean> = GlobalScope.async {
         val response = lessonsService.getGroupTimeTable(groupID).await()
 
         if (response.isSuccessful) {
-            val group = groupManager.getGroupInfo(groupID).await()
+            val group = groupManager.getGroupInfoAsync(groupID).await()
 
             response.body()?.let {
                 DaoDayModel.saveGroupTimeTable(it.data!!, group!!.groupFullName, notificationManager)
             } ?: return@async false
 
             AppPreference.apply {
-                group?.let { it ->
+                group?.let {
                     isFirstLaunch = false
                     groupName = it.groupFullName
                     groupId = it.groupId
@@ -33,9 +33,9 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
         response.isSuccessful
     }
 
-    fun loadTimeTable(groupID: Int) = loadTimeTable(groupID.toString())
+    fun loadTimeTableAsync(groupID: Int) = loadTimeTableAsync(groupID.toString())
 
-    fun loadTeacherTimeTable(teacherId: Int): Deferred<Boolean> = GlobalScope.async {
+    fun loadTeacherTimeTableAsync(teacherId: Int): Deferred<Boolean> = GlobalScope.async {
         val response = lessonsService.getTeacherTimeTable(teacherId).await()
 
         if (response.isSuccessful) {

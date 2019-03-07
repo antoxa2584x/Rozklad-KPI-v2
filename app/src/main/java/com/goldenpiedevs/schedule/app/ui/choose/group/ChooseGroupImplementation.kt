@@ -18,6 +18,7 @@ import android.widget.TextView
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
+import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
@@ -43,6 +44,8 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     lateinit var groupManager: GroupManager
     @Inject
     lateinit var lessonsManager: LessonsManager
+    @Inject
+    lateinit var teachersManager: TeachersManager
 
     private lateinit var autoCompleteTextView: AutoCompleteTextView
 
@@ -157,12 +160,14 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
         view.showProgressDialog()
 
         GlobalScope.launch {
-            val isSuccessful = lessonsManager.loadTimeTable(groupId).await()
+            val successfulList = mutableListOf(false, false)
+            successfulList[0] = lessonsManager.loadTimeTableAsync(groupId).await()
+            successfulList[1] = teachersManager.loadTeachersAsync(groupId).await()
 
             launch(Dispatchers.Main) {
                 view.dismissProgressDialog()
 
-                if (isSuccessful) {
+                if (successfulList.all { it }) {
                     showMainScreen()
                 } else {
                     view.onError()

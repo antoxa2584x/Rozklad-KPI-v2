@@ -103,7 +103,6 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(0, R.anim.slide_out)
     }
 
     override fun onDestroy() {

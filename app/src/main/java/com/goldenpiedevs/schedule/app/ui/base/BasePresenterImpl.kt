@@ -5,6 +5,7 @@ import com.goldenpiedevs.schedule.app.core.injection.component.AppComponent
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupImplementation
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import com.goldenpiedevs.schedule.app.ui.main.MainImplementation
+import com.goldenpiedevs.schedule.app.ui.teachers.TeachersImplementation
 import io.reactivex.disposables.CompositeDisposable
 
 
@@ -39,6 +40,7 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V> {
             is ChooseGroupImplementation -> injector.inject(this)
             is MainImplementation -> injector.inject(this)
             is LessonImplementation -> injector.inject(this)
+            is TeachersImplementation -> injector.inject(this)
         }
     }
 }

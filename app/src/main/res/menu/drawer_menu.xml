@@ -6,6 +6,10 @@
             android:icon="@drawable/ic_assignment"
             android:title="@string/timetable" />
         <item
+            android:id="@+id/teachers"
+            android:icon="@drawable/ic_person"
+            android:title="@string/teachers" />
+        <item
             android:id="@+id/map"
             android:icon="@drawable/ic_map"
             android:title="@string/map" />

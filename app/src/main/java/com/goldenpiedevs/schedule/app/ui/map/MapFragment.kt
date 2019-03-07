@@ -5,10 +5,10 @@ import android.view.View
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.map_activity_layout.*
+import kotlinx.android.synthetic.main.map_fragment_layout.*
 
 class MapFragment : BaseFragment(), MapView {
-    override fun getFragmentLayout(): Int = R.layout.map_activity_layout
+    override fun getFragmentLayout(): Int = R.layout.map_fragment_layout
 
     private lateinit var presenter: MapPresenter
 

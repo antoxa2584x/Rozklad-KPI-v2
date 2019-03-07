@@ -105,7 +105,6 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     override fun onLessonClicked(id: String) {
         with(view.getContext() as AppCompatActivity) {
             startActivity<LessonActivity>(LessonImplementation.LESSON_ID to id)
-            overridePendingTransition(R.anim.slide_in, 0)
         }
     }
 

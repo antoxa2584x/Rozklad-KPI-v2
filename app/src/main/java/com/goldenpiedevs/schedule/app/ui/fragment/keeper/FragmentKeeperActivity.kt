@@ -36,6 +36,7 @@ class FragmentKeeperActivity : BaseActivity<FragmentKeeperPresenter, FragmentKee
     }
 
     override fun onBackPressed() {
+        supportFragmentManager.popBackStack()
         finish()
     }
 }

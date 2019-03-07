@@ -1,4 +1,4 @@
-package com.goldenpiedevs.schedule.app.ui.view.adapter
+package com.goldenpiedevs.schedule.app.ui.timetable.adapter
 
 import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView

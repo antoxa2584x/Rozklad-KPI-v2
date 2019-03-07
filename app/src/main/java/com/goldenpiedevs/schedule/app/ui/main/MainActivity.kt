@@ -111,9 +111,14 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
                     showMenu = false
                     presenter.onMapClick()
                 }
+                R.id.teachers -> {
+                    showMenu = false
+                    presenter.onTeachersClick()
+                }
             }
             invalidateOptionsMenu()
         }
+
 
         return true
     }
@@ -156,9 +161,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         outState.putBoolean(SHOW_MENU, showMenu)
     }
 
-    override fun toggleToolbarCollapseMode(isCollapsing: Boolean) {
-
-    }
+    override fun toggleToolbarCollapseMode(isCollapsing: Boolean) {}
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START) && !navView.menu.getItem(0).isChecked) {

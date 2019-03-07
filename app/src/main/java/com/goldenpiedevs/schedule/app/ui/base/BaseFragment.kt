@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.goldenpiedevs.schedule.app.ui.view.hideSoftKeyboard
 import java.util.concurrent.atomic.AtomicLong
 
 abstract class BaseFragment : Fragment(), BaseView {
@@ -43,7 +44,10 @@ abstract class BaseFragment : Fragment(), BaseView {
     }
 
     override fun showProgressDialog() {
-        if (isAdded) (activity as BaseActivity<*, *>).showProgressDialog()
+        if (isAdded) {
+            hideSoftKeyboard()
+            (activity as BaseActivity<*, *>).showProgressDialog()
+        }
 
     }
 

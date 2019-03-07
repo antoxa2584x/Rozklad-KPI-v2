@@ -1,10 +1,14 @@
 package com.goldenpiedevs.schedule.app.core.dao.timetable
 
+import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import com.google.gson.annotations.SerializedName
 import io.realm.Realm
 import io.realm.RealmObject
+import io.realm.RealmResults
+import io.realm.annotations.LinkingObjects
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
+
 
 @RealmClass
 open class DaoTeacherModel : RealmObject() {
@@ -16,14 +20,24 @@ open class DaoTeacherModel : RealmObject() {
     var teacherFullName: String = ""
     @SerializedName("teacher_name")
     var teacherName: String = ""
+        get() {
+            return if (Character.isLowerCase(field.toCharArray()[0])) {
+                field.substringAfter(" ")
+            } else
+                field
+        }
+
     @SerializedName("teacher_url")
     var teacherUrl: String = ""
     @SerializedName("teacher_rating")
-    var teacherRating: String = ""
+    var teacherRating: Float = 0.0f
     @SerializedName("teacher_short_name")
     var teacherShortName: String = ""
 
     var hasLoadedSchedule = false
+
+    @LinkingObjects("teachers")
+    private val groups: RealmResults<DaoGroupModel>? = null
 
     companion object {
         fun getTeacher(id: Int): DaoTeacherModel {

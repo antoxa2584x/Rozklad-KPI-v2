@@ -7,7 +7,7 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
 import com.goldenpiedevs.schedule.app.ui.view.LinearLayoutManagerWithSmoothScroller
-import com.goldenpiedevs.schedule.app.ui.view.adapter.TimeTableAdapter
+import com.goldenpiedevs.schedule.app.ui.timetable.adapter.TimeTableAdapter
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.recyler_view_layout.*
 import kotlinx.android.synthetic.main.toolbar.*

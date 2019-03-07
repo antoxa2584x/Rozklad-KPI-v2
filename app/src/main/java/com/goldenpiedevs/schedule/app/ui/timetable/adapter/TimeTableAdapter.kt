@@ -1,4 +1,4 @@
-package com.goldenpiedevs.schedule.app.ui.view.adapter
+package com.goldenpiedevs.schedule.app.ui.timetable.adapter
 
 import android.content.Context
 import android.graphics.Color

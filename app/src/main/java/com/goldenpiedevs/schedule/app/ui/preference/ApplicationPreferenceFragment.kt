@@ -60,7 +60,7 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
                 val dialog = activity?.indeterminateProgressDialog("Оновлення розкладу")
 
                 GlobalScope.launch {
-                    lessonsManager.loadTimeTable(AppPreference.groupId).await()
+                    lessonsManager.loadTimeTableAsync(AppPreference.groupId).await()
 
                     launch(Dispatchers.Main) {
                         dialog?.dismiss()

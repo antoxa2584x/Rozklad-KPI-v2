@@ -120,7 +120,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
         view.showProgressDialog()
 
         GlobalScope.launch {
-            val result = lessonsManager.loadTeacherTimeTable(teacherId.toInt()).await()
+            val result = lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()).await()
             launch(Dispatchers.Main) {
                 view.dismissProgressDialog()
 

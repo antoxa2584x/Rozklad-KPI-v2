@@ -9,9 +9,11 @@ import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
+import com.goldenpiedevs.schedule.app.ui.teachers.TeachersFragment
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 import org.jetbrains.anko.startActivity
 import java.util.*
@@ -58,15 +60,18 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun onMapClick() {
+        changeFragment(MapFragment())
+    }
+
+    private fun <T : BaseFragment> changeFragment(fragment: T) {
         navigationView.setCheckedItem(R.id.timetable)
         view.toggleToolbarCollapseMode(false)
 
         supportFragmentManager.beginTransaction()
-                .add(container, MapFragment())
+                .add(container, fragment)
                 .addToBackStack(null)
                 .commit()
     }
-
     override fun onCalendarOpen(firstDayOfNewMonth: Date) {
         with(view) {
             setActivityTitle(getContext().resources.getStringArray(R.array.months)[firstDayOfNewMonth.getCurrentMonth()])
@@ -86,13 +91,12 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         Timer().schedule(200) {
             with(view.getContext() as AppCompatActivity) {
                 startActivity<PreferenceActivity>()
-                overridePendingTransition(R.anim.slide_in, 0)
             }
         }
     }
 
     override fun onTeachersClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        changeFragment(TeachersFragment())
     }
 
     override fun onResume() {

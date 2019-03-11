@@ -30,4 +30,5 @@
     <string name="update_timetable">Оновити розклад</string>
     <string name="update_timetable_key">update_timetable_key</string>
     <string name="change_group_key">change_group_key</string>
+    <string name="no_lessons_today">Сьогоднi пар нема</string>
 </resources>

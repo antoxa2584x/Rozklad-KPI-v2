@@ -2,6 +2,7 @@ package com.goldenpiedevs.schedule.app.core.dao.timetable
 
 import com.evernote.android.job.JobManager
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
+import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import com.google.gson.annotations.SerializedName
 import io.realm.Realm
 import io.realm.RealmList

@@ -22,6 +22,7 @@ import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import com.jakewharton.rxbinding2.widget.RxAutoCompleteTextView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
@@ -169,6 +170,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
 
                 if (successfulList.all { it }) {
                     showMainScreen()
+                    ScheduleWidgetProvider.updateWidget(view.getContext())
                 } else {
                     view.onError()
                 }

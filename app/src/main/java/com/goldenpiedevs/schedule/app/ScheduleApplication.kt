@@ -7,6 +7,7 @@ import com.evernote.android.job.JobManager
 import com.goldenpiedevs.schedule.app.core.injection.component.AppComponent
 import com.goldenpiedevs.schedule.app.core.injection.component.DaggerAppComponent
 import com.goldenpiedevs.schedule.app.core.injection.module.*
+import com.goldenpiedevs.schedule.app.core.notifications.work.UpdateWidgetWork
 import com.goldenpiedevs.schedule.app.core.utils.AppJobCreator
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.fabric.sdk.android.Fabric
@@ -36,6 +37,7 @@ class ScheduleApplication : MultiDexApplication() {
         Fabric.with(this, Crashlytics())
 
         JobManager.create(this).addJobCreator(AppJobCreator())
+        UpdateWidgetWork.enqueueWork()
 
         Kotpref.init(this)
         AndroidThreeTen.init(this)

@@ -51,7 +51,7 @@
             android:enabled="true"
             tools:replace="android:enabled" />
 
-        <receiver android:name=".ui.widget.CollectionWidget">
+        <receiver android:name=".ui.widget.ScheduleWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

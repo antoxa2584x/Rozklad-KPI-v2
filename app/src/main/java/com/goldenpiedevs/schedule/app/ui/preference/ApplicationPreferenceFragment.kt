@@ -13,6 +13,7 @@ import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationMana
 import com.goldenpiedevs.schedule.app.core.utils.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.NotificationPreference
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupActivity
+import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,6 +65,7 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
 
                     launch(Dispatchers.Main) {
                         dialog?.dismiss()
+                        ScheduleWidgetProvider.updateWidget(context)
                     }
                 }
                 true

@@ -19,7 +19,7 @@ import java.util.*
  * WidgetDataProvider acts as the adapter for the collection view widget,
  * providing RemoteViews to the widget in the getViewAt method.
  */
-class WidgetDataProvider(val context: Context, intent: Intent) : RemoteViewsService.RemoteViewsFactory {
+class WidgetDataProvider(val context: Context) : RemoteViewsService.RemoteViewsFactory {
 
     private var mCollection: MutableList<DaoLessonModel> = ArrayList()
     private var mContext: Context? = null

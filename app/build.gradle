@@ -22,7 +22,7 @@ android {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "HOST", "\"http://api.rozklad.org.ua/v2/\""
+            buildConfigField "String", "HOST", "\"https://api.rozklad.org.ua/v2/\""
         }
         release {
             minifyEnabled false

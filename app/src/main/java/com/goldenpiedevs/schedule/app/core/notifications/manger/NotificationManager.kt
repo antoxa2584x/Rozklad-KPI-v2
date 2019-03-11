@@ -19,9 +19,9 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.dateFormat
 import com.goldenpiedevs.schedule.app.core.dao.timetable.getDayDate
-import com.goldenpiedevs.schedule.app.core.notifications.work.ShowNotificationWork
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
-import com.goldenpiedevs.schedule.app.core.utils.NotificationPreference
+import com.goldenpiedevs.schedule.app.core.utils.work.ShowNotificationWork
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.UserPreference
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation.Companion.LESSON_ID
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
 import io.realm.Realm
@@ -50,7 +50,7 @@ class NotificationManager(private val context: Context) {
                 val time = LocalTime.parse(lesson.timeStart, DateTimeFormatter.ofPattern("HH:mm"))
                 val date = LocalDate.parse(lesson.getDayDate(), dateFormat)
                 val lessonDateTime = LocalDateTime.of(date, time)
-                        .minusMinutes(NotificationPreference.notificationDelay.toLong())
+                        .minusMinutes(UserPreference.notificationDelay.toLong())
 
                 var timeToNotify = ChronoUnit.MILLIS.between(LocalDateTime.now(), lessonDateTime)
                 if (timeToNotify < 0)
@@ -80,7 +80,7 @@ class NotificationManager(private val context: Context) {
 
         if (!lessonModel.showNotification ||
                 lessonModel.groupId != AppPreference.groupId.toString() ||
-                !NotificationPreference.showNotification)
+                !UserPreference.showNotification)
             return
 
         val builder: NotificationCompat.Builder = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

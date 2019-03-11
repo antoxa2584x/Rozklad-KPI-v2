@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.injection.module
 
+import android.annotation.SuppressLint
 import com.goldenpiedevs.schedule.app.BuildConfig
 import com.goldenpiedevs.schedule.app.core.api.utils.CustomHttpLoggingInterceptor
 import com.goldenpiedevs.schedule.app.core.api.utils.ToJson
@@ -16,7 +17,12 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
+import java.security.cert.X509Certificate
 import javax.inject.Singleton
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSession
+import javax.net.ssl.X509TrustManager
 
 @Module
 object NetworkingConfigurationModule {
@@ -34,9 +40,47 @@ object NetworkingConfigurationModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(customHttpLoggingInterceptor: CustomHttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(customHttpLoggingInterceptor: CustomHttpLoggingInterceptor): OkHttpClient {
+        return getUnsafeOkHttpClient()
             .addNetworkInterceptor(customHttpLoggingInterceptor)
             .build()
+    }
+
+    @SuppressLint("TrustAllX509TrustManager")
+    private fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
+        try {
+            val trustAllCerts = arrayOf(object : X509TrustManager {
+                override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                }
+
+                override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> {
+                    return arrayOf()
+                }
+            })
+
+            // Install the all-trusting trust manager
+            val sslContext = SSLContext.getInstance("SSL")
+            sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+
+            // Create an ssl socket factory with our all-trusting manager
+            val sslSocketFactory = sslContext.socketFactory
+
+            val builder = OkHttpClient.Builder()
+            builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+            builder.hostnameVerifier(object : HostnameVerifier {
+                @SuppressLint("BadHostnameVerifier")
+                override fun verify(hostname: String, session: SSLSession): Boolean {
+                    return true
+                }
+            })
+            return builder
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+    }
 
     @Provides
     @Reusable

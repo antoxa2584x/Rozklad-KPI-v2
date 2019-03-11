@@ -1,9 +1,7 @@
-package com.goldenpiedevs.schedule.app.core.utils
+package com.goldenpiedevs.schedule.app.core.utils.work
 
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobCreator
-import com.goldenpiedevs.schedule.app.core.notifications.work.ShowNotificationWork
-import com.goldenpiedevs.schedule.app.core.notifications.work.UpdateWidgetWork
 
 
 /**

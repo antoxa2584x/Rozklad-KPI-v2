@@ -8,7 +8,7 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.*
 import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
 import com.goldenpiedevs.schedule.app.core.ext.isFirstWeek
 import com.goldenpiedevs.schedule.app.core.ext.today
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation

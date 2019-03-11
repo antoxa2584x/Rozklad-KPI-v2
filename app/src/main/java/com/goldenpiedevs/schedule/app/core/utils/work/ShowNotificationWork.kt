@@ -1,4 +1,4 @@
-package com.goldenpiedevs.schedule.app.core.notifications.work
+package com.goldenpiedevs.schedule.app.core.utils.work
 
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest

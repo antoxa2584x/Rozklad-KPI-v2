@@ -1,4 +1,4 @@
-package com.goldenpiedevs.schedule.app.core.utils
+package com.goldenpiedevs.schedule.app.core.utils.preference
 
 import com.chibatching.kotpref.KotprefModel
 

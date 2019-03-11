@@ -8,7 +8,7 @@ import com.goldenpiedevs.schedule.app.R.id.container
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
 import com.goldenpiedevs.schedule.app.core.ext.todayName
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment

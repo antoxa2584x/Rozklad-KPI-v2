@@ -3,7 +3,7 @@ package com.goldenpiedevs.schedule.app.ui.teachers
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.fragment.keeper.FragmentKeeperActivity
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment

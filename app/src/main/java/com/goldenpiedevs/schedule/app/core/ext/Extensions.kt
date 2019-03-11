@@ -1,15 +1,14 @@
 package com.goldenpiedevs.schedule.app.core.ext
 
-import android.app.Activity
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
-import android.view.inputmethod.InputMethodManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ScheduleApplication
+import com.goldenpiedevs.schedule.app.core.utils.preference.UserPreference
 import io.realm.RealmList
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.TextStyle
@@ -21,7 +20,7 @@ val appLocale = Locale("uk", "UA")
 val today: LocalDate = LocalDate.now()
 val todayName: String = today.dayOfWeek.getDisplayName(TextStyle.FULL, appLocale)
 val todayNumberInWeek = today.dayOfWeek.value.toString()
-val currentWeek = today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2
+val currentWeek = (today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2) xor if (UserPreference.reverseWeek) 1 else 0
 val isFirstWeek = currentWeek == 0
 
 
@@ -61,8 +60,5 @@ fun Context.getStatusBarHeight(): Int {
     }
     return result
 }
-
-fun <T> List<T>.toArrayList() = ArrayList<T>(this)
-fun <T> RealmList<T>.toArrayList() = ArrayList<T>(this)
 
 fun Date.getCurrentMonth() = Calendar.getInstance().apply { time = this@getCurrentMonth }.get(Calendar.MONTH)

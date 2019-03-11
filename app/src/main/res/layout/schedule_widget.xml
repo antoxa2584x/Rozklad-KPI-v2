@@ -55,7 +55,7 @@
         tools:listitem="@layout/widget_item_view"
         tools:visibility="gone" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:id="@+id/widget_list_empty_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -65,4 +65,4 @@
         android:textColor="@color/secondary_text"
         android:textSize="24sp"
         android:visibility="gone" />
-    </LinearLayout>
+</LinearLayout>

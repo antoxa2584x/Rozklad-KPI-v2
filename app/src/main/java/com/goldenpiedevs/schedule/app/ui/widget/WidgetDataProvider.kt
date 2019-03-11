@@ -10,7 +10,7 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.*
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayNumberInWeek
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import java.util.*

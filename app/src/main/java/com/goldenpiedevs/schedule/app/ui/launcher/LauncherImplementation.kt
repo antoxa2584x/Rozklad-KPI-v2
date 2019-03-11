@@ -2,7 +2,7 @@ package com.goldenpiedevs.schedule.app.ui.launcher
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupActivity
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity

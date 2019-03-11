@@ -7,8 +7,8 @@ import com.evernote.android.job.JobManager
 import com.goldenpiedevs.schedule.app.core.injection.component.AppComponent
 import com.goldenpiedevs.schedule.app.core.injection.component.DaggerAppComponent
 import com.goldenpiedevs.schedule.app.core.injection.module.*
-import com.goldenpiedevs.schedule.app.core.notifications.work.UpdateWidgetWork
-import com.goldenpiedevs.schedule.app.core.utils.AppJobCreator
+import com.goldenpiedevs.schedule.app.core.utils.work.UpdateWidgetWork
+import com.goldenpiedevs.schedule.app.core.utils.work.AppJobCreator
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.fabric.sdk.android.Fabric
 import io.github.inflationx.calligraphy3.CalligraphyConfig

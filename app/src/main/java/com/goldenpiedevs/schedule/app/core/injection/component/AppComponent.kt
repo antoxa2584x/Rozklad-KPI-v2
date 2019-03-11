@@ -1,7 +1,7 @@
 package com.goldenpiedevs.schedule.app.core.injection.component
 
 import com.goldenpiedevs.schedule.app.core.injection.module.*
-import com.goldenpiedevs.schedule.app.core.notifications.work.ShowNotificationWork
+import com.goldenpiedevs.schedule.app.core.utils.work.ShowNotificationWork
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupImplementation
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import com.goldenpiedevs.schedule.app.ui.main.MainImplementation

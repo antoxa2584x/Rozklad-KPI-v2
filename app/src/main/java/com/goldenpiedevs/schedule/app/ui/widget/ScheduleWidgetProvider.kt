@@ -10,12 +10,14 @@ import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import com.goldenpiedevs.schedule.app.R
-import com.goldenpiedevs.schedule.app.core.dao.timetable.*
+import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
+import com.goldenpiedevs.schedule.app.core.dao.timetable.forGroupWithName
+import com.goldenpiedevs.schedule.app.core.dao.timetable.forWeek
+import com.goldenpiedevs.schedule.app.core.dao.timetable.getLessons
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
-import com.goldenpiedevs.schedule.app.core.ext.today
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import com.goldenpiedevs.schedule.app.core.ext.todayNumberInWeek
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 
 
 class ScheduleWidgetProvider : AppWidgetProvider() {
@@ -54,7 +56,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         internal fun updateAppWidget(context: Context?, appWidgetManager: AppWidgetManager?,
                                      appWidgetId: Int) {
             context?.let {
-                with(RemoteViews(it.packageName, R.layout.collection_widget)) {
+                with(RemoteViews(it.packageName, R.layout.schedule_widget)) {
                     setRemoteAdapter(it, this)
                     appWidgetManager?.updateAppWidget(appWidgetId, this)
                 }
@@ -79,8 +81,10 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 views.setViewVisibility(R.id.widget_list_empty_view, View.VISIBLE)
             }
 
-            views.setTextViewText(R.id.widget_day_name, todayName)
-            views.setTextViewText(R.id.widget_day_date, today.format(dateFormat))
+            views.setTextViewText(R.id.widget_day_name,
+                    todayName.substring(0, 1).toUpperCase() + todayName.substring(1))
+            views.setTextViewText(R.id.widget_day_date,
+                    "${currentWeek + 1} ${context.getString(R.string.week)}")
         }
     }
 }

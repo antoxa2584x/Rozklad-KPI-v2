@@ -9,19 +9,22 @@
         <Preference
             android:key="@string/change_group_key"
             android:title="@string/change_group" />
+        <SwitchPreference
+            android:key="@string/user_preference_reverse_week_key"
+            android:title="@string/reverse_group_switch" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notifications">
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_notifications_none"
-            android:key="@string/notification_preference_show_notification_key"
+            android:key="@string/user_preference_show_notification_key"
             android:title="@string/show_notifications" />
 
         <ListPreference
             android:defaultValue="15"
             android:entries="@array/delays_text"
             android:entryValues="@array/delays"
-            android:key="@string/notification_preference_notification_delay_key"
+            android:key="@string/user_preference_notification_delay_key"
             android:summary="@string/fifteen_min"
             android:title="@string/notify_before_fore" />
     </PreferenceCategory>

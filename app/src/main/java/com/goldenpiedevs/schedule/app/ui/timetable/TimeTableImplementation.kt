@@ -1,8 +1,8 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.*
 import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
@@ -82,7 +82,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
 
     override fun onCalendarScroll(firstDayOfNewMonth: Date) {
         with(view) {
-            ((this as Fragment).activity as MainActivity).toolbar.title =
+            ((this as androidx.fragment.app.Fragment).activity as MainActivity).toolbar.title =
                     getContext().resources.getStringArray(R.array.months)[firstDayOfNewMonth.getCurrentMonth()]
         }
     }

@@ -2,15 +2,15 @@ package com.goldenpiedevs.schedule.app.ui.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.Nullable
-import android.support.v4.app.Fragment
+import androidx.annotation.Nullable
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.goldenpiedevs.schedule.app.ui.view.hideSoftKeyboard
 import java.util.concurrent.atomic.AtomicLong
 
-abstract class BaseFragment : Fragment(), BaseView {
+abstract class BaseFragment : androidx.fragment.app.Fragment(), BaseView {
     companion object {
         const val KEY_FRAGMENT_ID = "KEY_ACTIVITY_ID"
     }

@@ -1,15 +1,15 @@
 package com.goldenpiedevs.schedule.app.ui.preference
 
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 
 class PreferenceImplementation : BasePresenterImpl<PreferenceView>(), PreferencePresenter {
 
-    private lateinit var supportFragmentManager: FragmentManager
+    private lateinit var supportFragmentManager: androidx.fragment.app.FragmentManager
 
-    override fun setSupportFragmentManager(supportFragmentManager: FragmentManager) {
+    override fun setSupportFragmentManager(supportFragmentManager: androidx.fragment.app.FragmentManager) {
         this.supportFragmentManager = supportFragmentManager
     }
 

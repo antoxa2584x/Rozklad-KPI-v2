@@ -1,6 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.teachers.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +36,7 @@ class TeachersAdapter(collection: OrderedRealmCollection<DaoTeacherModel>, val o
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val teacherName = itemView.teachers_item_name
         val teacherPicture = itemView.teachers_item_picture
         val teacherPictureLetter = itemView.teachers_item_picture_letter

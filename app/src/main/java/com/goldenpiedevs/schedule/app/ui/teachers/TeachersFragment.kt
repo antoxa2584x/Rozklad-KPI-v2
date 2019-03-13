@@ -1,7 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.teachers
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
@@ -38,7 +38,7 @@ class TeachersFragment : BaseFragment(), TeachersView {
         }
 
         teachers_list.apply {
-            layoutManager = LinearLayoutManager(this@TeachersFragment.context)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@TeachersFragment.context)
             adapter = this@TeachersFragment.adapter
         }
     }

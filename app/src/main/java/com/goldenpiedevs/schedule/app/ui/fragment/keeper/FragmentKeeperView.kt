@@ -1,6 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.fragment.keeper
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.goldenpiedevs.schedule.app.ui.base.BaseView
 
 interface FragmentKeeperView : BaseView {

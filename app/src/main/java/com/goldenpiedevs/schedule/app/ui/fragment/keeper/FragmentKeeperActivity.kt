@@ -1,7 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.fragment.keeper
 
 import android.os.Bundle
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import com.r0adkll.slidr.Slidr

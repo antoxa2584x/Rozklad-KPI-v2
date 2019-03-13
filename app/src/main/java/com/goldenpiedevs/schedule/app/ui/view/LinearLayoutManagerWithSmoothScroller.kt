@@ -1,8 +1,8 @@
 package com.goldenpiedevs.schedule.app.ui.view
 
 import android.content.Context
-import android.support.v7.widget.LinearSmoothScroller
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 
 
 /**
@@ -11,13 +11,13 @@ import android.support.v7.widget.RecyclerView
  */
 class LinearLayoutManagerWithSmoothScroller(context: Context) : PreCachingLayoutManager(context) {
 
-    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State?, position: Int) {
+    override fun smoothScrollToPosition(recyclerView: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State?, position: Int) {
         val smoothScroller = CenterSmoothScroller(recyclerView.context)
         smoothScroller.targetPosition = position
         startSmoothScroll(smoothScroller)
     }
 
-    private class CenterSmoothScroller internal constructor(context: Context) : LinearSmoothScroller(context) {
+    private class CenterSmoothScroller internal constructor(context: Context) : androidx.recyclerview.widget.LinearSmoothScroller(context) {
 
         override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int {
             return boxStart + (boxEnd - boxStart) / 2 - (viewStart + (viewEnd - viewStart) / 2)

@@ -1,8 +1,8 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
-import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.FragmentManager
+import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.R.id.container
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
@@ -21,10 +21,10 @@ import kotlin.concurrent.schedule
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
-    private lateinit var supportFragmentManager: FragmentManager
+    private lateinit var supportFragmentManager: androidx.fragment.app.FragmentManager
     private lateinit var navigationView: NavigationView
 
-    override fun setSupportFragmentManager(supportFragmentManager: FragmentManager) {
+    override fun setSupportFragmentManager(supportFragmentManager: androidx.fragment.app.FragmentManager) {
         this.supportFragmentManager = supportFragmentManager
     }
 

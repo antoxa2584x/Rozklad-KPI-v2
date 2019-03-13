@@ -1,7 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
@@ -37,7 +37,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     override fun showLessonName(string: String) {
-        lessonTitle.text = string
+        widget_lesson_title.text = string
     }
 
     override fun showLessonTeachers(string: String) {
@@ -48,7 +48,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     override fun showLessonRoom(string: String) {
-        location.apply {
+        widget_lesson_location.apply {
             visibility = View.VISIBLE
             subText = string
         }
@@ -85,7 +85,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     override fun showLessonTime(string: String) {
-        time.apply {
+        widget_lesson_time.apply {
             visibility = View.VISIBLE
             text = string
         }

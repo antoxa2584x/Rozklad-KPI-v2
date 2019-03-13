@@ -1,7 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.timetable.adapter
 
 import android.annotation.SuppressLint
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import kotlinx.android.synthetic.main.day_list_lesson_item.view.*
 
-class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
+class LessonsAdapter() : androidx.recyclerview.widget.RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
     lateinit var listener: (String) -> Unit
 
     var data: List<DaoLessonModel> = listOf()
@@ -43,12 +42,12 @@ class LessonsAdapter() : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
         }
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val hasNote = itemView.currentLesson!!
-        val number = itemView.lessonNumber!!
-        val lessonTitle = itemView.lessonTitle!!
-        val time = itemView.time!!
-        val location = itemView.location!!
+    class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+        val hasNote = itemView.widget_current_lesson!!
+        val number = itemView.widget_lesson_number!!
+        val lessonTitle = itemView.widget_lesson_title!!
+        val time = itemView.widget_lesson_time!!
+        val location = itemView.widget_lesson_location!!
     }
 }
 

@@ -1,6 +1,6 @@
 package com.goldenpiedevs.schedule.app
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.chibatching.kotpref.Kotpref
 import com.crashlytics.android.Crashlytics
 import com.evernote.android.job.JobManager

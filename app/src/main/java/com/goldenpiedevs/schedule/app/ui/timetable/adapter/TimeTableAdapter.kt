@@ -2,10 +2,10 @@ package com.goldenpiedevs.schedule.app.ui.timetable.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.timetable_list_item.view.*
 import kotlinx.android.synthetic.main.timetable_week_name_layout.view.*
 
 
-class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     companion object {
         const val TITLE = 1
@@ -30,9 +30,9 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
 
     private var primaryColor: Int = 0
     private var secondaryColor: Int = 0
-    private var viewPool = RecyclerView.RecycledViewPool()
+    private var viewPool = androidx.recyclerview.widget.RecyclerView.RecycledViewPool()
 
-    private lateinit var itemDecorator: DividerItemDecoration
+    private lateinit var itemDecorator: androidx.recyclerview.widget.DividerItemDecoration
 
     constructor(data: MutableList<DaoDayModel>, context: Context, listener: (String) -> Unit) : this(data) {
         this.listener = listener
@@ -42,14 +42,14 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
             secondaryColor = ContextCompat.getColor(this, R.color.secondary_text)
         }
 
-        itemDecorator = DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+        itemDecorator = androidx.recyclerview.widget.DividerItemDecoration(context, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL).apply {
             setDrawable(ContextCompat.getDrawable(context, R.drawable.divider)!!)
         }
     }
 
     override fun getItemCount(): Int = data.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return when (viewType) {
             TITLE -> TitleViewHolder(LayoutInflater.from(parent.context)
                     .inflate(R.layout.timetable_week_name_layout, parent, false))
@@ -62,7 +62,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
         return if (data[position].dayNumber.toInt() == -1) TITLE else DAY
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             TITLE -> {
                 (holder as TitleViewHolder).apply {
@@ -127,20 +127,20 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : RecyclerView.Adapte
         notifyDataSetChanged()
     }
 
-    internal class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    internal class TitleViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val title = view.title!!
     }
 
-    internal class DayViewHolder(view: View, viewPool: RecyclerView.RecycledViewPool?,
-                                 itemDecorator: RecyclerView.ItemDecoration,
-                                 listener: (String) -> Unit) : RecyclerView.ViewHolder(view) {
+    internal class DayViewHolder(view: View, viewPool: androidx.recyclerview.widget.RecyclerView.RecycledViewPool?,
+                                 itemDecorator: androidx.recyclerview.widget.RecyclerView.ItemDecoration,
+                                 listener: (String) -> Unit) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
         init {
             view.list!!.apply {
                 setRecycledViewPool(viewPool)
                 addItemDecoration(itemDecorator)
 
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
                         .apply {
                             isItemPrefetchEnabled = true
                             initialPrefetchItemCount = 6

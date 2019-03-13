@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:background="@color/background_material_light"
     android:orientation="vertical">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
@@ -21,8 +21,8 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/lessonTitle"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/widget_lesson_title"
                 style="@style/TextAppearance.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,8 +31,8 @@
                 android:textSize="24sp"
                 tools:text="@tools:sample/lorem" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/time"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/widget_lesson_time"
                 style="@style/TextAppearance.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,16 +67,16 @@
                 tools:visibility="visible" />
 
             <com.goldenpiedevs.schedule.app.ui.view.LessonItemView
-                android:id="@+id/location"
+                android:id="@+id/widget_lesson_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/time"
+                app:layout_constraintTop_toBottomOf="@+id/widget_lesson_time"
                 app:liv_icon="@drawable/ic_place"
                 app:liv_title="@string/location"
                 tools:visibility="visible" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -88,23 +88,23 @@
                     android:visibility="gone"
                     app:layout_constraintDimensionRatio="H,16:8"
                     tools:visibility="visible" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_material_light"
         app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/Toolbar.Theme.White"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </android.support.design.widget.AppBarLayout>
-</android.support.design.widget.CoordinatorLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

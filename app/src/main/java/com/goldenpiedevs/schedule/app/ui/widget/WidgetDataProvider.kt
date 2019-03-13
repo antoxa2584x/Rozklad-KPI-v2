@@ -11,7 +11,6 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.*
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayNumberInWeek
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
-import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import java.util.*
 
@@ -22,11 +21,6 @@ import java.util.*
 class WidgetDataProvider(val context: Context) : RemoteViewsService.RemoteViewsFactory {
 
     private var mCollection: MutableList<DaoLessonModel> = ArrayList()
-    private var mContext: Context? = null
-
-    init {
-        mContext = context
-    }
 
     override fun onCreate() {
         initData()
@@ -45,20 +39,26 @@ class WidgetDataProvider(val context: Context) : RemoteViewsService.RemoteViewsF
     }
 
     override fun getViewAt(position: Int): RemoteViews {
-        val view = RemoteViews(context.packageName,
-                R.layout.widget_item_view)
         val model = mCollection[position]
 
-        view.setViewVisibility(R.id.currentLesson, if (model.hasNote) View.VISIBLE else View.INVISIBLE)
-        view.setTextViewText(R.id.lessonTitle, model.lessonName)
-        view.setTextViewText(R.id.lessonNumber, model.lessonNumber)
-        view.setTextViewText(R.id.time, model.getTime())
-        view.setTextViewText(R.id.location, "${model.lessonRoom} ${model.lessonType}")
+        val view = RemoteViews(context.packageName,
+                R.layout.widget_item_view)
+
+        view.setViewVisibility(R.id.widget_current_lesson, if (model.hasNote) View.VISIBLE else View.INVISIBLE)
+
+        view.setTextViewText(R.id.widget_lesson_title, model.lessonName)
+        view.setTextViewText(R.id.widget_lesson_number, model.lessonNumber)
+        view.setTextViewText(R.id.widget_lesson_time, model.getTime())
+        view.setTextViewText(R.id.widget_lesson_location, "${model.lessonRoom} ${model.lessonType}")
+
         view.setOnClickPendingIntent(R.id.widget_item_row_view,
-                PendingIntent.getActivity(context, 0,
-                        Intent(context, LessonActivity::class.java)
-                                .apply { putExtra(LessonImplementation.LESSON_ID, model.id) },
-                        0))
+                PendingIntent.getBroadcast(context,
+                        0,
+                        Intent(context, ScheduleWidgetProvider::class.java).apply {
+                            action = ScheduleWidgetProvider.ACTION_OPEN_LESSON
+                            putExtra(LessonImplementation.LESSON_ID, model.id)
+                        },
+                        PendingIntent.FLAG_UPDATE_CURRENT))
         return view
     }
 

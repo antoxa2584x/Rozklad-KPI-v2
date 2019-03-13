@@ -18,6 +18,8 @@ import com.goldenpiedevs.schedule.app.core.ext.currentWeek
 import com.goldenpiedevs.schedule.app.core.ext.todayName
 import com.goldenpiedevs.schedule.app.core.ext.todayNumberInWeek
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
+import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
+import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 
 
 class ScheduleWidgetProvider : AppWidgetProvider() {
@@ -32,11 +34,18 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action.equals(ACTION_SCHEDULED_UPDATE)) {
-            context?.let {
+        when {
+            intent?.action.equals(ACTION_SCHEDULED_UPDATE) -> context?.let {
                 val manager = AppWidgetManager.getInstance(it)
                 val ids = manager.getAppWidgetIds(ComponentName(it, ScheduleWidgetProvider::class.java))
                 onUpdate(it, manager, ids)
+            }
+            intent?.action.equals(ACTION_OPEN_LESSON) -> context?.let {
+                it.startActivity(Intent(it, LessonActivity::class.java)
+                        .apply {
+                            putExtra(LessonImplementation.LESSON_ID,
+                                    intent!!.getStringExtra(LessonImplementation.LESSON_ID))
+                        })
             }
         }
 
@@ -45,6 +54,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
 
     companion object {
         const val ACTION_SCHEDULED_UPDATE = "com.goldenpiedevs.schedule.app.ui.widget.SCHEDULED_UPDATE"
+        const val ACTION_OPEN_LESSON = "com.goldenpiedevs.schedule.app.ui.widget.ACTION_OPEN_LESSON"
 
         fun updateWidget(context: Context) {
             val intent = Intent(context, ScheduleWidgetProvider::class.java)

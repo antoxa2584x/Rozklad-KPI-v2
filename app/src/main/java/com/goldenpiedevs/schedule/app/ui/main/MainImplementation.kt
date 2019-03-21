@@ -1,8 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.FragmentManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.R.id.container
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
@@ -15,9 +14,11 @@ import com.goldenpiedevs.schedule.app.ui.map.MapFragment
 import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
 import com.goldenpiedevs.schedule.app.ui.teachers.TeachersFragment
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
+import com.google.android.material.navigation.NavigationView
 import org.jetbrains.anko.startActivity
 import java.util.*
 import kotlin.concurrent.schedule
+
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
@@ -26,6 +27,12 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
     override fun setSupportFragmentManager(supportFragmentManager: androidx.fragment.app.FragmentManager) {
         this.supportFragmentManager = supportFragmentManager
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            supportFragmentManager.findFragmentById(R.id.container)?.let {
+                checkItem()
+            }
+        }
     }
 
     override fun setNavigationView(navigationView: NavigationView) {
@@ -33,17 +40,15 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     override fun showTimeTable() {
-        navigationView.setCheckedItem(R.id.timetable)
-
         supportFragmentManager.beginTransaction()
-                .replace(container, TimeTableFragment())
+                .add(container, TimeTableFragment())
                 .commit()
+
+        checkItem()
     }
 
     override fun onTimeTableClick() {
-        Timer().schedule(300) {
-            (view as AppCompatActivity).onBackPressed()
-        }
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     override fun showCurrentDayTitle() {
@@ -64,14 +69,14 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
     }
 
     private fun <T : BaseFragment> changeFragment(fragment: T) {
-        navigationView.setCheckedItem(R.id.timetable)
         view.toggleToolbarCollapseMode(false)
 
         supportFragmentManager.beginTransaction()
                 .add(container, fragment)
-                .addToBackStack(null)
+                .addToBackStack(fragment::class.java.canonicalName)
                 .commit()
     }
+
     override fun onCalendarOpen(firstDayOfNewMonth: Date) {
         with(view) {
             setActivityTitle(getContext().resources.getStringArray(R.array.months)[firstDayOfNewMonth.getCurrentMonth()])
@@ -97,6 +102,30 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
 
     override fun onTeachersClick() {
         changeFragment(TeachersFragment())
+    }
+
+    override fun checkItem() {
+        with(navigationView) {
+            if (supportFragmentManager.fragments.isNotEmpty()) {
+                when (supportFragmentManager.fragments.last()::class.java.canonicalName) {
+                    TimeTableFragment::class.java.canonicalName -> {
+                        setCheckedItem(R.id.timetable)
+                        view.showMenu(true)
+                    }
+                    TeachersFragment::class.java.canonicalName -> {
+                        setCheckedItem(R.id.teachers)
+                        view.showMenu(false)
+                    }
+                    MapFragment::class.java.canonicalName -> {
+                        setCheckedItem(R.id.map)
+                        view.showMenu(false)
+                    }
+                }
+            } else {
+                setCheckedItem(R.id.timetable)
+                view.showMenu(true)
+            }
+        }
     }
 
     override fun onResume() {

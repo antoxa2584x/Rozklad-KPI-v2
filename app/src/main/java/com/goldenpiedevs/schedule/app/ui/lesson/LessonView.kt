@@ -13,5 +13,4 @@ interface LessonView : BaseView {
     fun showLessonTime(string: String)
     fun showNoteText(string: String)
     fun showNotePhotos(fileNames: OrderedRealmCollection<String>)
-    fun showTeacherSelectDialog()
 }

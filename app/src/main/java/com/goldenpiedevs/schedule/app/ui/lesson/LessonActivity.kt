@@ -97,14 +97,6 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     override fun showNotePhotos(fileNames: OrderedRealmCollection<String>) {
     }
 
-    override fun showTeacherSelectDialog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
-
     override fun onDestroy() {
         map.overlays.remove(startMarker)
         startMarker = null

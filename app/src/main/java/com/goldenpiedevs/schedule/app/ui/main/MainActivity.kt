@@ -1,15 +1,15 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.navigation_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -86,9 +86,11 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         }
 
         menu.findItem(R.id.calendar).setIcon(
-                if (AppPreference.isCalendarOpen)
+                if (AppPreference.isCalendarOpen) {
                     R.drawable.ic_calendar_view_day
-                else R.drawable.ic_calendar)
+                } else {
+                    R.drawable.ic_calendar
+                })
 
         return super.onPrepareOptionsMenu(menu)
     }
@@ -103,22 +105,11 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
 
         if (!item.isChecked) {
             when (item.itemId) {
-                R.id.timetable -> {
-                    showMenu = true
-                    presenter.showTimeTable()
-                }
-                R.id.map -> {
-                    showMenu = false
-                    presenter.onMapClick()
-                }
-                R.id.teachers -> {
-                    showMenu = false
-                    presenter.onTeachersClick()
-                }
+                R.id.timetable -> presenter.onTimeTableClick()
+                R.id.map -> presenter.onMapClick()
+                R.id.teachers -> presenter.onTeachersClick()
             }
-            invalidateOptionsMenu()
         }
-
 
         return true
     }
@@ -163,18 +154,22 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
 
     override fun toggleToolbarCollapseMode(isCollapsing: Boolean) {}
 
+
+    override fun showMenu(showMenu: Boolean) {
+        this@MainActivity.showMenu = showMenu
+        invalidateOptionsMenu()
+    }
+
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START) && !navView.menu.getItem(0).isChecked) {
             drawerLayout.closeDrawers()
             return
         }
 
-        showMenu = true
-        invalidateOptionsMenu()
-
         if (supportFragmentManager.backStackEntryCount > 0) {
-            navView.setCheckedItem(R.id.timetable)
-            supportFragmentManager.popBackStack()
+            supportFragmentManager.popBackStackImmediate()
+
+            presenter.checkItem()
         } else {
             super.onBackPressed()
         }

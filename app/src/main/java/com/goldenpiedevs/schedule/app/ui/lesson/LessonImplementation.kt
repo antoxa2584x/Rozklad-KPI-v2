@@ -2,8 +2,8 @@ package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
@@ -72,7 +72,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
 
     override fun onTeacherClick() {
         when (daoLessonModel.teachers.size) {
-            1 -> loadTeacherInfoOrOpen(null)
+            1 -> loadTeacherSchedule(daoLessonModel.teachers.first()!!.teacherId)
             else -> showTeacherSelectDialog()
         }
     }
@@ -82,7 +82,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
             setTitle(R.string.teacher)
 
             setItems(daoLessonModel.teachers.map { it.teacherName }.toTypedArray()) { _, which ->
-                loadTeacherInfoOrOpen(daoLessonModel.teachers[which]!!.teacherId)
+                loadTeacherSchedule(daoLessonModel.teachers[which]!!.teacherId)
             }
 
             setNegativeButton(android.R.string.cancel, null)
@@ -92,24 +92,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     }
 
     override fun onTeacherClick(id: String) {
-        loadTeacherInfoOrOpen(id)
-    }
-
-    private fun loadTeacherInfoOrOpen(id: String?) {
-        val teacher = if (id.isNullOrEmpty()) {
-            daoLessonModel.teachers.first()
-        } else {
-            daoLessonModel.teachers.find { it.teacherId == id }
-        }
-
-        teacher?.let {
-            if (it.hasLoadedSchedule) {
-                openTeacherSchedule(it.teacherId)
-            } else {
-                loadTeacherSchedule(it.teacherId)
-            }
-        }
-
+        loadTeacherSchedule(id)
     }
 
     private fun openTeacherSchedule(teacherId: String) {
@@ -119,16 +102,13 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     private fun loadTeacherSchedule(teacherId: String) {
         view.showProgressDialog()
 
-        GlobalScope.launch {
-            val result = lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()).await()
-            launch(Dispatchers.Main) {
-                view.dismissProgressDialog()
+        lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()) {
+            view.dismissProgressDialog()
 
-                if (result)
-                    openTeacherSchedule(teacherId)
-                else {
-                    //TODO
-                }
+            if (it)
+                openTeacherSchedule(teacherId)
+            else {
+                //TODO
             }
         }
     }

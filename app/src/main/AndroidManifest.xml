@@ -30,16 +30,13 @@
         <activity android:name=".ui.main.MainActivity" />
         <activity
             android:name=".ui.lesson.LessonActivity"
-            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.SwipeBack" />
         <activity
             android:name=".ui.fragment.keeper.FragmentKeeperActivity"
-            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.SwipeBack" />
         <activity
             android:name=".ui.preference.PreferenceActivity"
             android:label="@string/settings"
-            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.SwipeBack" />
 
         <meta-data

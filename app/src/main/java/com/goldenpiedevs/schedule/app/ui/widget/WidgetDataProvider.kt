@@ -90,10 +90,4 @@ class WidgetDataProvider(val context: Context) : RemoteViewsService.RemoteViewsF
             mCollection.addAll(it)
         }
     }
-
-    companion object {
-
-        private val TAG = "WidgetDataProvider"
-    }
-
 }

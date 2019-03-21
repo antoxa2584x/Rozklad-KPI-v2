@@ -9,4 +9,5 @@ interface MainView : BaseView {
     fun setActivitySubtitle(string: String)
     fun showCalendar(calendarOpen: Boolean)
 
+    fun showMenu(showMenu: Boolean)
 }

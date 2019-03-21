@@ -1,7 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.fragment.keeper
 
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
@@ -31,6 +30,7 @@ class FragmentKeeperImplementation : BasePresenterImpl<FragmentKeeperView>(), Fr
     private fun showTeacherTimeTableFragment(string: String) {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, TimeTableFragment.getInstance(string))
+                .addToBackStack(null)
                 .commit()
     }
 }

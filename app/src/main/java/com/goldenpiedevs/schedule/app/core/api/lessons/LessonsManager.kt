@@ -5,9 +5,7 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 
 class LessonsManager(private val lessonsService: LessonsService, private val groupManager: GroupManager, private val notificationManager: NotificationManager) {
     fun loadTimeTableAsync(groupID: String): Deferred<Boolean> = GlobalScope.async {
@@ -35,22 +33,31 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
 
     fun loadTimeTableAsync(groupID: Int) = loadTimeTableAsync(groupID.toString())
 
-    fun loadTeacherTimeTableAsync(teacherId: Int): Deferred<Boolean> = GlobalScope.async {
-        val response = lessonsService.getTeacherTimeTable(teacherId).await()
-
-        if (response.isSuccessful) {
-            val body = response.body()!!
-
-            body.data?.let {
-                DaoDayModel.saveTeacherTimeTable(it, teacherId)
+    fun loadTeacherTimeTableAsync(teacherId: Int, listener: (Boolean) -> Unit) {
+        GlobalScope.launch {
+            if (DaoTeacherModel.getTeacher(teacherId).hasLoadedSchedule) {
+                listener(true)
+                return@launch
             }
 
-            DaoTeacherModel.getTeacher(teacherId).apply {
-                hasLoadedSchedule = true
-                save()
+            with(lessonsService.getTeacherTimeTable(teacherId).await()) {
+                if (isSuccessful) {
+                    val body = body()
+
+                    body?.data?.let {
+                        DaoDayModel.saveTeacherTimeTable(it, teacherId)
+                    }
+
+                    DaoTeacherModel.getTeacher(teacherId).apply {
+                        hasLoadedSchedule = true
+                        save()
+                    }
+                }
+
+                launch(Dispatchers.Main) {
+                    listener(isSuccessful)
+                }
             }
         }
-
-        response.isSuccessful
     }
 }

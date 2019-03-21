@@ -7,7 +7,6 @@ import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.fragment.keeper.FragmentKeeperActivity
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.startActivity
@@ -35,16 +34,13 @@ class TeachersImplementation : BasePresenterImpl<TeachersView>(), TeachersPresen
     private fun loadTeacherSchedule(teacherId: String) {
         view.showProgressDialog()
 
-        GlobalScope.launch {
-            val result = lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()).await()
-            launch(Dispatchers.Main) {
-                view.dismissProgressDialog()
+        lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()) {
+            view.dismissProgressDialog()
 
-                if (result)
-                    openTeacherSchedule(teacherId)
-                else {
-                    //TODO
-                }
+            if (it)
+                openTeacherSchedule(teacherId)
+            else {
+                //TODO
             }
         }
     }

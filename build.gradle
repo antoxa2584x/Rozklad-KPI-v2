@@ -2,7 +2,6 @@
 
 buildscript {
     ext.kotlin_version = '1.3.21'
-    ext.support_lib_version = '1.0.0-beta01'
 
     repositories {
         google()
@@ -30,11 +29,6 @@ allprojects {
             name 'OSS-Sonatype'
         }
         maven { url 'https://maven.fabric.io/public' }
-    }
-    configurations.all {
-        resolutionStrategy.force "com.android.support:exifinterface:$support_lib_version"
-        resolutionStrategy.force "com.android.support:appcompat-v7:$support_lib_version"
-        resolutionStrategy.force "com.android.support:design:$support_lib_version"
     }
 }
 

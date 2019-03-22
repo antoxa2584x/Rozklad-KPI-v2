@@ -10,6 +10,7 @@ buildscript {
             url  'https://oss.sonatype.org/content/repositories/snapshots/'
             name 'OSS-Sonatype'
         }
+        maven { url "https://jitpack.io" }
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
@@ -28,6 +29,7 @@ allprojects {
             url  'https://oss.sonatype.org/content/repositories/snapshots/'
             name 'OSS-Sonatype'
         }
+        maven { url "https://jitpack.io" }
         maven { url 'https://maven.fabric.io/public' }
     }
 }

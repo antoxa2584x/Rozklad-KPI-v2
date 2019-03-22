@@ -43,13 +43,18 @@
                 android:textSize="16sp"
                 tools:text="@tools:sample/date/hhmm" />
 
+            <FrameLayout
+                android:id="@+id/lesson_note_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <com.goldenpiedevs.schedule.app.ui.view.LessonItemView
                 android:id="@+id/teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 app:liv_icon="@drawable/ic_person"
@@ -96,7 +101,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_material_light"
+        android:background="?android:colorBackground"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar

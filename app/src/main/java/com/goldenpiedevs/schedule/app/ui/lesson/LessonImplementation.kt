@@ -58,8 +58,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                     }
 
                     daoLessonModel.noteModel?.let {
-                        showNoteText(it.note)
-                        showNotePhotos(it.photos)
+                        attachNoteView()
                     }
                 }
             }
@@ -111,6 +110,10 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                 //TODO
             }
         }
+    }
+
+    override fun onEditNoteClick() {
+        view.attachEditNoteView()
     }
 
     override fun showNoteEditView() {

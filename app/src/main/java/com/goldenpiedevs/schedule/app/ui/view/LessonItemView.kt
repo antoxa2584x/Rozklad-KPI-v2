@@ -17,12 +17,13 @@ class LessonItemView constructor(
             field = value
             subTitle.text = field
 
-            value?.let {
-                when {
-                    it.isNotEmpty() -> subTitle.visibility = View.VISIBLE
-                    it.isEmpty() -> subTitle.visibility = View.GONE
+            if (!isInEditMode)
+                value?.let {
+                    when {
+                        it.isNotEmpty() -> subTitle.visibility = View.VISIBLE
+                        it.isEmpty() -> subTitle.visibility = View.GONE
+                    }
                 }
-            }
         }
 
     init {

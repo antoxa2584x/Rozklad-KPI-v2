@@ -31,6 +31,8 @@ abstract class BaseFragment : androidx.fragment.app.Fragment(), BaseView {
         retainInstance = true
     }
 
+    override fun getIt() = this
+
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, @Nullable container: ViewGroup?, @Nullable savedInstanceState: Bundle?): View? {
         fragmentId = savedInstanceState?.getLong(BaseFragment.KEY_FRAGMENT_ID) ?: nextId.getAndIncrement()

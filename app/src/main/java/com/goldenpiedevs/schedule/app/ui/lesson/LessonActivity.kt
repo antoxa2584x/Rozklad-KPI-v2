@@ -1,12 +1,14 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.os.Bundle
-import androidx.core.content.ContextCompat
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
+import com.goldenpiedevs.schedule.app.ui.lesson.note.base.BaseLessonNoteFragment
 import com.r0adkll.slidr.Slidr
-import io.realm.OrderedRealmCollection
 import kotlinx.android.synthetic.main.lesson_activity_layout.*
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
@@ -30,7 +32,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
 
         with(presenter) {
             attachView(this@LessonActivity)
-            showLessonData(intent.extras)
+            showLessonData(intent.extras!!)
         }
 
         teacher.setOnClickListener { presenter.onTeacherClick() }
@@ -91,10 +93,48 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         }
     }
 
-    override fun showNoteText(string: String) {
+    override fun attachNoteView() {
+        supportFragmentManager.apply {
+            popBackStackImmediate()
+
+            beginTransaction()
+                    .add(R.id.lesson_note_view_container,
+                            BaseLessonNoteFragment.getInstance(intent.extras.getString(LessonImplementation.LESSON_ID)),
+                            null)
+                    .commit()
+        }
     }
 
-    override fun showNotePhotos(fileNames: OrderedRealmCollection<String>) {
+    override fun attachEditNoteView() {
+        supportFragmentManager.apply {
+            popBackStackImmediate()
+
+            beginTransaction()
+                    .add(R.id.lesson_note_view_container,
+                            BaseLessonNoteFragment.getInstance(intent.extras.getString(LessonImplementation.LESSON_ID), true),
+                            null)
+                    .commit()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item!!.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            R.id.edit_note -> {
+                presenter.onEditNoteClick()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.lessons_menu, menu)
+        return true
     }
 
     override fun onDestroy() {

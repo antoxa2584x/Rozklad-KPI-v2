@@ -69,8 +69,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.13.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
+    implementation 'com.github.esafirm.android-image-picker:rximagepicker:2.0.0'
 
     implementation 'com.chibatching.kotpref:kotpref:2.6.0'
     implementation 'com.chibatching.kotpref:initializer:2.6.0'

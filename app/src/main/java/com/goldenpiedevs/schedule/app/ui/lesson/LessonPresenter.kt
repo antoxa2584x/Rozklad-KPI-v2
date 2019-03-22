@@ -9,4 +9,5 @@ interface LessonPresenter : BasePresenter<LessonView> {
     fun showNoteEditView()
     fun onTeacherClick()
     fun onTeacherClick(id: String)
+    fun onEditNoteClick()
 }

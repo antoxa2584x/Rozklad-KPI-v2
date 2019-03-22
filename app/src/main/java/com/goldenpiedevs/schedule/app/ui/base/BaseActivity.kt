@@ -4,8 +4,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.getStatusBarHeight
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
@@ -34,6 +34,8 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
     override fun getContext(): Context {
         return this
     }
+
+    override fun getIt() = this
 
     abstract fun getActivityLayout(): Int
 

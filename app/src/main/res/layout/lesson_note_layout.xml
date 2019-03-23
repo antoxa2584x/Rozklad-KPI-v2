@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/note_icon"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem/random" />
+        android:text="@string/note" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/note_text"

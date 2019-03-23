@@ -33,4 +33,5 @@
     <string name="update_timetable">Оновити розклад</string>
     <string name="no_lessons_today">Сьогодні пар нема</string>
     <string name="reverse_group_switch">Якщо тиждень відображається не вірно</string>
+    <string name="note">Нотаток</string>
 </resources>

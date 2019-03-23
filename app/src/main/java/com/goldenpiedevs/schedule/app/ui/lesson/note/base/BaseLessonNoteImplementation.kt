@@ -3,6 +3,7 @@ package com.goldenpiedevs.schedule.app.ui.lesson.note.base
 import android.graphics.Color
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
 import com.goldenpiedevs.schedule.app.core.dao.note.DaoNoteModel
@@ -13,8 +14,8 @@ import com.goldenpiedevs.schedule.app.ui.lesson.note.adapter.NotePhotosAdapter
 
 open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterImpl<T>(), BaseLessonNotePresenter<T> {
 
-    lateinit var noteModel: DaoNoteModel
-    lateinit var adapter: NotePhotosAdapter
+   protected lateinit var noteModel: DaoNoteModel
+    protected  lateinit var adapter: NotePhotosAdapter
     var isInEditMode: Boolean = false
 
     private var images = arrayListOf<Image>()
@@ -44,7 +45,7 @@ open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterI
 
         view.setAdapter(adapter,
                 if (isInEditMode) GridLayoutManager(view.getContext(), calculateNoOfColumns(80f))
-                else LinearLayoutManager(view.getContext()))
+                else LinearLayoutManager(view.getContext(), RecyclerView.HORIZONTAL, false))
 
         view.setNoteText(noteModel.note)
     }

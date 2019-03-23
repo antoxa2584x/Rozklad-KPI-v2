@@ -1,8 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.*
 import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
@@ -17,7 +16,6 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.startActivity
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.IsoFields
@@ -37,7 +35,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
             with(DaoDayModel.getLessons()) {
                 when (arguments != null && arguments.containsKey(TimeTableFragment.TEACHER_ID)) {
                     true -> {
-                        with(forTeacher(arguments!!.getString(TimeTableFragment.TEACHER_ID))) {
+                        with(forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID))) {
                             week1 = forWeek(1)
                             week2 = forWeek(2)
                         }
@@ -103,8 +101,10 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
     }
 
     override fun onLessonClicked(id: String) {
-        with(view.getContext() as AppCompatActivity) {
-            startActivity<LessonActivity>(LessonImplementation.LESSON_ID to id)
+        with(view.getIt() as TimeTableFragment) {
+            startActivityForResult(Intent(context, LessonActivity::class.java).apply {
+                putExtra(LessonImplementation.LESSON_ID, id)
+            }, TimeTableFragment.NOTE_REQUEST)
         }
     }
 
@@ -126,5 +126,14 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         }
 
         super.onResume()
+    }
+
+    override fun updateAdapterLesson(intExtra: String?) {
+        val lesson = DaoLessonModel.getUniqueLesson(intExtra.toString())
+        val day = data.first { it.dayNumber == lesson.dayNumber && it.weekNumber == lesson.lessonWeek }
+        day.lessons[day.lessons.indexOfFirst { it.lessonNumber == lesson.lessonNumber }] = lesson
+        val dayListPosition = data.indexOf(day)
+
+        view.updateAdapterAtPortions(dayListPosition, day)
     }
 }

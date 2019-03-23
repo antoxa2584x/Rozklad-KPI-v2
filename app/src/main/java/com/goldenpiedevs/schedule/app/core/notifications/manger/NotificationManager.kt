@@ -76,7 +76,7 @@ class NotificationManager(private val context: Context) {
     fun showNotification(lessonId: String) {
         ShowNotificationWork.enqueueWork(lessonId, TimeUnit.DAYS.toMillis(14)) //repeat notification in 14 days
 
-        val lessonModel = DaoLessonModel.getLesson(lessonId)
+        val lessonModel = DaoLessonModel.getUniqueLesson(lessonId)
 
         if (!lessonModel.showNotification ||
                 lessonModel.groupId != AppPreference.groupId.toString() ||

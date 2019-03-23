@@ -10,4 +10,5 @@ interface TimeTablePresenter : BasePresenter<TimeTableView> {
     fun scrollToDay(dateClicked: Date?)
     fun onToolbarClick()
     fun onCalendarScroll(firstDayOfNewMonth: Date)
+    fun updateAdapterLesson(intExtra: String?)
 }

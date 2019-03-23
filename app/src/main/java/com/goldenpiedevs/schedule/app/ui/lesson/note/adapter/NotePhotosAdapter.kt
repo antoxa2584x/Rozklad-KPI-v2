@@ -24,14 +24,9 @@ class NotePhotosAdapter(private var data: MutableList<DaoNotePhoto>,
                 .inflate(R.layout.note_photo_layout, parent, false))
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0 && isInEditMode) ADD_IMAGE else IMAGE_PREVIEW
-    }
+    override fun getItemViewType(position: Int) = if (position == 0 && isInEditMode) ADD_IMAGE else IMAGE_PREVIEW
 
-    override fun getItemCount(): Int {
-        return data.size + if (isInEditMode) 1 else 0
-
-    }
+    override fun getItemCount() = data.size + if (isInEditMode) 1 else 0
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (getItemViewType(position) == IMAGE_PREVIEW) {
@@ -47,11 +42,7 @@ class NotePhotosAdapter(private var data: MutableList<DaoNotePhoto>,
                     listener(p.path)
                 }
 
-                if (isInEditMode) {
-                    holder.removePhoto.visibility = View.VISIBLE
-                } else {
-                    holder.removePhoto.visibility = View.INVISIBLE
-                }
+                holder.removePhoto.visibility = if (isInEditMode) View.VISIBLE else View.INVISIBLE
             }
         } else {
             holder.removePhoto.visibility = View.INVISIBLE
@@ -71,11 +62,12 @@ class NotePhotosAdapter(private var data: MutableList<DaoNotePhoto>,
         }
     }
 
+    fun getData() = data
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val photoPreview = view.note_photo_preview!!
         val removePhoto = view.remove_note_photo!!
         val addPhoto = view.add_note_photo!!
         val itemBackground = view.note_photo_itemview!!
     }
-
 }

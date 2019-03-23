@@ -16,7 +16,7 @@
         android:layout_margin="16dp">
 
         <ImageView
-            android:id="@+id/widget_current_lesson"
+            android:id="@+id/widget_lesson_has_note"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/circle"

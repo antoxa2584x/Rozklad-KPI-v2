@@ -62,8 +62,6 @@ open class DaoLessonModel : RealmObject() {
 
     var noteModel: DaoNoteModel? = null
 
-    var hasNote: Boolean = noteModel != null
-
     var showNotification = true
 
     var notificationId = -1
@@ -71,10 +69,18 @@ open class DaoLessonModel : RealmObject() {
     fun getTime() = "$timeStart-$timeEnd"
 
     companion object {
+        fun getUniqueLesson(lessonUUID: String): DaoLessonModel {
+            val realm = Realm.getDefaultInstance()
+            val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java)
+                    .equalTo("id", lessonUUID).findFirst()!!)
+            if (!realm.isClosed)
+                realm.close()
+            return lessonModel!!
+        }
         fun getLesson(lessonId: String): DaoLessonModel {
             val realm = Realm.getDefaultInstance()
             val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java)
-                    .equalTo("id", lessonId).findFirst()!!)
+                    .equalTo("lessonId", lessonId.toInt()).findFirst()!!)
             if (!realm.isClosed)
                 realm.close()
             return lessonModel!!

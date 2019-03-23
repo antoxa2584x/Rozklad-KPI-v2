@@ -3,12 +3,17 @@ package com.goldenpiedevs.schedule.app.ui.lesson
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.fragment.keeper.FragmentKeeperActivity
+import com.goldenpiedevs.schedule.app.ui.lesson.note.base.BaseLessonNoteFragment
+import com.goldenpiedevs.schedule.app.ui.lesson.note.edit.LessonNoteEditFragment
+import com.goldenpiedevs.schedule.app.ui.lesson.note.show.LessonNoteFragment
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -25,10 +30,19 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     lateinit var lessonsManager: LessonsManager
 
     private lateinit var daoLessonModel: DaoLessonModel
+    private lateinit var supportFragmentManager: FragmentManager
+    private var isInEditMode = false
+    private var hasNote = false
+
+    override fun isInEditMode() = isInEditMode
+
+    override fun setFragmentManager(supportFragmentManager: FragmentManager) {
+        this.supportFragmentManager = supportFragmentManager
+    }
 
     override fun showLessonData(bundle: Bundle) {
         GlobalScope.launch {
-            daoLessonModel = DaoLessonModel.getLesson(bundle.getString(LESSON_ID)!!)
+            daoLessonModel = DaoLessonModel.getUniqueLesson(bundle.getString(LESSON_ID)!!)
 
             launch(Dispatchers.Main) {
                 with(view) {
@@ -58,15 +72,12 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                     }
 
                     daoLessonModel.noteModel?.let {
+                        hasNote = true
                         attachNoteView()
                     }
                 }
             }
         }
-    }
-
-    override fun onNoteSave() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onTeacherClick() {
@@ -113,14 +124,47 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
     }
 
     override fun onEditNoteClick() {
-        view.attachEditNoteView()
+        if (isInEditMode)
+            attachNoteView()
+        else
+            attachEditNoteView()
     }
 
-    override fun showNoteEditView() {
-        if (daoLessonModel.hasNote) {
-            //TODO
-        } else {
-            //TODO
+    override fun onNoteSave() {
+        attachNoteView()
+        hasNote = true
+    }
+
+    override fun attachEditNoteView() {
+        supportFragmentManager.apply {
+            popBackStackImmediate()
+
+            beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    .replace(R.id.lesson_note_view_container,
+                            BaseLessonNoteFragment.getInstance(daoLessonModel.lessonId.toString(), true),
+                            LessonNoteEditFragment::class.java.canonicalName)
+                    .commit()
         }
+
+        isInEditMode = true
+
+        (view.getIt() as AppCompatActivity).invalidateOptionsMenu()
+    }
+
+    override fun attachNoteView() {
+        supportFragmentManager.apply {
+            popBackStackImmediate()
+
+            beginTransaction()
+                    .replace(R.id.lesson_note_view_container,
+                            BaseLessonNoteFragment.getInstance(daoLessonModel.lessonId.toString()),
+                            LessonNoteFragment::class.java.canonicalName)
+                    .commit()
+        }
+
+        isInEditMode = false
+
+        (view.getIt() as AppCompatActivity).invalidateOptionsMenu()
     }
 }

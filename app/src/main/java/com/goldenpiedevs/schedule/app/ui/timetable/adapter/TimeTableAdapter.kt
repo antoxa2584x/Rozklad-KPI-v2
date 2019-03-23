@@ -2,13 +2,11 @@ package com.goldenpiedevs.schedule.app.ui.timetable.adapter
 
 import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.getDayDate
@@ -127,6 +125,11 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclervi
         notifyDataSetChanged()
     }
 
+    fun updateLesson(dayListPosition: Int, daoDayModel: DaoDayModel) {
+        data[dayListPosition] = daoDayModel
+        notifyItemChanged(dayListPosition)
+    }
+
     internal class TitleViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val title = view.title!!
     }
@@ -140,7 +143,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclervi
                 setRecycledViewPool(viewPool)
                 addItemDecoration(itemDecorator)
 
-                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                         .apply {
                             isItemPrefetchEnabled = true
                             initialPrefetchItemCount = 6

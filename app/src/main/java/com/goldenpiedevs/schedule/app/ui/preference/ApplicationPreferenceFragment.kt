@@ -2,7 +2,6 @@ package com.goldenpiedevs.schedule.app.ui.preference
 
 import android.app.Activity
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
 import android.os.Handler
 import androidx.preference.Preference
@@ -14,8 +13,8 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.preference.UserPreference
+import com.goldenpiedevs.schedule.app.core.utils.util.restartApp
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupActivity
-import com.goldenpiedevs.schedule.app.ui.main.MainActivity
 import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -67,14 +66,7 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
                 Handler().postDelayed({
                     ScheduleWidgetProvider.updateWidget(context)
 
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
-                    context.startActivity(intent)
-                    if (context is Activity) {
-                        (context as Activity).finish()
-                    }
-
-                    Runtime.getRuntime().exit(0)
+                    context.restartApp()
                 }, 200)
 
 

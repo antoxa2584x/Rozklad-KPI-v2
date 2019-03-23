@@ -1,8 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
-import com.goldenpiedevs.schedule.app.core.dao.note.DaoNotePhoto
 import com.goldenpiedevs.schedule.app.ui.base.BaseView
-import io.realm.OrderedRealmCollection
 import org.osmdroid.util.GeoPoint
 
 interface LessonView : BaseView {
@@ -12,7 +10,4 @@ interface LessonView : BaseView {
     fun showLessonType(string: String)
     fun showLessonLocation(geoPoint: GeoPoint)
     fun showLessonTime(string: String)
-
-    fun attachNoteView()
-    fun attachEditNoteView()
 }

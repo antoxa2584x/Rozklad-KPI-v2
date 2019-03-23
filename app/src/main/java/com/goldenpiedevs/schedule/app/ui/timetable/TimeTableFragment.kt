@@ -1,13 +1,15 @@
 package com.goldenpiedevs.schedule.app.ui.timetable
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
-import com.goldenpiedevs.schedule.app.ui.view.LinearLayoutManagerWithSmoothScroller
+import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation.Companion.LESSON_ID
 import com.goldenpiedevs.schedule.app.ui.timetable.adapter.TimeTableAdapter
+import com.goldenpiedevs.schedule.app.ui.view.LinearLayoutManagerWithSmoothScroller
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.recyler_view_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -18,6 +20,7 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
     companion object {
         const val TEACHER_ID = "teacher_id"
+        const val NOTE_REQUEST = 555
 
         fun getInstance(teacherId: String) = TimeTableFragment().apply {
             arguments = Bundle().apply {
@@ -91,5 +94,18 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
     override fun onResume() {
         presenter.onResume()
         super.onResume()
+    }
+
+    override fun updateAdapterAtPortions(dayListPosition: Int, dayModel: DaoDayModel) {
+        list.adapter?.let {
+            (it as TimeTableAdapter).updateLesson(dayListPosition,dayModel)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == NOTE_REQUEST){
+            presenter.updateAdapterLesson(data?.getStringExtra(LESSON_ID))
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

@@ -22,7 +22,7 @@ abstract class BaseLessonNoteFragment : BaseFragment(), BaseLessonNoteView {
         }
     }
 
-    protected lateinit var presenter: BaseLessonNotePresenter<BaseLessonNoteView>
+    private lateinit var presenter: BaseLessonNotePresenter<BaseLessonNoteView>
 
     abstract fun getParentPresenter(): BaseLessonNotePresenter<BaseLessonNoteView>
 

@@ -7,4 +7,5 @@ interface TimeTableView : BaseView {
     fun showWeekData(data: MutableList<DaoDayModel>)
     fun showDay(currentDay: Int)
     fun clearTimetable()
+    fun updateAdapterAtPortions(dayListPosition: Int, dayModel: DaoDayModel)
 }

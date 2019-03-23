@@ -44,7 +44,7 @@ class WidgetDataProvider(val context: Context) : RemoteViewsService.RemoteViewsF
         val view = RemoteViews(context.packageName,
                 R.layout.widget_item_view)
 
-        view.setViewVisibility(R.id.widget_current_lesson, if (model.hasNote) View.VISIBLE else View.INVISIBLE)
+        view.setViewVisibility(R.id.widget_lesson_has_note, if (model.noteModel == null) View.VISIBLE else View.INVISIBLE)
 
         view.setTextViewText(R.id.widget_lesson_title, model.lessonName)
         view.setTextViewText(R.id.widget_lesson_number, model.lessonNumber)

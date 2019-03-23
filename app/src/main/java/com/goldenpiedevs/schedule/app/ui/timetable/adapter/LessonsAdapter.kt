@@ -1,9 +1,11 @@
 package com.goldenpiedevs.schedule.app.ui.timetable.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import kotlinx.android.synthetic.main.day_list_lesson_item.view.*
@@ -32,22 +34,31 @@ class LessonsAdapter() : androidx.recyclerview.widget.RecyclerView.Adapter<Lesso
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = data[position]
 
-        holder.apply {
-            hasNote.visibility = if (model.hasNote) View.VISIBLE else View.INVISIBLE
-            lessonTitle.text = model.lessonName
-            time.text = model.getTime()
-            location.text = "${model.lessonRoom} ${model.lessonType}"
-            number.text = model.lessonNumber
-            itemView.setOnClickListener { listener(model.id) }
+        model.let {
+            holder.apply {
+                if (it.noteModel != null) {
+                    number.setTextColor(Color.WHITE)
+                    hasNote.visibility = View.VISIBLE
+                } else {
+                    number.setTextColor(ContextCompat.getColor(number.context, R.color.secondary_text))
+                    hasNote.visibility = View.INVISIBLE
+                }
+
+                lessonTitle.text = it.lessonName
+                time.text = it.getTime()
+                location.text = "${it.lessonRoom} ${it.lessonType}"
+                number.text = it.lessonNumber
+                itemView.setOnClickListener { listener(model.id) }
+            }
         }
     }
 
     class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
-        val hasNote = itemView.widget_current_lesson!!
-        val number = itemView.widget_lesson_number!!
-        val lessonTitle = itemView.widget_lesson_title!!
-        val time = itemView.widget_lesson_time!!
-        val location = itemView.widget_lesson_location!!
+        val hasNote = itemView.teimetable_lesson_has_note!!
+        val number = itemView.teimetable_lesson_number!!
+        val lessonTitle = itemView.teimetable_lesson_title!!
+        val time = itemView.teimetable_lesson_time!!
+        val location = itemView.teimetable_lesson_location!!
     }
 }
 

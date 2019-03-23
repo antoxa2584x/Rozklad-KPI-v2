@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,7 +8,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
-import com.goldenpiedevs.schedule.app.ui.lesson.note.base.BaseLessonNoteFragment
 import com.r0adkll.slidr.Slidr
 import kotlinx.android.synthetic.main.lesson_activity_layout.*
 import org.osmdroid.config.Configuration
@@ -32,6 +32,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
 
         with(presenter) {
             attachView(this@LessonActivity)
+            setFragmentManager(supportFragmentManager)
             showLessonData(intent.extras!!)
         }
 
@@ -93,28 +94,10 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         }
     }
 
-    override fun attachNoteView() {
-        supportFragmentManager.apply {
-            popBackStackImmediate()
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.edit_note)?.isVisible = !presenter.isInEditMode()
 
-            beginTransaction()
-                    .add(R.id.lesson_note_view_container,
-                            BaseLessonNoteFragment.getInstance(intent.extras.getString(LessonImplementation.LESSON_ID)),
-                            null)
-                    .commit()
-        }
-    }
-
-    override fun attachEditNoteView() {
-        supportFragmentManager.apply {
-            popBackStackImmediate()
-
-            beginTransaction()
-                    .add(R.id.lesson_note_view_container,
-                            BaseLessonNoteFragment.getInstance(intent.extras.getString(LessonImplementation.LESSON_ID), true),
-                            null)
-                    .commit()
-        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -131,10 +114,18 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         }
     }
 
+    fun saveNote(){
+        presenter.onNoteSave()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.lessons_menu, menu)
         return true
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK, intent)
+        super.onBackPressed()
     }
 
     override fun onDestroy() {
@@ -142,5 +133,9 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         startMarker = null
 
         super.onDestroy()
+    }
+
+    fun deleteNote() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

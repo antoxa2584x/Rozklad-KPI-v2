@@ -128,8 +128,11 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
         super.onResume()
     }
 
-    override fun updateAdapterLesson(intExtra: String?) {
-        val lesson = DaoLessonModel.getUniqueLesson(intExtra.toString())
+    override fun updateAdapterLesson(lessonUUId: String?) {
+        if (lessonUUId == null)
+            return
+
+        val lesson = DaoLessonModel.getUniqueLesson(lessonUUId.toString())
         val day = data.first { it.dayNumber == lesson.dayNumber && it.weekNumber == lesson.lessonWeek }
         day.lessons[day.lessons.indexOfFirst { it.lessonNumber == lesson.lessonNumber }] = lesson
         val dayListPosition = data.indexOf(day)

@@ -10,7 +10,10 @@ import com.goldenpiedevs.schedule.app.core.dao.note.DaoNoteModel
 import com.goldenpiedevs.schedule.app.core.dao.note.DaoNotePhoto
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
+import com.goldenpiedevs.schedule.app.ui.fragment.keeper.FragmentKeeperActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.note.adapter.NotePhotosAdapter
+import com.goldenpiedevs.schedule.app.ui.lesson.note.photo.PhotoPreviewFragment
+import org.jetbrains.anko.startActivity
 
 open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterImpl<T>(), BaseLessonNotePresenter<T> {
 
@@ -50,12 +53,12 @@ open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterI
         view.setNoteText(noteModel.note)
     }
 
-    private fun deletePhoto(uri: String) {
+    private fun deletePhoto(uri: DaoNotePhoto) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun showPhoto(uri: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun showPhoto(notePhoto: DaoNotePhoto) {
+        view.getContext().startActivity<FragmentKeeperActivity>(PhotoPreviewFragment.PHOTO_DATA to notePhoto)
     }
 
     private fun onAddPhotoClick() {

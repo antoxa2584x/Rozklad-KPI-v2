@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.note_photo_layout.view.*
 
 class NotePhotosAdapter(private var data: MutableList<DaoNotePhoto>,
                         private val isInEditMode: Boolean = false,
-                        val listener: (String?) -> Unit) :
+                        val listener: (DaoNotePhoto?) -> Unit) :
         RecyclerView.Adapter<NotePhotosAdapter.ViewHolder>() {
 
     companion object {
@@ -39,7 +39,7 @@ class NotePhotosAdapter(private var data: MutableList<DaoNotePhoto>,
                         .into(holder.photoPreview)
 
                 holder.itemBackground.setOnClickListener {
-                    listener(p.path)
+                    listener(p)
                 }
 
                 holder.removePhoto.visibility = if (isInEditMode) View.VISIBLE else View.INVISIBLE

@@ -9,5 +9,5 @@ import retrofit2.http.Path
 
 interface TeachersService {
     @GET("groups/{id}/teachers")
-    fun getTeachers(@Path("id") id: String): Deferred<Response<BaseResponseModel<ArrayList<DaoTeacherModel>>>>
+    fun getTeachers(@Path("id") id: Int): Deferred<Response<BaseResponseModel<ArrayList<DaoTeacherModel>>>>
 }

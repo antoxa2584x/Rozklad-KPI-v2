@@ -14,6 +14,7 @@ class LessonNoteFragment : BaseLessonNoteFragment(), LessonNoteView {
     override fun getParentPresenter(): BaseLessonNotePresenter<BaseLessonNoteView> {
         return LessonNoteImplementation() as BaseLessonNotePresenter<BaseLessonNoteView>
     }
+
     override fun setNoteText(note: String) {
         note_text.text = note
     }

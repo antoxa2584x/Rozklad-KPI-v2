@@ -32,12 +32,12 @@ open class DaoGroupModel : RealmObject() {
 
     companion object {
         fun getAllTeachersForGroup(groupId: Int): OrderedRealmCollection<DaoTeacherModel> {
-            return Realm.getDefaultInstance().where(DaoTeacherModel::class.java).equalTo("groups.groupId", groupId).findAll()
+            return Realm.getDefaultInstance().where(DaoTeacherModel::class.java).equalTo("groups.groupId", groupId).findAllAsync()
         }
 
-        fun getGroup(groupId: String): DaoGroupModel? {
+        fun getGroup(groupId: Int): DaoGroupModel? {
             val realm = Realm.getDefaultInstance()
-            val groupDao = realm.where(DaoGroupModel::class.java).equalTo("groupId", groupId.toInt()).findFirst()
+            val groupDao = realm.where(DaoGroupModel::class.java).equalTo("groupId", groupId).findFirst()
 
             val group = groupDao?.let { realm.copyFromRealm(it) }
 

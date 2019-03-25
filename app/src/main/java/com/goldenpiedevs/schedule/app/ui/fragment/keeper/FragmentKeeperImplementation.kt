@@ -20,10 +20,10 @@ class FragmentKeeperImplementation : BasePresenterImpl<FragmentKeeperView>(), Fr
         bundle?.let {
             when {
                 it.containsKey(TimeTableFragment.TEACHER_ID) -> {
-                    view.setTitle(DaoTeacherModel.getTeacher(it.getString(TimeTableFragment.TEACHER_ID)!!.toInt()).teacherName)
+                    view.setTitle(DaoTeacherModel.getTeacher(it.getInt(TimeTableFragment.TEACHER_ID))!!.teacherName)
 
                     if (savedInstanceState == null)
-                        showTeacherTimeTableFragment(it.getString(TimeTableFragment.TEACHER_ID)!!)
+                        showTeacherTimeTableFragment(it.getInt(TimeTableFragment.TEACHER_ID))
                 }
                 it.containsKey(PhotoPreviewFragment.PHOTO_DATA) -> {
                     view.setTitle(it.getParcelable<DaoNotePhoto>(PhotoPreviewFragment.PHOTO_DATA)!!.name)
@@ -37,9 +37,9 @@ class FragmentKeeperImplementation : BasePresenterImpl<FragmentKeeperView>(), Fr
         }
     }
 
-    private fun showTeacherTimeTableFragment(string: String) {
+    private fun showTeacherTimeTableFragment(id: Int) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, TimeTableFragment.getInstance(string))
+                .replace(R.id.container, TimeTableFragment.getInstance(id))
                 .addToBackStack(null)
                 .commit()
     }

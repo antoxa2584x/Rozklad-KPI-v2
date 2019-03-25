@@ -15,11 +15,11 @@ import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
 
 class LessonsManager(private val context: Context, private val lessonsService: LessonsService, private val groupManager: GroupManager, private val notificationManager: NotificationManager) {
-    fun loadTimeTableAsync(groupID: String): Deferred<Boolean> = GlobalScope.async {
-        val response = lessonsService.getGroupTimeTable(groupID).await()
+    fun loadTimeTableAsync(groupName: String): Deferred<Boolean> = GlobalScope.async {
+        val response = lessonsService.getGroupTimeTable(groupName).await()
 
         if (response.isSuccessful) {
-            val group = groupManager.getGroupInfoAsync(groupID).await()
+            val group = groupManager.getGroupInfoAsync(groupName).await()
 
             response.body()?.let {
                 DaoDayModel.saveGroupTimeTable(it.data!!, group!!.groupFullName, notificationManager)
@@ -28,7 +28,7 @@ class LessonsManager(private val context: Context, private val lessonsService: L
             AppPreference.apply {
                 group?.let {
                     isFirstLaunch = false
-                    groupName = it.groupFullName
+                    this.groupName = it.groupFullName
                     groupId = it.groupId
 
                 }
@@ -42,9 +42,13 @@ class LessonsManager(private val context: Context, private val lessonsService: L
 
     fun loadTeacherTimeTableAsync(teacherId: Int, listener: (Int) -> Unit) {
         GlobalScope.launch {
-            if (DaoTeacherModel.getTeacher(teacherId).hasLoadedSchedule) {
-                listener(RESULT_OK)
-                return@launch
+            val teacher = DaoTeacherModel.getTeacher(teacherId)
+
+            teacher?.let {
+                if (it.hasLoadedSchedule) {
+                    listener(RESULT_OK)
+                    return@launch
+                }
             }
 
             if (!context.isNetworkAvailable()) {
@@ -65,10 +69,9 @@ class LessonsManager(private val context: Context, private val lessonsService: L
                         DaoDayModel.saveTeacherTimeTable(it, teacherId)
                     }
 
-                    DaoTeacherModel.getTeacher(teacherId).apply {
+                    teacher?.apply {
                         hasLoadedSchedule = true
-                        save()
-                    }
+                    }?.save()
                 }
 
                 launch(Dispatchers.Main) {

@@ -7,6 +7,7 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import java.util.*
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @RealmClass
 open class DaoNotePhoto() : RealmObject(), Parcelable {
     @PrimaryKey

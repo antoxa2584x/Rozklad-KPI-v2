@@ -1,15 +1,12 @@
 package com.goldenpiedevs.schedule.app.core.ext
 
 import android.content.Context
-import com.google.android.material.appbar.AppBarLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
+import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ScheduleApplication
 import com.goldenpiedevs.schedule.app.core.utils.preference.UserPreference
-import io.realm.RealmList
+import com.google.android.material.appbar.AppBarLayout
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.TextStyle
 import org.threeten.bp.temporal.IsoFields
@@ -19,7 +16,7 @@ val appLocale = Locale("uk", "UA")
 
 val today: LocalDate = LocalDate.now()
 val todayName: String = today.dayOfWeek.getDisplayName(TextStyle.FULL, appLocale)
-val todayNumberInWeek = today.dayOfWeek.value.toString()
+val todayNumberInWeek = today.dayOfWeek.value
 val currentWeek = (today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 2) xor if (UserPreference.reverseWeek) 1 else 0
 val isFirstWeek = currentWeek == 0
 

@@ -21,17 +21,17 @@ class TeachersImplementation : BasePresenterImpl<TeachersView>(), TeachersPresen
     override fun loadTeachers() {
         view.showTeachersData(DaoGroupModel.getAllTeachersForGroup(AppPreference.groupId))
 
-        teachersManager.loadTeachers(AppPreference.groupId.toString())
+        teachersManager.loadTeachers(AppPreference.groupId)
     }
 
-    override fun onTeacherClick(teacherId: String) {
+    override fun onTeacherClick(teacherId: Int) {
         loadTeacherSchedule(teacherId)
     }
 
-    private fun loadTeacherSchedule(teacherId: String) {
+    private fun loadTeacherSchedule(teacherId: Int) {
         view.showProgressDialog()
 
-        lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()) {
+        lessonsManager.loadTeacherTimeTableAsync(teacherId) {
             view.dismissProgressDialog()
 
             if (it == RESULT_OK) {
@@ -42,7 +42,7 @@ class TeachersImplementation : BasePresenterImpl<TeachersView>(), TeachersPresen
         }
     }
 
-    private fun openTeacherSchedule(teacherId: String) {
+    private fun openTeacherSchedule(teacherId: Int) {
         view.getContext().startActivity<FragmentKeeperActivity>(TimeTableFragment.TEACHER_ID to teacherId)
     }
 }

@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ScheduleApplication
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
+import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
@@ -31,6 +32,8 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
     lateinit var notificationManager: NotificationManager
     @Inject
     lateinit var lessonsManager: LessonsManager
+    @Inject
+    lateinit var teachersManager: TeachersManager
 
     companion object {
         const val CHANGE_GROUP_CODE = 565
@@ -78,15 +81,17 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
 
         findPreference(getString(R.string.update_timetable_key)).apply {
             setOnPreferenceClickListener {
-                val dialog = activity?.indeterminateProgressDialog("Оновлення розкладу")
 
                 if (!context.isNetworkAvailable()) {
                     context.toast(R.string.no_internet)
                     return@setOnPreferenceClickListener true
                 }
 
+                val dialog = activity?.indeterminateProgressDialog("Оновлення розкладу")
+
                 GlobalScope.launch {
                     lessonsManager.loadTimeTableAsync(AppPreference.groupId).await()
+                    teachersManager.loadTeachersAsync(AppPreference.groupId).await()
 
                     launch(Dispatchers.Main) {
                         dialog?.dismiss()

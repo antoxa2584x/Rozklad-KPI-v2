@@ -1,8 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.view
 
 import android.content.Context
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
 
 
 /**

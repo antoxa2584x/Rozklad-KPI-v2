@@ -35,7 +35,7 @@ open class DaoLessonModel : RealmObject() {
     @SerializedName("groups")
     var groups: RealmList<DaoGroupModel> = RealmList()
     @SerializedName("lesson_week")
-    var lessonWeek: String = ""
+    var lessonWeek: Int = -1
     @SerializedName("lesson_room")
     var lessonRoom: String = ""
     @SerializedName("day_name")
@@ -44,12 +44,10 @@ open class DaoLessonModel : RealmObject() {
     var groupId: String = ""
     @SerializedName("lesson_type")
     var lessonType: String = ""
-    @SerializedName("rate")
-    var rate: String = ""
     @SerializedName("lesson_full_name")
     var lessonFullName: String = ""
     @SerializedName("day_number")
-    var dayNumber: String = ""
+    var dayNumber: Int = -1
 
     @SerializedName("time_start")
     var timeStart: String = ""
@@ -60,7 +58,7 @@ open class DaoLessonModel : RealmObject() {
         get() = field.substring(0, field.length - 3)
 
     @SerializedName("lesson_number")
-    var lessonNumber: String = ""
+    var lessonNumber: Int = -1
 
     @Ignore
     var haveNote: Boolean = false

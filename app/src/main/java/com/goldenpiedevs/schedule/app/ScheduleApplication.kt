@@ -7,8 +7,10 @@ import com.evernote.android.job.JobManager
 import com.goldenpiedevs.schedule.app.core.injection.component.AppComponent
 import com.goldenpiedevs.schedule.app.core.injection.component.DaggerAppComponent
 import com.goldenpiedevs.schedule.app.core.injection.module.*
-import com.goldenpiedevs.schedule.app.core.utils.work.UpdateWidgetWork
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.UserPreference
 import com.goldenpiedevs.schedule.app.core.utils.work.AppJobCreator
+import com.goldenpiedevs.schedule.app.core.utils.work.UpdateWidgetWork
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.fabric.sdk.android.Fabric
 import io.github.inflationx.calligraphy3.CalligraphyConfig
@@ -16,8 +18,6 @@ import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
 import io.realm.Realm
 import io.realm.RealmConfiguration
-
-
 
 
 class ScheduleApplication : MultiDexApplication() {
@@ -50,6 +50,11 @@ class ScheduleApplication : MultiDexApplication() {
                 .build()
 
         Realm.setDefaultConfiguration(config)
+
+        if (Realm.getDefaultInstance().isEmpty) {
+            AppPreference.clear()
+            UserPreference.clear()
+        }
 
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(CalligraphyInterceptor(

@@ -12,7 +12,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class TeachersManager(private val context: Context, private val teachersService: TeachersService) {
-    fun loadTeachers(groupId: String) {
+    fun loadTeachers(groupId: Int) {
         if (!context.isNetworkAvailable()) {
             return
         }
@@ -22,7 +22,7 @@ class TeachersManager(private val context: Context, private val teachersService:
         }
     }
 
-    fun loadTeachersAsync(groupId: String): Deferred<Boolean> = GlobalScope.async {
+    fun loadTeachersAsync(groupId: Int): Deferred<Boolean> = GlobalScope.async {
         val response = teachersService.getTeachers(groupId).await()
 
         if (response.isSuccessful) {
@@ -30,10 +30,18 @@ class TeachersManager(private val context: Context, private val teachersService:
             val group = DaoGroupModel.getGroup(groupId)
 
             response.body()?.data?.let {
-                realm.executeTransaction { r ->
-                    val list = RealmList<DaoTeacherModel>().apply {
-                        addAll(response.body()?.data!!)
+
+                val list = RealmList<DaoTeacherModel>().apply {
+                    addAll(response.body()?.data!!)
+                }
+
+                list.onEach { newTeacher ->
+                    DaoTeacherModel.getTeacher(newTeacher.teacherId)?.let { managedTeacher ->
+                        newTeacher.hasLoadedSchedule = managedTeacher.hasLoadedSchedule
                     }
+                }
+
+                realm.executeTransaction { r ->
 
                     r.copyToRealmOrUpdate(list)
 

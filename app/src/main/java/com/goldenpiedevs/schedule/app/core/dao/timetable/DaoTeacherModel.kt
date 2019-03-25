@@ -14,7 +14,7 @@ import io.realm.annotations.RealmClass
 open class DaoTeacherModel : RealmObject() {
     @PrimaryKey
     @SerializedName("teacher_id")
-    var teacherId: String = ""
+    var teacherId: Int = -1
 
     @SerializedName("teacher_full_name")
     var teacherFullName: String = ""
@@ -34,31 +34,40 @@ open class DaoTeacherModel : RealmObject() {
     @SerializedName("teacher_short_name")
     var teacherShortName: String = ""
 
-    var hasLoadedSchedule = false
+    var hasLoadedSchedule: Boolean = false
 
     @LinkingObjects("teachers")
     private val groups: RealmResults<DaoGroupModel>? = null
 
     companion object {
-        fun getTeacher(id: Int): DaoTeacherModel {
+        fun getTeacher(id: Int): DaoTeacherModel? {
             val realm = Realm.getDefaultInstance()
-            val teacher = realm.copyFromRealm(
-                    realm.where(DaoTeacherModel::class.java).equalTo("teacherId", id.toString()).findFirst()!!)
+
+            var teacher: DaoTeacherModel? = null
+
+            getManagedTeacher(id, realm)?.let {
+                teacher = realm.copyFromRealm(it)
+            }
 
             if (!realm.isClosed)
                 realm.close()
 
             return teacher
         }
-    }
 
+        fun getManagedTeacher(id: Int, realm: Realm): DaoTeacherModel? {
+            return realm.where(DaoTeacherModel::class.java).equalTo("teacherId", id).findFirst()
+        }
+
+    }
 
     fun save() {
         val realm = Realm.getDefaultInstance()
 
-        realm.executeTransaction { transaction ->
-            transaction.copyToRealmOrUpdate(this@DaoTeacherModel)
+        realm.executeTransaction {
+            it.copyToRealmOrUpdate(this)
         }
+
         if (!realm.isClosed)
             realm.close()
     }

@@ -1,7 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.teachers
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel

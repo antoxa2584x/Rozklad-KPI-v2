@@ -2,11 +2,10 @@ package com.goldenpiedevs.schedule.app.ui.base
 
 import android.content.Context
 import android.os.Bundle
-import androidx.annotation.Nullable
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Nullable
 import com.goldenpiedevs.schedule.app.ui.view.hideSoftKeyboard
 import java.util.concurrent.atomic.AtomicLong
 
@@ -35,7 +34,8 @@ abstract class BaseFragment : androidx.fragment.app.Fragment(), BaseView {
 
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, @Nullable container: ViewGroup?, @Nullable savedInstanceState: Bundle?): View? {
-        fragmentId = savedInstanceState?.getLong(BaseFragment.KEY_FRAGMENT_ID) ?: nextId.getAndIncrement()
+        fragmentId = savedInstanceState?.getLong(BaseFragment.KEY_FRAGMENT_ID)
+                ?: nextId.getAndIncrement()
         root = inflater.inflate(getFragmentLayout(), container, false)
         return root
     }

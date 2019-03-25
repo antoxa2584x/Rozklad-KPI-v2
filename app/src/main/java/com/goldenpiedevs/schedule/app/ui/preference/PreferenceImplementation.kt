@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.ui.preference
 
-import androidx.fragment.app.FragmentManager
 import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl

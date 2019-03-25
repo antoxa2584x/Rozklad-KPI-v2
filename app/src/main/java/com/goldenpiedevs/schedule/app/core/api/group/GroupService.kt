@@ -15,7 +15,7 @@ interface GroupService {
     fun searchGroupList(@ToJson @Query("search") groupName: Map<String, String>): Observable<Response<BaseResponseModel<List<DaoGroupModel>>>>
 
     @GET("groups/{id}")
-    fun getGroup(@Path("id") groupName: Int): Observable<Response<BaseResponseModel<DaoGroupModel>>>
+    fun getGroup(@Path("id") groupId: Int): Observable<Response<BaseResponseModel<DaoGroupModel>>>
 
     @GET("groups/{id}")
     fun getGroupInfo(@Path("id") groupName: String): Deferred<Response<BaseResponseModel<DaoGroupModel>>>

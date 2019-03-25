@@ -108,18 +108,18 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
         }
     }
 
-    override fun onTeacherClick(id: String) {
+    override fun onTeacherClick(id: Int) {
         loadTeacherSchedule(id)
     }
 
-    private fun openTeacherSchedule(teacherId: String) {
+    private fun openTeacherSchedule(teacherId: Int) {
         view.getContext().startActivity<FragmentKeeperActivity>(TimeTableFragment.TEACHER_ID to teacherId)
     }
 
-    private fun loadTeacherSchedule(teacherId: String) {
+    private fun loadTeacherSchedule(teacherId: Int) {
         view.showProgressDialog()
 
-        lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()) {
+        lessonsManager.loadTeacherTimeTableAsync(teacherId) {
             view.dismissProgressDialog()
 
             if (it == RESULT_OK)

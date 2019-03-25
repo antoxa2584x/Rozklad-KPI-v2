@@ -47,7 +47,7 @@ class WidgetDataProvider(val context: Context) : RemoteViewsService.RemoteViewsF
         view.setViewVisibility(R.id.widget_lesson_has_note, if (model.haveNote) View.VISIBLE else View.INVISIBLE)
 
         view.setTextViewText(R.id.widget_lesson_title, model.lessonName)
-        view.setTextViewText(R.id.widget_lesson_number, model.lessonNumber)
+        view.setTextViewText(R.id.widget_lesson_number, model.lessonNumber.toString())
         view.setTextViewText(R.id.widget_lesson_time, model.getTime())
         view.setTextViewText(R.id.widget_lesson_location, "${model.lessonRoom} ${model.lessonType}")
 

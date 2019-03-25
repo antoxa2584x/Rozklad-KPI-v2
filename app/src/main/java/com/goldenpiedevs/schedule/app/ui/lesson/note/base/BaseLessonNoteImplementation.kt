@@ -17,8 +17,8 @@ import org.jetbrains.anko.startActivity
 
 open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterImpl<T>(), BaseLessonNotePresenter<T> {
 
-   protected lateinit var noteModel: DaoNoteModel
-    protected  lateinit var adapter: NotePhotosAdapter
+    protected lateinit var noteModel: DaoNoteModel
+    protected lateinit var adapter: NotePhotosAdapter
     var isInEditMode: Boolean = false
 
     private var images = arrayListOf<Image>()

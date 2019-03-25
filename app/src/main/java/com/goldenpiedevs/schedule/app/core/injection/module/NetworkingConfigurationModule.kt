@@ -42,8 +42,8 @@ object NetworkingConfigurationModule {
     @Singleton
     fun provideOkHttpClient(customHttpLoggingInterceptor: CustomHttpLoggingInterceptor): OkHttpClient {
         return getUnsafeOkHttpClient()
-            .addNetworkInterceptor(customHttpLoggingInterceptor)
-            .build()
+                .addNetworkInterceptor(customHttpLoggingInterceptor)
+                .build()
     }
 
     @SuppressLint("TrustAllX509TrustManager")

@@ -81,7 +81,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclervi
 
                     //Many if statements for more performance of View's
                     if (day.dayNumber == todayNumberInWeek &&
-                            (day.weekNumber.toInt() - 1) == currentWeek) {
+                            (day.weekNumber - 1) == currentWeek) {
                         dateLayout.setBackgroundResource(R.color.primary_dark)
 
                         if (dayName.currentTextColor != Color.WHITE)
@@ -134,6 +134,7 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclervi
         val title = view.title!!
     }
 
+    @Suppress("DEPRECATION")
     internal class DayViewHolder(view: View, viewPool: androidx.recyclerview.widget.RecyclerView.RecycledViewPool?,
                                  itemDecorator: androidx.recyclerview.widget.RecyclerView.ItemDecoration,
                                  listener: (String) -> Unit) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {

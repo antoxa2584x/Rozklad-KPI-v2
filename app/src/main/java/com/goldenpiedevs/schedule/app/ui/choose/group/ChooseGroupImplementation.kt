@@ -18,6 +18,7 @@ import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.util.isNetworkAvailable
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
@@ -70,7 +71,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     private fun addOnSendClickHandle(autoCompleteTextView: AutoCompleteTextView) {
         autoCompleteTextView.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                awaitNextScreen(autoCompleteTextView.text.toString().replace("И", "i"))
+                awaitNextScreen(groupName = autoCompleteTextView.text.toString().replace("И", "i"))
                 return@OnEditorActionListener true
             }
             false
@@ -135,22 +136,23 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     }
 
     private fun addOnAutoCompleteTextViewItemClickedSubscriber(autoCompleteTextView: AutoCompleteTextView) {
-        val adapterViewItemClickEventObservable = RxAutoCompleteTextView.itemClickEvents(autoCompleteTextView)
-                .map {
-                    val item = autoCompleteTextView.adapter.getItem(it.position()) as DaoGroupModel
-                    item.groupId
-                }
-                .observeOn(Schedulers.io())
-                .switchMap { groupManager.groupDetails(it) }
-                .observeOn(AndroidSchedulers.mainThread())
+        val adapterViewItemClickEventObservable =
+                RxAutoCompleteTextView.itemClickEvents(autoCompleteTextView)
+                        .map {
+                            val item = autoCompleteTextView.adapter.getItem(it.position()) as DaoGroupModel
+                            item.groupId
+                        }
+                        .observeOn(Schedulers.io())
+                        .switchMap { groupManager.groupDetails(it) }
+                        .observeOn(AndroidSchedulers.mainThread())
 
         compositeDisposable.add(
                 adapterViewItemClickEventObservable.subscribe(
-                        { awaitNextScreen(it.body()?.data?.groupId.toString()) },
+                        { awaitNextScreen(groupId = it.body()?.data?.groupId) },
                         { view.onError() }))
     }
 
-    private fun awaitNextScreen(groupId: String) {
+    private fun awaitNextScreen(groupId: Int? = null, groupName: String? = null) {
         if (!view.getContext().isNetworkAvailable()) {
             view.getContext().toast(R.string.no_internet)
             return
@@ -160,8 +162,10 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
 
         GlobalScope.launch {
             val successfulList = mutableListOf(false, false)
-            successfulList[0] = lessonsManager.loadTimeTableAsync(groupId).await()
-            successfulList[1] = teachersManager.loadTeachersAsync(groupId).await()
+
+            successfulList[0] = lessonsManager.loadTimeTableAsync(groupId?.toString()
+                    ?: groupName!!).await()
+            successfulList[1] = teachersManager.loadTeachersAsync(AppPreference.groupId).await()
 
             launch(Dispatchers.Main) {
                 view.dismissProgressDialog()
@@ -173,7 +177,6 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                     view.onError()
                 }
             }
-
         }
     }
 

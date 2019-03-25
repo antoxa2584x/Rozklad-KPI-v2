@@ -7,7 +7,7 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
 interface LessonPresenter : BasePresenter<LessonView> {
     fun showLessonData(bundle: Bundle)
     fun onTeacherClick()
-    fun onTeacherClick(id: String)
+    fun onTeacherClick(id: Int)
     fun onEditNoteClick()
     fun onNoteSaved()
     fun isInEditMode(): Boolean

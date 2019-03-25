@@ -113,7 +113,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         }
     }
 
-    fun saveNote(){
+    fun saveNote() {
         presenter.onNoteSaved()
     }
 

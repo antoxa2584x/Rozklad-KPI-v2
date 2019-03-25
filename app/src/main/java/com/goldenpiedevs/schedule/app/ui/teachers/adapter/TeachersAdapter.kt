@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.ui.teachers.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.teacher_list_item.view.*
 
-class TeachersAdapter(collection: OrderedRealmCollection<DaoTeacherModel>, val onTeacherClick: (String) -> Unit)
+class TeachersAdapter(collection: OrderedRealmCollection<DaoTeacherModel>, val onTeacherClick: (Int) -> Unit)
     : RealmRecyclerViewAdapter<DaoTeacherModel, TeachersAdapter.ViewHolder>(collection, true) {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {

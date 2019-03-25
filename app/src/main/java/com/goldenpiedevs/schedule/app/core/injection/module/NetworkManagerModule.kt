@@ -20,7 +20,7 @@ object NetworkManagerModule {
 
     @Provides
     @Reusable
-    fun provideTeachersManager(context: Context, teachersService: TeachersService) = TeachersManager(context,teachersService)
+    fun provideTeachersManager(context: Context, teachersService: TeachersService) = TeachersManager(context, teachersService)
 
     @Provides
     @Reusable

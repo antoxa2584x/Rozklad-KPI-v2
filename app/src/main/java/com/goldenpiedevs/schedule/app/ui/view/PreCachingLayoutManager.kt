@@ -2,8 +2,6 @@ package com.goldenpiedevs.schedule.app.ui.view
 
 import android.content.Context
 import android.graphics.Point
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.WindowManager
 
 /**

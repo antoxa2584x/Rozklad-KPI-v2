@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.core.ext
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 interface OnItemClickListener {

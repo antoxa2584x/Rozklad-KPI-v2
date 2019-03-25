@@ -22,9 +22,9 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
         const val TEACHER_ID = "teacher_id"
         const val NOTE_REQUEST = 555
 
-        fun getInstance(teacherId: String) = TimeTableFragment().apply {
+        fun getInstance(teacherId: Int) = TimeTableFragment().apply {
             arguments = Bundle().apply {
-                putString(TEACHER_ID, teacherId)
+                putInt(TEACHER_ID, teacherId)
             }
         }
     }
@@ -98,12 +98,12 @@ class TimeTableFragment : BaseFragment(), TimeTableView, CompactCalendarView.Com
 
     override fun updateAdapterAtPortions(dayListPosition: Int, dayModel: DaoDayModel) {
         list.adapter?.let {
-            (it as TimeTableAdapter).updateLesson(dayListPosition,dayModel)
+            (it as TimeTableAdapter).updateLesson(dayListPosition, dayModel)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == NOTE_REQUEST){
+        if (requestCode == NOTE_REQUEST) {
             presenter.updateAdapterLesson(data?.getStringExtra(LESSON_ID))
         }
         super.onActivityResult(requestCode, resultCode, data)

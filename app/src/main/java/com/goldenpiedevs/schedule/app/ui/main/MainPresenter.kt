@@ -1,7 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
-import com.google.android.material.navigation.NavigationView
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
+import com.google.android.material.navigation.NavigationView
 import java.util.*
 
 interface MainPresenter : BasePresenter<MainView> {

@@ -13,10 +13,10 @@ fun DaoDayModel.Companion.getLessons(): Sequence<DaoDayModel> {
 }
 
 fun Sequence<DaoDayModel>.forWeek(week: Int): List<DaoDayModel> =
-        this.filter { it.weekNumber == week.toString() }.sortedBy { it.dayNumber }.toList()
+        this.filter { it.weekNumber == week }.sortedBy { it.dayNumber }.toList()
 
-fun Sequence<DaoDayModel>.forTeacher(teacherId: String?): Sequence<DaoDayModel> =
-        this.filter { it.parentTeacherId == teacherId.toString() }
+fun Sequence<DaoDayModel>.forTeacher(teacherId: Int): Sequence<DaoDayModel> =
+        this.filter { it.parentTeacherId == teacherId }
 
 fun Sequence<DaoDayModel>.forGroupWithName(groupName: String): Sequence<DaoDayModel> =
         this.filter { it.parentGroup == groupName }

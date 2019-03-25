@@ -35,7 +35,7 @@ class TimeTableImplementation : BasePresenterImpl<TimeTableView>(), TimeTablePre
             with(DaoDayModel.getLessons()) {
                 when (arguments != null && arguments.containsKey(TimeTableFragment.TEACHER_ID)) {
                     true -> {
-                        with(forTeacher(arguments.getString(TimeTableFragment.TEACHER_ID))) {
+                        with(forTeacher(arguments.getInt(TimeTableFragment.TEACHER_ID))) {
                             week1 = forWeek(1)
                             week2 = forWeek(2)
                         }

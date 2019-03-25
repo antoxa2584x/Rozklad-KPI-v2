@@ -15,9 +15,9 @@ class LessonsAdapter() : androidx.recyclerview.widget.RecyclerView.Adapter<Lesso
 
     var data: List<DaoLessonModel> = listOf()
         set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+            field = value
+            notifyDataSetChanged()
+        }
 
     constructor(listener: (String) -> Unit) : this() {
         this.listener = listener
@@ -47,7 +47,7 @@ class LessonsAdapter() : androidx.recyclerview.widget.RecyclerView.Adapter<Lesso
                 lessonTitle.text = it.lessonName
                 time.text = it.getTime()
                 location.text = "${it.lessonRoom} ${it.lessonType}"
-                number.text = it.lessonNumber
+                number.text = it.lessonNumber.toString()
                 itemView.setOnClickListener { listener(model.id) }
             }
         }

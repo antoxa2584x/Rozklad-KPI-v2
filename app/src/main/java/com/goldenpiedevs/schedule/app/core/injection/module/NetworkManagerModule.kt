@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.core.injection.module
 
+import android.content.Context
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.group.GroupService
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
@@ -19,10 +20,10 @@ object NetworkManagerModule {
 
     @Provides
     @Reusable
-    fun provideTeachersManager(teachersService: TeachersService) = TeachersManager(teachersService)
+    fun provideTeachersManager(context: Context, teachersService: TeachersService) = TeachersManager(context,teachersService)
 
     @Provides
     @Reusable
-    fun provideLessonsManager(lessonsService: LessonsService, groupManager: GroupManager,
-                              notificationManager: NotificationManager) = LessonsManager(lessonsService, groupManager, notificationManager)
+    fun provideLessonsManager(context: Context, lessonsService: LessonsService, groupManager: GroupManager,
+                              notificationManager: NotificationManager) = LessonsManager(context, lessonsService, groupManager, notificationManager)
 }

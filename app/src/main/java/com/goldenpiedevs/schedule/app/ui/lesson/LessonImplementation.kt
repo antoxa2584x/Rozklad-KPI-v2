@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
+import com.goldenpiedevs.schedule.app.core.utils.util.RESULT_OK
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.fragment.keeper.FragmentKeeperActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.note.base.BaseLessonNoteFragment
@@ -121,7 +122,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
         lessonsManager.loadTeacherTimeTableAsync(teacherId.toInt()) {
             view.dismissProgressDialog()
 
-            if (it)
+            if (it == RESULT_OK)
                 openTeacherSchedule(teacherId)
             else {
                 //TODO

@@ -18,6 +18,7 @@ import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
+import com.goldenpiedevs.schedule.app.core.utils.util.isNetworkAvailable
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
 import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
@@ -29,6 +30,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -149,6 +151,11 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     }
 
     private fun awaitNextScreen(groupId: String) {
+        if (!view.getContext().isNetworkAvailable()) {
+            view.getContext().toast(R.string.no_internet)
+            return
+        }
+
         view.showProgressDialog()
 
         GlobalScope.launch {

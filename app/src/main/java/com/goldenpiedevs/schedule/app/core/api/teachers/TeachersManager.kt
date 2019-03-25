@@ -1,16 +1,29 @@
 package com.goldenpiedevs.schedule.app.core.api.teachers
 
+import android.content.Context
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
+import com.goldenpiedevs.schedule.app.core.utils.util.isNetworkAvailable
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-class TeachersManager(private val teachersServise: TeachersService) {
+class TeachersManager(private val context: Context, private val teachersService: TeachersService) {
+    fun loadTeachers(groupId: String) {
+        if (!context.isNetworkAvailable()) {
+            return
+        }
+
+        GlobalScope.launch {
+            this@TeachersManager.loadTeachersAsync(groupId)
+        }
+    }
+
     fun loadTeachersAsync(groupId: String): Deferred<Boolean> = GlobalScope.async {
-        val response = teachersServise.getTeachers(groupId).await()
+        val response = teachersService.getTeachers(groupId).await()
 
         if (response.isSuccessful) {
             val realm = Realm.getDefaultInstance()
@@ -37,6 +50,6 @@ class TeachersManager(private val teachersServise: TeachersService) {
             }
         }
 
-        response.isSuccessful
+        return@async response.isSuccessful
     }
 }

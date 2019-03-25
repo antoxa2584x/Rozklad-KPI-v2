@@ -1,13 +1,20 @@
 package com.goldenpiedevs.schedule.app.core.api.lessons
 
+import android.content.Context
+import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoDayModel
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.util.NO_INTERNET
+import com.goldenpiedevs.schedule.app.core.utils.util.RESULT_FAILED
+import com.goldenpiedevs.schedule.app.core.utils.util.RESULT_OK
+import com.goldenpiedevs.schedule.app.core.utils.util.isNetworkAvailable
 import kotlinx.coroutines.*
+import org.jetbrains.anko.toast
 
-class LessonsManager(private val lessonsService: LessonsService, private val groupManager: GroupManager, private val notificationManager: NotificationManager) {
+class LessonsManager(private val context: Context, private val lessonsService: LessonsService, private val groupManager: GroupManager, private val notificationManager: NotificationManager) {
     fun loadTimeTableAsync(groupID: String): Deferred<Boolean> = GlobalScope.async {
         val response = lessonsService.getGroupTimeTable(groupID).await()
 
@@ -33,10 +40,20 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
 
     fun loadTimeTableAsync(groupID: Int) = loadTimeTableAsync(groupID.toString())
 
-    fun loadTeacherTimeTableAsync(teacherId: Int, listener: (Boolean) -> Unit) {
+    fun loadTeacherTimeTableAsync(teacherId: Int, listener: (Int) -> Unit) {
         GlobalScope.launch {
             if (DaoTeacherModel.getTeacher(teacherId).hasLoadedSchedule) {
-                listener(true)
+                listener(RESULT_OK)
+                return@launch
+            }
+
+            if (!context.isNetworkAvailable()) {
+                listener(NO_INTERNET)
+
+                launch(Dispatchers.Main) {
+                    context.toast(R.string.no_internet)
+                }
+
                 return@launch
             }
 
@@ -55,7 +72,7 @@ class LessonsManager(private val lessonsService: LessonsService, private val gro
                 }
 
                 launch(Dispatchers.Main) {
-                    listener(isSuccessful)
+                    listener(if (isSuccessful) RESULT_OK else RESULT_FAILED)
                 }
             }
         }

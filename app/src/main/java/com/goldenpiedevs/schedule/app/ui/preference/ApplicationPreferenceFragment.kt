@@ -13,6 +13,7 @@ import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoLessonModel
 import com.goldenpiedevs.schedule.app.core.notifications.manger.NotificationManager
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.core.utils.preference.UserPreference
+import com.goldenpiedevs.schedule.app.core.utils.util.isNetworkAvailable
 import com.goldenpiedevs.schedule.app.core.utils.util.restartApp
 import com.goldenpiedevs.schedule.app.ui.choose.group.ChooseGroupActivity
 import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
@@ -20,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 
@@ -77,6 +79,11 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
         findPreference(getString(R.string.update_timetable_key)).apply {
             setOnPreferenceClickListener {
                 val dialog = activity?.indeterminateProgressDialog("Оновлення розкладу")
+
+                if (!context.isNetworkAvailable()) {
+                    context.toast(R.string.no_internet)
+                    return@setOnPreferenceClickListener true
+                }
 
                 GlobalScope.launch {
                     lessonsManager.loadTimeTableAsync(AppPreference.groupId).await()

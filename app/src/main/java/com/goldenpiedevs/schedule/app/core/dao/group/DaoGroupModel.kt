@@ -31,7 +31,7 @@ open class DaoGroupModel : RealmObject() {
     }
 
     companion object {
-        fun getAllForTeachers(groupId: Int): OrderedRealmCollection<DaoTeacherModel> {
+        fun getAllTeachersForGroup(groupId: Int): OrderedRealmCollection<DaoTeacherModel> {
             return Realm.getDefaultInstance().where(DaoTeacherModel::class.java).equalTo("groups.groupId", groupId).findAll()
         }
 

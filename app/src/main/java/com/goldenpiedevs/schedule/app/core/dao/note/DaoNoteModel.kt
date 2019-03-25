@@ -13,13 +13,12 @@ open class DaoNoteModel : RealmObject() {
     @PrimaryKey
     var id = UUID.randomUUID().toString()
 
-    var lessonId: String = ""
+    var lessonId: Int = 0
     var groupId: Int = 0
     var note: String = ""
     var photos: RealmList<DaoNotePhoto> = RealmList()
 
     fun save(photos: MutableList<DaoNotePhoto>) {
-        val lessonModel = DaoLessonModel.getLesson(lessonId)
         val realm = Realm.getDefaultInstance()
 
         realm.executeTransaction {
@@ -28,10 +27,6 @@ open class DaoNoteModel : RealmObject() {
             this.photos = photoRealmList
 
             it.copyToRealmOrUpdate(this)
-
-            lessonModel.noteModel = this
-
-            it.copyToRealmOrUpdate(lessonModel)
         }
 
         if (!realm.isClosed)
@@ -39,23 +34,55 @@ open class DaoNoteModel : RealmObject() {
 
     }
 
-    companion object {
-        fun get(lessonId: String, groupId: Int): DaoNoteModel {
-            val realm = Realm.getDefaultInstance()
-            val groupDao = realm.where(DaoNoteModel::class.java)
-                    .equalTo("groupId", groupId)
-                    .equalTo("lessonId", lessonId)
-                    .findFirst()
+    fun delete() {
+        val lessonModel = DaoLessonModel.getLesson(lessonId)
 
-            val group = groupDao?.let { realm.copyFromRealm(it) }
+        val realm = Realm.getDefaultInstance()
+
+        getManaged(lessonId, groupId, realm)?.let { note ->
+            realm.executeTransaction {
+                note.deleteFromRealm()
+                it.copyToRealmOrUpdate(lessonModel)
+            }
+        }
+
+        if (!realm.isClosed)
+            realm.close()
+    }
+
+    companion object {
+        private fun getManaged(lessonId: Int, groupId: Int, realm: Realm) =
+                realm.where(DaoNoteModel::class.java)
+                        .equalTo("groupId", groupId)
+                        .equalTo("lessonId", lessonId)
+                        .findFirst()
+
+        fun get(lessonId: Int, groupId: Int): DaoNoteModel {
+            val realm = Realm.getDefaultInstance()
+            val managedNote = getManaged(lessonId, groupId, realm)
+
+            val noteCopy = managedNote?.let { realm.copyFromRealm(it) }
 
             if (!realm.isClosed)
                 realm.close()
 
-            return group?.let { it } ?: DaoNoteModel().apply {
+            return noteCopy?.let { it } ?: DaoNoteModel().apply {
                 this.lessonId = lessonId
                 this.groupId = groupId
             }
+        }
+
+        fun exist(lessonId: Int, groupId: Int): Boolean {
+            val realm = Realm.getDefaultInstance()
+            val exist = realm.where(DaoNoteModel::class.java)
+                    .equalTo("groupId", groupId)
+                    .equalTo("lessonId", lessonId)
+                    .count() > 0
+
+            if (!realm.isClosed)
+                realm.close()
+
+            return exist
         }
     }
 }

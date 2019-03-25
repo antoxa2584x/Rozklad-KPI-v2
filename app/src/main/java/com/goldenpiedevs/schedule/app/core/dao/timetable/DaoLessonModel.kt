@@ -2,10 +2,12 @@ package com.goldenpiedevs.schedule.app.core.dao.timetable
 
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
 import com.goldenpiedevs.schedule.app.core.dao.note.DaoNoteModel
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.google.gson.annotations.SerializedName
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.annotations.Ignore
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
@@ -60,7 +62,11 @@ open class DaoLessonModel : RealmObject() {
     @SerializedName("lesson_number")
     var lessonNumber: String = ""
 
-    var noteModel: DaoNoteModel? = null
+    @Ignore
+    var haveNote: Boolean = false
+        get() {
+            return DaoNoteModel.exist(lessonId, AppPreference.groupId)
+        }
 
     var showNotification = true
 
@@ -77,10 +83,11 @@ open class DaoLessonModel : RealmObject() {
                 realm.close()
             return lessonModel!!
         }
-        fun getLesson(lessonId: String): DaoLessonModel {
+
+        fun getLesson(lessonId: Int): DaoLessonModel {
             val realm = Realm.getDefaultInstance()
             val lessonModel = realm.copyFromRealm(realm.where(DaoLessonModel::class.java)
-                    .equalTo("lessonId", lessonId.toInt()).findFirst()!!)
+                    .equalTo("lessonId", lessonId).findFirst()!!)
             if (!realm.isClosed)
                 realm.close()
             return lessonModel!!

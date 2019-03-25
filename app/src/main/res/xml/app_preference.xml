@@ -28,4 +28,27 @@
             android:summary="@string/fifteen_min"
             android:title="@string/notify_before_fore" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/contact_me">
+        <Preference
+            android:icon="@drawable/ic_bug_report"
+            android:summary="@string/telegram_link"
+            android:title="Telegram">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://t.me/ArtemovAnton" />
+        </Preference>
+
+        <Preference
+            android:summary="@string/email"
+            android:title="Email">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/contact_developer_uri">
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="Розклад КПI" />
+            </intent>
+        </Preference>
+    </PreferenceCategory>
 </PreferenceScreen>

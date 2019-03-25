@@ -43,4 +43,7 @@ open class BasePresenterImpl<V : BaseView> : BasePresenter<V> {
             is TeachersImplementation -> injector.inject(this)
         }
     }
+
+    override fun onBackPressed() {
+    }
 }

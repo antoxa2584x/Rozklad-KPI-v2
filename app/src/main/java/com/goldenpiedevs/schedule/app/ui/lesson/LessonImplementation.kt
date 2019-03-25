@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -15,6 +16,7 @@ import com.goldenpiedevs.schedule.app.ui.lesson.note.base.BaseLessonNoteFragment
 import com.goldenpiedevs.schedule.app.ui.lesson.note.edit.LessonNoteEditFragment
 import com.goldenpiedevs.schedule.app.ui.lesson.note.show.LessonNoteFragment
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
+import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,8 +33,10 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
 
     private lateinit var daoLessonModel: DaoLessonModel
     private lateinit var supportFragmentManager: FragmentManager
+
     private var isInEditMode = false
-    private var hasNote = false
+    private var hasFinalNote = false
+    private var hasInitialNote = false
 
     override fun isInEditMode() = isInEditMode
 
@@ -71,8 +75,10 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                         }
                     }
 
-                    daoLessonModel.noteModel?.let {
-                        hasNote = true
+                    if (daoLessonModel.haveNote) {
+                        hasInitialNote = true
+                        hasFinalNote = true
+
                         attachNoteView()
                     }
                 }
@@ -130,9 +136,28 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
             attachEditNoteView()
     }
 
-    override fun onNoteSave() {
+    override fun onNoteSaved() {
         attachNoteView()
-        hasNote = true
+        hasFinalNote = true
+    }
+
+    override fun onNoteDeleted() {
+        removeAllNoteViews()
+        hasFinalNote = false
+    }
+
+    private fun removeAllNoteViews() {
+        with(supportFragmentManager) {
+            findFragmentById(R.id.lesson_note_view_container)?.let {
+                beginTransaction().remove(it).commit()
+            }
+
+            popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
+
+        isInEditMode = false
+
+        (view.getIt() as AppCompatActivity).invalidateOptionsMenu()
     }
 
     override fun attachEditNoteView() {
@@ -142,7 +167,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
             beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(R.id.lesson_note_view_container,
-                            BaseLessonNoteFragment.getInstance(daoLessonModel.lessonId.toString(), true),
+                            BaseLessonNoteFragment.getInstance(daoLessonModel.lessonId, true),
                             LessonNoteEditFragment::class.java.canonicalName)
                     .commit()
         }
@@ -158,7 +183,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
 
             beginTransaction()
                     .replace(R.id.lesson_note_view_container,
-                            BaseLessonNoteFragment.getInstance(daoLessonModel.lessonId.toString()),
+                            BaseLessonNoteFragment.getInstance(daoLessonModel.lessonId),
                             LessonNoteFragment::class.java.canonicalName)
                     .commit()
         }
@@ -166,5 +191,16 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
         isInEditMode = false
 
         (view.getIt() as AppCompatActivity).invalidateOptionsMenu()
+    }
+
+    override fun onBackPressed() {
+        if (hasInitialNote != hasFinalNote) {
+            with(view.getIt() as LessonActivity) {
+                ScheduleWidgetProvider.updateWidget(view.getContext())
+                setResult(Activity.RESULT_OK, intent)
+            }
+        }
+
+        super.onBackPressed()
     }
 }

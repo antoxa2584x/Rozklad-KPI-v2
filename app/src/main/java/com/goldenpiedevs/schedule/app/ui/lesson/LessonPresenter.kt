@@ -9,10 +9,11 @@ interface LessonPresenter : BasePresenter<LessonView> {
     fun onTeacherClick()
     fun onTeacherClick(id: String)
     fun onEditNoteClick()
-    fun onNoteSave()
+    fun onNoteSaved()
     fun isInEditMode(): Boolean
     fun setFragmentManager(supportFragmentManager: FragmentManager)
 
     fun attachNoteView()
     fun attachEditNoteView()
+    fun onNoteDeleted()
 }

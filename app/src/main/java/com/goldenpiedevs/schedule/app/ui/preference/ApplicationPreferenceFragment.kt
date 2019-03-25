@@ -84,6 +84,11 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
                     launch(Dispatchers.Main) {
                         dialog?.dismiss()
                         ScheduleWidgetProvider.updateWidget(context)
+
+                        Handler().postDelayed({
+                            context.restartApp()
+                        }, 200)
+
                     }
                 }
                 true

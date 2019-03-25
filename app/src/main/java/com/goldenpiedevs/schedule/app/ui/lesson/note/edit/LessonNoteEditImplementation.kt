@@ -9,13 +9,16 @@ class LessonNoteEditImplementation : BaseLessonNoteImplementation<LessonNoteEdit
             noteModel.apply {
                 note = view.getNote() ?: ""
             }.save(adapter.getData())
-        }
 
-        (view.getContext() as LessonActivity).saveNote()
+            (view.getContext() as LessonActivity).saveNote()
+        } else {
+            deleteNote()
+        }
     }
 
     override fun deleteNote() {
-        //TODO
+        noteModel.delete()
+
         (view.getContext() as LessonActivity).deleteNote()
     }
 }

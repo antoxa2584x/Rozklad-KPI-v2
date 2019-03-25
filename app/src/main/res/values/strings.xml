@@ -34,4 +34,8 @@
     <string name="no_lessons_today">Сьогодні пар нема</string>
     <string name="reverse_group_switch">Якщо тиждень відображається не вірно</string>
     <string name="note">Нотаток</string>
+    <string name="contact_me">Зворотний зв\'язок</string>
+    <string name="telegram_link">\@ArtemovAnton</string>
+    <string name="email">antoxa2584@gmail.com</string>
+    <string name="contact_developer_uri">mailto:antoxa2584@gmail.com</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -115,7 +114,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     fun saveNote(){
-        presenter.onNoteSave()
+        presenter.onNoteSaved()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -124,7 +123,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     override fun onBackPressed() {
-        setResult(Activity.RESULT_OK, intent)
+        presenter.onBackPressed()
         super.onBackPressed()
     }
 
@@ -136,6 +135,6 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     fun deleteNote() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        presenter.onNoteDeleted()
     }
 }

@@ -13,9 +13,9 @@ abstract class BaseLessonNoteFragment : BaseFragment(), BaseLessonNoteView {
     companion object {
         private const val LESSON_ID = "lesson_id"
 
-        fun getInstance(lessonId: String, editMode: Boolean = false): BaseFragment {
+        fun getInstance(lessonId: Int, editMode: Boolean = false): BaseFragment {
             val bundle = Bundle().apply {
-                putString(LESSON_ID, lessonId)
+                putInt(LESSON_ID, lessonId)
             }
             return (if (editMode) LessonNoteEditFragment() else LessonNoteFragment())
                     .apply { arguments = bundle }
@@ -35,7 +35,10 @@ abstract class BaseLessonNoteFragment : BaseFragment(), BaseLessonNoteView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.getNote(arguments!!.getString(LESSON_ID)!!)
+
+        arguments?.let {
+            presenter.getNote(it.getInt(LESSON_ID))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

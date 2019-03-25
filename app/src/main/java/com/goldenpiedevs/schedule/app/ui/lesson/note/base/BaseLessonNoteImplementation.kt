@@ -27,7 +27,7 @@ open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterI
         isInEditMode = inEditMode
     }
 
-    override fun getNote(lessonId: String) {
+    override fun getNote(lessonId: Int) {
         noteModel = DaoNoteModel.get(lessonId, AppPreference.groupId)
 
         images = ArrayList(noteModel.photos.map {
@@ -53,8 +53,10 @@ open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterI
         view.setNoteText(noteModel.note)
     }
 
-    private fun deletePhoto(uri: DaoNotePhoto) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun deletePhoto(notePhoto: DaoNotePhoto) {
+        images.remove(images.first { it.path == notePhoto.path })
+
+        onPhotosSelected(images)
     }
 
     private fun showPhoto(notePhoto: DaoNotePhoto) {
@@ -64,14 +66,12 @@ open class BaseLessonNoteImplementation<T : BaseLessonNoteView> : BasePresenterI
     private fun onAddPhotoClick() {
         ImagePicker.create(view.getIt() as BaseLessonNoteFragment)
                 .folderMode(true)
-                .toolbarImageTitle("Tap to select")
                 .toolbarArrowColor(Color.WHITE)
                 .includeVideo(false)
                 .multi()
                 .origin(images)
                 .limit(10)
                 .showCamera(true)
-                .imageDirectory("Camera")
                 .start()
     }
 

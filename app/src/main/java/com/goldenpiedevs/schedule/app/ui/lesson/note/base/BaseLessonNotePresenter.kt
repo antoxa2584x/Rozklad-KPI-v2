@@ -5,6 +5,6 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenter
 
 interface BaseLessonNotePresenter<T : BaseLessonNoteView> : BasePresenter<T> {
     fun setEditMode(inEditMode: Boolean)
-    fun getNote(lessonId: String)
+    fun getNote(lessonId: Int)
     fun onPhotosSelected(list: ArrayList<Image>)
 }

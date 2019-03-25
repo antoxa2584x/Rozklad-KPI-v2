@@ -36,7 +36,7 @@ class LessonsAdapter() : androidx.recyclerview.widget.RecyclerView.Adapter<Lesso
 
         model.let {
             holder.apply {
-                if (it.noteModel != null) {
+                if (it.haveNote) {
                     number.setTextColor(Color.WHITE)
                     hasNote.visibility = View.VISIBLE
                 } else {

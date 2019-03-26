@@ -11,11 +11,11 @@ interface MainPresenter : BasePresenter<MainView> {
     fun showCurrentDayTitle()
     fun showTimeTable()
     fun onMapClick()
-    fun onGroupChangeClick()
     fun onSettingsClick()
     fun onTeachersClick()
     fun onTimeTableClick()
     fun updateCalendarState()
     fun onCalendarOpen(firstDayOfNewMonth: Date)
     fun checkItem()
+    fun onExamsClick()
 }

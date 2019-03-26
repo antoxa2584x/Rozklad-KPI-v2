@@ -199,9 +199,9 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
             with(view.getIt() as LessonActivity) {
                 ScheduleWidgetProvider.updateWidget(view.getContext())
                 setResult(Activity.RESULT_OK, intent)
+                super.onBackPressed()
             }
         }
-
         super.onBackPressed()
     }
 }

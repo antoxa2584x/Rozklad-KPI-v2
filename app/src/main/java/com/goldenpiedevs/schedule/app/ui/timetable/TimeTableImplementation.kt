@@ -12,6 +12,7 @@ import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonActivity
 import com.goldenpiedevs.schedule.app.ui.lesson.LessonImplementation
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

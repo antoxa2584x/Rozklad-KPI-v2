@@ -39,4 +39,5 @@
     <string name="email">antoxa2584@gmail.com</string>
     <string name="contact_developer_uri">mailto:antoxa2584@gmail.com</string>
     <string name="no_internet">Відсутній доступ до Інтернету</string>
+    <string name="exams_timetable">Розклад екзаменів</string>
 </resources>

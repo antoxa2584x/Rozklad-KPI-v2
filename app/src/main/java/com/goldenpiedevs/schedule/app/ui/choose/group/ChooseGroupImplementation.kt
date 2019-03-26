@@ -168,11 +168,12 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
             successfulList[1] = teachersManager.loadTeachersAsync(AppPreference.groupId).await()
 
             launch(Dispatchers.Main) {
+                ScheduleWidgetProvider.updateWidget(view.getContext())
+
                 view.dismissProgressDialog()
 
                 if (successfulList.all { it }) {
                     showMainScreen()
-                    ScheduleWidgetProvider.updateWidget(view.getContext())
                 } else {
                     view.onError()
                 }

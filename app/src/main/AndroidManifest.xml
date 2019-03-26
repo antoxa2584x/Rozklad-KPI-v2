@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.APPWIDGET_LIST" />
 
     <application
         android:name=".ScheduleApplication"
@@ -60,6 +61,7 @@
 
         <service
             android:name=".ui.widget.WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 </manifest>

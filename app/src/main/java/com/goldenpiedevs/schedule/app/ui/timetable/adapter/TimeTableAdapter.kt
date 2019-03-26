@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.timetable_list_item.view.*
 import kotlinx.android.synthetic.main.timetable_week_name_layout.view.*
 
 
-class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+class TimeTableAdapter(modelList: MutableList<DaoDayModel>) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     companion object {
         const val TITLE = 1
@@ -25,6 +25,12 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclervi
     }
 
     lateinit var listener: (String) -> Unit
+    var data: MutableList<DaoDayModel> = mutableListOf()
+
+    init {
+        data.clear()
+        data.addAll(modelList)
+    }
 
     private var primaryColor: Int = 0
     private var secondaryColor: Int = 0
@@ -116,10 +122,10 @@ class TimeTableAdapter(var data: MutableList<DaoDayModel>) : androidx.recyclervi
         notifyDataSetChanged()
     }
 
-    fun update(data: List<DaoDayModel>) {
-        this.data.apply {
+    fun update(newData: List<DaoDayModel>) {
+        data.apply {
             clear()
-            addAll(data)
+            addAll(newData)
         }
 
         notifyDataSetChanged()

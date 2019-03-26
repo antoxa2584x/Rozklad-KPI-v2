@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
+import android.appwidget.AppWidgetProvider
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import androidx.core.view.GravityCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
+import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.main_activity_layout.*
 import kotlinx.android.synthetic.main.navigation_layout.*
@@ -65,6 +67,8 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
             presenter.onSettingsClick()
             drawerLayout.closeDrawers()
         }
+
+        ScheduleWidgetProvider.updateWidget(getContext())
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -106,6 +110,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
         if (!item.isChecked) {
             when (item.itemId) {
                 R.id.timetable -> presenter.onTimeTableClick()
+                R.id.exams -> presenter.onExamsClick()
                 R.id.map -> presenter.onMapClick()
                 R.id.teachers -> presenter.onTeachersClick()
             }

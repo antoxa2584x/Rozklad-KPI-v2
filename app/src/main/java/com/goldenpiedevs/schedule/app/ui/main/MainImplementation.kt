@@ -1,5 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.goldenpiedevs.schedule.app.R
@@ -88,8 +90,12 @@ class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
         view.showCalendar(AppPreference.isCalendarOpen)
     }
 
-    override fun onGroupChangeClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onExamsClick() {
+        with(view.getContext()) {
+            val browserIntent = Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://rozklad.org.ua/exams/group/${AppPreference.groupName}"))
+            startActivity(browserIntent)
+        }
     }
 
     override fun onSettingsClick() {

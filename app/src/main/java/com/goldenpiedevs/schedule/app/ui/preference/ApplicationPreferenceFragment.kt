@@ -67,14 +67,11 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
         findPreference(getString(R.string.user_preference_reverse_week_key)).apply {
             onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, value ->
                 UserPreference.reverseWeek = value.toString().toBoolean()
+                ScheduleWidgetProvider.updateWidget(context)
 
                 Handler().postDelayed({
-                    ScheduleWidgetProvider.updateWidget(context)
-
                     context.restartApp()
                 }, 200)
-
-
                 true
             }
         }
@@ -96,11 +93,6 @@ class ApplicationPreferenceFragment : PreferenceFragmentCompat() {
                     launch(Dispatchers.Main) {
                         dialog?.dismiss()
                         ScheduleWidgetProvider.updateWidget(context)
-
-                        Handler().postDelayed({
-                            context.restartApp()
-                        }, 200)
-
                     }
                 }
                 true

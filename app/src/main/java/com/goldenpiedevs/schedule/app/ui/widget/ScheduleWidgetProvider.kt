@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.ui.widget
 
-import android.annotation.TargetApi
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -8,7 +7,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.widget.RemoteViews
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
@@ -39,6 +37,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             intent?.action.equals(ACTION_OPEN_LESSON) -> context?.let {
                 it.startActivity(Intent(it, LessonActivity::class.java)
                         .apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             putExtra(LessonImplementation.LESSON_ID,
                                     intent!!.getStringExtra(LESSON_ID))
                         })

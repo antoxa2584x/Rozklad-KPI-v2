@@ -1,17 +1,43 @@
 <resources>
-    <string name="app_name">Rozklad KPI on steroids</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="user_preference_file_name" translatable="false">notification_prefs</string>
+    <string name="user_preference_notification_delay_key" translatable="false">notification_delay_key</string>
+    <string name="user_preference_show_notification_key" translatable="false">show_notification_key</string>
+    <string name="user_preference_reverse_week_key" translatable="false">reverse_week_key</string>
+    <string name="update_timetable_key" translatable="false">update_timetable_key</string>
+    <string name="change_group_key" translatable="false">change_group_key</string>
+
+    <string name="app_name">Розклад КПI</string>
     <string name="loading">Завантаження…</string>
     <string name="choose_your_group">Оберіть свою групу</string>
     <string name="error">Помилка завантаження</string>
-    <string name="enter_group_name">Введiть назву групи</string>
+    <string name="enter_group_name">Введіть назву групи</string>
     <string name="first_week">Перший тиждень</string>
     <string name="second_week">Другий тиждень</string>
     <string name="week">тиждень</string>
     <string name="type">Тип</string>
     <string name="teacher">Викладач</string>
+    <string name="teachers">Викладачі</string>
     <string name="time">Час</string>
     <string name="location">Розташування</string>
     <string name="timetable">Розклад</string>
     <string name="map">Мапа КПI</string>
+    <string name="next_lesson">Наступна пара у</string>
+    <string name="notifications">Повідомлення</string>
+    <string name="notify_before_fore">Повідомляти перед парою за:</string>
+    <string name="fifteen_min">15 хвилин</string>
+    <string name="show_notifications">Показувати повідомлення</string>
+    <string name="min">хв.</string>
+    <string name="settings">Налаштування</string>
+    <string name="group">Група</string>
+    <string name="change_group">Змінити групу</string>
+    <string name="update_timetable">Оновити розклад</string>
+    <string name="no_lessons_today">Сьогодні пар нема</string>
+    <string name="reverse_group_switch">Якщо тиждень відображається не вірно</string>
+    <string name="note">Нотаток</string>
+    <string name="contact_me">Зворотний зв\'язок</string>
+    <string name="telegram_link">\@ArtemovAnton</string>
+    <string name="email">antoxa2584@gmail.com</string>
+    <string name="contact_developer_uri">mailto:antoxa2584@gmail.com</string>
+    <string name="no_internet">Відсутній доступ до Інтернету</string>
+    <string name="exams_timetable">Розклад екзаменів</string>
 </resources>

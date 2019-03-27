@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +7,14 @@
     android:nextFocusDown="@id/groupNameAutocomplete"
     android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bluredBack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:src="@drawable/init_screen_back" />
+        app:srcCompat="@drawable/init_screen_back" />
 
-    <android.support.v7.widget.AppCompatAutoCompleteTextView
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
         android:id="@+id/groupNameAutocomplete"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
@@ -24,11 +24,12 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
-        android:imeOptions="actionNone"
+        android:imeOptions="actionSend"
         android:inputType="textCapCharacters"
         android:lines="1"
         android:maxLength="10"
         android:maxLines="1"
+        app:backgroundTint="@android:color/white"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/bluredBack"
@@ -37,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
         tools:text="ssdadasdd" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/appCompatImageView"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
@@ -65,4 +66,4 @@
         app:srcCompat="@drawable/kpi_icon" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

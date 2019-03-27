@@ -4,12 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.ext.getStatusBarHeight
-import com.goldenpiedevs.schedule.app.core.ext.hideSoftKeyboard
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import com.goldenpiedevs.schedule.app.ui.view.hideSoftKeyboard
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.util.concurrent.atomic.AtomicLong
@@ -34,10 +35,18 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         return this
     }
 
+    override fun getIt() = this
+
     abstract fun getActivityLayout(): Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        try {
+//            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
+//        } catch (e: IllegalStateException) {
+//        }
 
         if (getActivityLayout() == -1)
             return
@@ -60,20 +69,24 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        outState!!.putLong(KEY_ACTIVITY_ID, activityId)
+    override fun onResume() {
+        getPresenterChild().onResume()
+        super.onResume()
     }
 
-    override fun showProgreeDialog() {
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putLong(KEY_ACTIVITY_ID, activityId)
+    }
+
+    override fun showProgressDialog() {
         hideSoftKeyboard()
 
         dialog = indeterminateProgressDialog(R.string.loading)
-        dialog!!.show()
     }
 
-    override fun dismissProgreeDialog() {
-        dialog!!.dismiss()
+    override fun dismissProgressDialog() {
+        dialog?.dismiss()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -90,5 +103,9 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
         super.onDestroy()
 
         getPresenterChild().detachView()
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 }

@@ -1,19 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.goldenpiedevs.schedule.app">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.APPWIDGET_LIST" />
 
     <application
         android:name=".ScheduleApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_circle"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.launcher.LauncherActivity"
             android:theme="@style/AppTheme.Launcher">
@@ -25,10 +29,39 @@
         </activity>
         <activity android:name=".ui.choose.group.ChooseGroupActivity" />
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.lesson.LessonActivity" />
         <activity
-            android:name=".ui.map.MapFragment"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:name=".ui.lesson.LessonActivity"
+            android:theme="@style/AppTheme.SwipeBack" />
+        <activity
+            android:name=".ui.fragment.keeper.FragmentKeeperActivity"
+            android:theme="@style/AppTheme.SwipeBack" />
+        <activity
+            android:name=".ui.preference.PreferenceActivity"
+            android:label="@string/settings"
+            android:theme="@style/AppTheme.SwipeBack" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="d1532bea837e3abf29e92dca516b1c1ab497ea4e" />
+
+        <service
+            android:name="com.evernote.android.job.gcm.PlatformGcmService"
+            android:enabled="true"
+            tools:replace="android:enabled" />
+
+        <receiver android:name=".ui.widget.ScheduleWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/collection_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".ui.widget.WidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 </manifest>

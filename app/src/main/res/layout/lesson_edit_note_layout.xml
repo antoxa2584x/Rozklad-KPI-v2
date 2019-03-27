@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="72dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/note_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/note_icon" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/note_title"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:gravity="bottom"
+        android:maxLines="1"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/note_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/note"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/note_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="textCapSentences|textMultiLine"
+        android:textColor="@color/secondary_text"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/note_photo_list"
+        app:layout_constraintEnd_toEndOf="@+id/note_title"
+        app:layout_constraintStart_toStartOf="@+id/note_title"
+        app:layout_constraintTop_toBottomOf="@+id/note_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/note_photo_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/note_text"
+        app:layout_constraintStart_toStartOf="@+id/note_text"
+        app:layout_constraintTop_toBottomOf="@+id/note_text"
+        tools:listitem="@layout/note_photo_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

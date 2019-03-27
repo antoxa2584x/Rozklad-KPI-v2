@@ -1,93 +1,141 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
-import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.R.id.container
-import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
 import com.goldenpiedevs.schedule.app.core.ext.currentWeek
+import com.goldenpiedevs.schedule.app.core.ext.getCurrentMonth
 import com.goldenpiedevs.schedule.app.core.ext.todayName
-import com.goldenpiedevs.schedule.app.core.utils.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
+import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.map.MapFragment
+import com.goldenpiedevs.schedule.app.ui.preference.PreferenceActivity
+import com.goldenpiedevs.schedule.app.ui.teachers.TeachersFragment
 import com.goldenpiedevs.schedule.app.ui.timetable.TimeTableFragment
-import kotlinx.coroutines.experimental.launch
-import javax.inject.Inject
+import com.google.android.material.navigation.NavigationView
+import org.jetbrains.anko.startActivity
+import java.util.*
+import kotlin.concurrent.schedule
+
 
 class MainImplementation : BasePresenterImpl<MainView>(), MainPresenter {
-    @Inject
-    lateinit var lessonsManager: LessonsManager
 
-    private lateinit var supportFragmentManager: FragmentManager
+    private lateinit var supportFragmentManager: androidx.fragment.app.FragmentManager
     private lateinit var navigationView: NavigationView
 
-    override fun setSupportFragmentManager(supportFragmentManager: FragmentManager) {
+    override fun setSupportFragmentManager(supportFragmentManager: androidx.fragment.app.FragmentManager) {
         this.supportFragmentManager = supportFragmentManager
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            supportFragmentManager.findFragmentById(R.id.container)?.let {
+                checkItem()
+            }
+        }
     }
 
     override fun setNavigationView(navigationView: NavigationView) {
         this.navigationView = navigationView
     }
 
-    override fun onTimeTableClick() {
-        navigationView.setCheckedItem(R.id.timetable)
-
+    override fun showTimeTable() {
         supportFragmentManager.beginTransaction()
-                .replace(container, TimeTableFragment())
+                .add(container, TimeTableFragment())
                 .commit()
+
+        checkItem()
     }
 
-    override fun attachView(view: MainView) {
-        super.attachView(view)
+    override fun onTimeTableClick() {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    override fun showCurrentDayTitle() {
+        view.setActivitySubtitle(AppPreference.groupName.toUpperCase())
 
         with(view) {
-            setActivitySubtitle(AppPreference.groupName.toUpperCase())
-
             //String immutable, seems it does not like apply
             var title = todayName
             title = title.substring(0, 1).toUpperCase() + title.substring(1)
-            title += ", ${currentWeek + 1} ${view.getContext().getString(R.string.week)}"
+            title += ", ${currentWeek + 1} ${getContext().getString(R.string.week)}"
 
             setActivityTitle(title)
         }
     }
 
     override fun onMapClick() {
-        navigationView.setCheckedItem(R.id.timetable)
+        changeFragment(MapFragment())
+    }
+
+    private fun <T : BaseFragment> changeFragment(fragment: T) {
         view.toggleToolbarCollapseMode(false)
 
         supportFragmentManager.beginTransaction()
-                .add(container, MapFragment())
-                .addToBackStack(null)
+                .add(container, fragment)
+                .addToBackStack(fragment::class.java.canonicalName)
                 .commit()
     }
 
-    override fun onGroupChangeClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onCalendarOpen(firstDayOfNewMonth: Date) {
+        with(view) {
+            setActivityTitle(getContext().resources.getStringArray(R.array.months)[firstDayOfNewMonth.getCurrentMonth()])
+        }
+    }
+
+    override fun updateCalendarState() {
+        AppPreference.isCalendarOpen = !AppPreference.isCalendarOpen
+        view.showCalendar(AppPreference.isCalendarOpen)
+    }
+
+    override fun onExamsClick() {
+        with(view.getContext()) {
+            val browserIntent = Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://rozklad.org.ua/exams/group/${AppPreference.groupName}"))
+            startActivity(browserIntent)
+        }
     }
 
     override fun onSettingsClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Timer().schedule(200) {
+            with(view.getContext() as AppCompatActivity) {
+                startActivity<PreferenceActivity>()
+            }
+        }
     }
 
     override fun onTeachersClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        changeFragment(TeachersFragment())
     }
 
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            navigationView.setCheckedItem(R.id.timetable)
-            supportFragmentManager.popBackStack()
-        } else {
-            (view.getContext() as AppCompatActivity).finish()
+    override fun checkItem() {
+        with(navigationView) {
+            if (supportFragmentManager.fragments.isNotEmpty()) {
+                when (supportFragmentManager.fragments.last()::class.java.canonicalName) {
+                    TimeTableFragment::class.java.canonicalName -> {
+                        setCheckedItem(R.id.timetable)
+                        view.showMenu(true)
+                    }
+                    TeachersFragment::class.java.canonicalName -> {
+                        setCheckedItem(R.id.teachers)
+                        view.showMenu(false)
+                    }
+                    MapFragment::class.java.canonicalName -> {
+                        setCheckedItem(R.id.map)
+                        view.showMenu(false)
+                    }
+                }
+            } else {
+                setCheckedItem(R.id.timetable)
+                view.showMenu(true)
+            }
         }
     }
 
-    //Just get new data. Show next time)
-    override fun loadTimeTable() {
-        launch {
-            lessonsManager.loadTimeTable(AppPreference.groupId)
-        }
+    override fun onResume() {
+        view.setActivitySubtitle(AppPreference.groupName.toUpperCase())
+        super.onResume()
     }
 }

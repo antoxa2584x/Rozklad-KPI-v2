@@ -8,6 +8,7 @@ import android.content.Context
  */
 interface BaseView {
     fun getContext(): Context
-    fun showProgreeDialog()
-    fun dismissProgreeDialog()
+    fun getIt(): Any
+    fun showProgressDialog()
+    fun dismissProgressDialog()
 }

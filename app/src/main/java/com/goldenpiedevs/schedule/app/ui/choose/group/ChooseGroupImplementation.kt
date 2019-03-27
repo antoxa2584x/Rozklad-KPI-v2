@@ -4,29 +4,34 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
+import com.goldenpiedevs.schedule.app.core.api.teachers.TeachersManager
 import com.goldenpiedevs.schedule.app.core.dao.group.DaoGroupModel
+import com.goldenpiedevs.schedule.app.core.utils.preference.AppPreference
+import com.goldenpiedevs.schedule.app.core.utils.util.isNetworkAvailable
 import com.goldenpiedevs.schedule.app.ui.base.BasePresenterImpl
 import com.goldenpiedevs.schedule.app.ui.main.MainActivity
+import com.goldenpiedevs.schedule.app.ui.widget.ScheduleWidgetProvider
 import com.jakewharton.rxbinding2.widget.RxAutoCompleteTextView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import jp.wasabeef.blurry.Blurry
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -40,6 +45,8 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     lateinit var groupManager: GroupManager
     @Inject
     lateinit var lessonsManager: LessonsManager
+    @Inject
+    lateinit var teachersManager: TeachersManager
 
     private lateinit var autoCompleteTextView: AutoCompleteTextView
 
@@ -52,30 +59,41 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
         }
     }
 
-
     override fun setAutocompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
         this.autoCompleteTextView =
                 autoCompleteTextView.also {
                     addOnAutoCompleteTextViewItemClickedSubscriber(it)
                     addOnAutoCompleteTextViewTextChangedObserver(it)
+                    addOnSendClickHandle(it)
                 }
+    }
+
+    private fun addOnSendClickHandle(autoCompleteTextView: AutoCompleteTextView) {
+        autoCompleteTextView.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                awaitNextScreen(groupName = autoCompleteTextView.text.toString().replace("И", "i"))
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 
     private fun showMainScreen() {
         with(view as AppCompatActivity) {
+            when (callingActivity == null) {
+                true -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                false -> {
+                    setResult(Activity.RESULT_OK)
+                }
+            }
             finish()
-            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
     override fun blurView(view: View) {
-        Blurry.with(view.context)
-                .radius(10)
-                .sampling(8)
-                .color(ContextCompat.getColor(view.context, R.color.blur))
-                .async()
-                .from(BitmapFactory.decodeResource(view.resources, R.drawable.init_screen_back))
-                .into(view as ImageView?)
+
     }
 
     private fun addOnAutoCompleteTextViewTextChangedObserver(autoCompleteTextView: AutoCompleteTextView) {
@@ -84,7 +102,7 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
                 .distinctUntilChanged()
                 .filter { it.text().length >= MIN_LENGTH_TO_START }
                 .map {
-                    it.text().toString().toUpperCase().replace("И", "i")
+                    it.text().toString().replace("И", "i")
                 }
                 .switchMap {
                     groupManager.autocomplete(it)
@@ -118,37 +136,48 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     }
 
     private fun addOnAutoCompleteTextViewItemClickedSubscriber(autoCompleteTextView: AutoCompleteTextView) {
-        val adapterViewItemClickEventObservable = RxAutoCompleteTextView.itemClickEvents(autoCompleteTextView)
-                .map {
-                    val item = autoCompleteTextView.adapter.getItem(it.position()) as DaoGroupModel
-                    item.groupId
-                }
-                .observeOn(Schedulers.io())
-                .switchMap { groupManager.groupDetails(it) }
-                .observeOn(AndroidSchedulers.mainThread())
+        val adapterViewItemClickEventObservable =
+                RxAutoCompleteTextView.itemClickEvents(autoCompleteTextView)
+                        .map {
+                            val item = autoCompleteTextView.adapter.getItem(it.position()) as DaoGroupModel
+                            item.groupId
+                        }
+                        .observeOn(Schedulers.io())
+                        .switchMap { groupManager.groupDetails(it) }
+                        .observeOn(AndroidSchedulers.mainThread())
 
         compositeDisposable.add(
                 adapterViewItemClickEventObservable.subscribe(
-                        { awaitNextScreen(it.body()!!.data) },
+                        { awaitNextScreen(groupId = it.body()?.data?.groupId) },
                         { view.onError() }))
     }
 
-    private fun awaitNextScreen(body: DaoGroupModel?) {
-        view.showProgreeDialog()
+    private fun awaitNextScreen(groupId: Int? = null, groupName: String? = null) {
+        if (!view.getContext().isNetworkAvailable()) {
+            view.getContext().toast(R.string.no_internet)
+            return
+        }
 
-        launch {
-            val isSuccessful = lessonsManager.loadTimeTable(body!!.groupId).await()
+        view.showProgressDialog()
 
-            launch(UI) {
-                view.dismissProgreeDialog()
+        GlobalScope.launch {
+            val successfulList = mutableListOf(false, false)
 
-                if (isSuccessful) {
+            successfulList[0] = lessonsManager.loadTimeTableAsync(groupId?.toString()
+                    ?: groupName!!).await()
+            successfulList[1] = teachersManager.loadTeachersAsync(AppPreference.groupId).await()
+
+            launch(Dispatchers.Main) {
+                ScheduleWidgetProvider.updateWidget(view.getContext())
+
+                view.dismissProgressDialog()
+
+                if (successfulList.all { it }) {
                     showMainScreen()
                 } else {
                     view.onError()
                 }
             }
-
         }
     }
 

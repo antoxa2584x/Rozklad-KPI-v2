@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/group">
+        <Preference
+            android:icon="@drawable/ic_cached"
+            android:key="@string/update_timetable_key"
+            android:title="@string/update_timetable" />
+        <Preference
+            android:key="@string/change_group_key"
+            android:title="@string/change_group" />
+        <SwitchPreference
+            android:key="@string/user_preference_reverse_week_key"
+            android:title="@string/reverse_group_switch" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/notifications">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_notifications_none"
+            android:key="@string/user_preference_show_notification_key"
+            android:title="@string/show_notifications" />
+
+        <ListPreference
+            android:defaultValue="15"
+            android:entries="@array/delays_text"
+            android:entryValues="@array/delays"
+            android:key="@string/user_preference_notification_delay_key"
+            android:summary="@string/fifteen_min"
+            android:title="@string/notify_before_fore" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/contact_me">
+        <Preference
+            android:icon="@drawable/ic_bug_report"
+            android:summary="@string/telegram_link"
+            android:title="Telegram">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://t.me/ArtemovAnton" />
+        </Preference>
+
+        <Preference
+            android:summary="@string/email"
+            android:title="Email">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/contact_developer_uri">
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="Розклад КПI" />
+            </intent>
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

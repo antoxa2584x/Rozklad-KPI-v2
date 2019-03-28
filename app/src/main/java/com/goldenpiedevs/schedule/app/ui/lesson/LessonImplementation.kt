@@ -1,11 +1,9 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
 import android.app.Activity
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
@@ -70,9 +68,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                         first()?.let {
                             showLessonRoom(it.roomName)
 
-                            if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                    == PackageManager.PERMISSION_GRANTED)
-                                showLessonLocation(it.getGeoPoint())
+                            showLessonLocation(it.getGeoPoint())
                         }
                     }
 

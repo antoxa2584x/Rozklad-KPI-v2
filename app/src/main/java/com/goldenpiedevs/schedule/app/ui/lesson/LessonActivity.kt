@@ -1,17 +1,19 @@
 package com.goldenpiedevs.schedule.app.ui.lesson
 
+import android.content.Intent
+import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.utils.util.GlideApp
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import com.r0adkll.slidr.Slidr
 import kotlinx.android.synthetic.main.lesson_activity_layout.*
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.overlay.Marker
 
 
 class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
@@ -57,32 +59,32 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     }
 
     override fun showLessonType(string: String) {
+        if (string.isEmpty())
+            return
+
         type.apply {
             visibility = View.VISIBLE
             subText = string
         }
     }
 
-    private var startMarker: Marker? = null
-
     override fun showLessonLocation(geoPoint: GeoPoint) {
-        startMarker = Marker(map).apply {
-            position = geoPoint
-            setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            icon = ContextCompat.getDrawable(this@LessonActivity, R.drawable.ic_room_location)
+        val weight = Resources.getSystem().displayMetrics.widthPixels
+        val height = (weight / 16) * 8
 
-            //Ignore marker click
-            setOnMarkerClickListener { _, _ -> true }
-        }
+        val url = "https://image.maps.cit.api.here.com/mia/1.6/mapview?" +
+                "app_id=YOUR_CODE&app_code=YOUR_CODE&nocp&" +
+                "c=${geoPoint.latitude},${geoPoint.longitude}&u=50&" +
+                "h=$height&w=$weight&z=17&f=1&ml=ukr&style=mini"
 
-        map.apply {
-            visibility = View.VISIBLE
-            setBuiltInZoomControls(false)
-            overlays.add(startMarker)
-            controller.apply {
-                setZoom(17.0)
-                setCenter(geoPoint)
-            }
+        GlideApp.with(map)
+                .load(url)
+                .into(map)
+
+        map.setOnClickListener {
+            val intent = Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse("http://maps.google.com/maps?q=loc:${geoPoint.latitude},${geoPoint.longitude}"))
+            startActivity(intent)
         }
     }
 
@@ -125,13 +127,6 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     override fun onBackPressed() {
         presenter.onBackPressed()
         super.onBackPressed()
-    }
-
-    override fun onDestroy() {
-        map.overlays.remove(startMarker)
-        startMarker = null
-
-        super.onDestroy()
     }
 
     fun deleteNote() {

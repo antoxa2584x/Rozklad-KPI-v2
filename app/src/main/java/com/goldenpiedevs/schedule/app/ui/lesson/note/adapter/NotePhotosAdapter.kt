@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.dao.note.DaoNotePhoto
+import com.goldenpiedevs.schedule.app.core.utils.util.GlideApp
 import kotlinx.android.synthetic.main.note_photo_layout.view.*
 
 class NotePhotosAdapter(private var data: MutableList<DaoNotePhoto>,
@@ -33,7 +33,7 @@ class NotePhotosAdapter(private var data: MutableList<DaoNotePhoto>,
             holder.addPhoto.visibility = View.INVISIBLE
 
             data[position - if (isInEditMode) 1 else 0].let { p ->
-                Glide.with(holder.photoPreview)
+                GlideApp.with(holder.photoPreview)
                         .load(p.path)
                         .centerCrop()
                         .into(holder.photoPreview)

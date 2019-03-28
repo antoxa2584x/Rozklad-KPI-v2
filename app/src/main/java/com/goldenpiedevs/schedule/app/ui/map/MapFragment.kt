@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.goldenpiedevs.schedule.app.R
+import com.goldenpiedevs.schedule.app.core.utils.util.GlideApp
 import com.goldenpiedevs.schedule.app.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.map_fragment_layout.*
 
@@ -24,7 +25,7 @@ class MapFragment : BaseFragment(), MapView {
     }
 
     override fun showMap() {
-        Glide.with(this)
+        GlideApp.with(this)
                 .load(R.drawable.map)
                 .into(map_photo_view)
     }

@@ -1,9 +1,7 @@
 package com.goldenpiedevs.schedule.app.ui.choose.group
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -11,8 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.goldenpiedevs.schedule.app.R
 import com.goldenpiedevs.schedule.app.core.api.group.GroupManager
 import com.goldenpiedevs.schedule.app.core.api.lessons.LessonsManager
@@ -49,15 +45,6 @@ class ChooseGroupImplementation : BasePresenterImpl<ChooseGroupView>(), ChooseGr
     lateinit var teachersManager: TeachersManager
 
     private lateinit var autoCompleteTextView: AutoCompleteTextView
-
-    override fun requestPermissions() {
-        with(view.getContext() as Activity) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED)
-                ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
-        }
-    }
 
     override fun setAutocompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
         this.autoCompleteTextView =

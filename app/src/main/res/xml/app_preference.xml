@@ -29,26 +29,22 @@
             android:title="@string/notify_before_fore" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/contact_me">
+    <PreferenceCategory android:title="@string/feedback_category">
         <Preference
             android:icon="@drawable/ic_bug_report"
             android:summary="@string/telegram_link"
-            android:title="Telegram">
+            android:title="@string/feedback">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://t.me/ArtemovAnton" />
         </Preference>
 
         <Preference
-            android:summary="@string/email"
-            android:title="Email">
+            android:summary="https://rozklad.org.ua/"
+            android:title="@string/data_from">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/contact_developer_uri">
-                <extra
-                    android:name="android.intent.extra.SUBJECT"
-                    android:value="Розклад КПI" />
-            </intent>
+                android:data="https://rozklad.org.ua/" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -34,10 +34,12 @@
     <string name="no_lessons_today">Сьогодні пар нема</string>
     <string name="reverse_group_switch">Якщо тиждень відображається не вірно</string>
     <string name="note">Нотаток</string>
-    <string name="contact_me">Зворотний зв\'язок</string>
+    <string name="feedback_category">Зворотний зв\'язок</string>
     <string name="telegram_link">\@ArtemovAnton</string>
     <string name="email">antoxa2584@gmail.com</string>
     <string name="contact_developer_uri">mailto:antoxa2584@gmail.com</string>
     <string name="no_internet">Відсутній доступ до Інтернету</string>
     <string name="exams_timetable">Розклад екзаменів</string>
+    <string name="data_from">Дані розкладу занять представлені з сайту</string>
+    <string name="feedback">Зворотній зв\'язок - Telegram</string>
 </resources>

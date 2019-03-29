@@ -18,8 +18,8 @@ class UpdateWidgetWork : DailyJob() {
 
         fun enqueueWork() {
             DailyJob.schedule(JobRequest.Builder(TAG),
-                    TimeUnit.MINUTES.toMillis(0),
-                    TimeUnit.MINUTES.toMillis(10))
+                    TimeUnit.MINUTES.toMillis(1),
+                    TimeUnit.HOURS.toMillis(2))
         }
     }
 }

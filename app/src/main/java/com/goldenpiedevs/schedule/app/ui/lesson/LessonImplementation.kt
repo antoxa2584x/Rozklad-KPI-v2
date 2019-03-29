@@ -68,7 +68,7 @@ class LessonImplementation : BasePresenterImpl<LessonView>(), LessonPresenter {
                         first()?.let {
                             showLessonRoom(it.roomName)
 
-                            showLessonLocation(it.getGeoPoint())
+                            showLessonLocation(it.roomLatitude, it.roomLongitude)
                         }
                     }
 

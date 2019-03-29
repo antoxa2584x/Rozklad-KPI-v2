@@ -12,9 +12,6 @@ import com.goldenpiedevs.schedule.app.core.utils.util.GlideApp
 import com.goldenpiedevs.schedule.app.ui.base.BaseActivity
 import com.r0adkll.slidr.Slidr
 import kotlinx.android.synthetic.main.lesson_activity_layout.*
-import org.osmdroid.config.Configuration
-import org.osmdroid.util.GeoPoint
-
 
 class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     override fun getPresenterChild(): LessonPresenter = presenter
@@ -26,7 +23,6 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Configuration.getInstance().userAgentValue = packageName
         Slidr.attach(this)
 
         presenter = LessonImplementation()
@@ -68,13 +64,13 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
         }
     }
 
-    override fun showLessonLocation(geoPoint: GeoPoint) {
+    override fun showLessonLocation(roomLatitude: Double, roomLongitude: Double) {
         val weight = Resources.getSystem().displayMetrics.widthPixels
         val height = (weight / 16) * 8
 
         val url = "https://image.maps.cit.api.here.com/mia/1.6/mapview?" +
                 "app_id=YOUR_CODE&app_code=YOUR_CODE&nocp&" +
-                "c=${geoPoint.latitude},${geoPoint.longitude}&u=50&" +
+                "c=$roomLatitude,$roomLongitude&u=50&" +
                 "h=$height&w=$weight&z=17&f=1&ml=ukr&style=mini"
 
         GlideApp.with(map)
@@ -83,7 +79,7 @@ class LessonActivity : BaseActivity<LessonPresenter, LessonView>(), LessonView {
 
         map.setOnClickListener {
             val intent = Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?q=loc:${geoPoint.latitude},${geoPoint.longitude}"))
+                    Uri.parse("http://maps.google.com/maps?q=loc:$roomLatitude,$roomLongitude"))
             startActivity(intent)
         }
     }

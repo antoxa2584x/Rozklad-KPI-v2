@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
-import org.osmdroid.util.GeoPoint
 
 @RealmClass
 open class DaoRoomModel : RealmObject() {
@@ -18,6 +17,4 @@ open class DaoRoomModel : RealmObject() {
     var roomName: String = ""
     @SerializedName("room_latitude")
     var roomLatitude: Double = 0.0
-
-    fun getGeoPoint(): GeoPoint = GeoPoint(roomLatitude, roomLongitude)
 }

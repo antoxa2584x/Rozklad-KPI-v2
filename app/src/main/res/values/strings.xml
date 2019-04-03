@@ -31,8 +31,8 @@
     <string name="group">Група</string>
     <string name="change_group">Змінити групу</string>
     <string name="update_timetable">Оновити розклад</string>
-    <string name="no_lessons_today">Сьогодні пар нема</string>
-    <string name="reverse_group_switch">Якщо тиждень відображається не вірно</string>
+    <string name="no_lessons_today">Сьогодні пар немає</string>
+    <string name="reverse_group_switch">Якщо тиждень відображається неправильно</string>
     <string name="note">Нотаток</string>
     <string name="feedback_category">Зворотний зв\'язок</string>
     <string name="telegram_link">\@ArtemovAnton</string>

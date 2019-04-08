@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.content.res.AppCompatResources
 import com.goldenpiedevs.schedule.app.R
 import kotlinx.android.synthetic.main.lesson_item_view_layout.view.*
 
@@ -36,7 +37,7 @@ class LessonItemView constructor(
 
                 subText = getString(R.styleable.LessonItemView_liv_subtitle)
 
-                icon.setImageDrawable(getDrawable(R.styleable.LessonItemView_liv_icon))
+                icon.setImageDrawable(AppCompatResources.getDrawable(context, getResourceId(R.styleable.LessonItemView_liv_icon, -1)))
                 recycle()
             }
         }

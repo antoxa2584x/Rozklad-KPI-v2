@@ -16,7 +16,7 @@
         android:layout_gravity="bottom"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
+        android:background="?attr/selectableItemBackground"
         android:minHeight="56dp"
         android:orientation="horizontal">
 

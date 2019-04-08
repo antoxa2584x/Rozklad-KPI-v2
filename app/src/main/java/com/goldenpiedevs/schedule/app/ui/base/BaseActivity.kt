@@ -100,9 +100,10 @@ abstract class BaseActivity<T : BasePresenter<V>, V : BaseView> : AppCompatActiv
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-
+        dismissProgressDialog()
         getPresenterChild().detachView()
+
+        super.onDestroy()
     }
 
     override fun attachBaseContext(newBase: Context) {

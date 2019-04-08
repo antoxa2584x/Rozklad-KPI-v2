@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <PreferenceCategory android:title="@string/group">
         <Preference
@@ -8,16 +9,20 @@
             android:title="@string/update_timetable" />
         <Preference
             android:key="@string/change_group_key"
-            android:title="@string/change_group" />
+            android:title="@string/change_group"
+            tools:icon="@drawable/ic_cached" />
         <SwitchPreference
             android:key="@string/user_preference_reverse_week_key"
-            android:title="@string/reverse_group_switch" />
+            android:singleLineTitle="false"
+            android:title="@string/reverse_group_switch"
+            tools:icon="@drawable/ic_cached" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notifications">
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_notifications_none"
             android:key="@string/user_preference_show_notification_key"
+            android:singleLineTitle="false"
             android:title="@string/show_notifications" />
 
         <ListPreference
@@ -25,8 +30,10 @@
             android:entries="@array/delays_text"
             android:entryValues="@array/delays"
             android:key="@string/user_preference_notification_delay_key"
+            android:singleLineTitle="false"
             android:summary="@string/fifteen_min"
-            android:title="@string/notify_before_fore" />
+            android:title="@string/notify_before_fore"
+            tools:icon="@drawable/ic_notifications_none" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/feedback_category">
@@ -40,11 +47,22 @@
         </Preference>
 
         <Preference
+            android:singleLineTitle="false"
             android:summary="https://rozklad.org.ua/"
-            android:title="@string/data_from">
+            android:title="@string/data_from"
+            tools:icon="@drawable/ic_bug_report">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://rozklad.org.ua/" />
+        </Preference>
+
+        <Preference
+            android:summary="antoxa2584x/Rozklad-KPI-v2"
+            android:title="Source code"
+            tools:icon="@drawable/ic_bug_report">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/antoxa2584x/Rozklad-KPI-v2" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

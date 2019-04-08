@@ -1,5 +1,6 @@
 package com.goldenpiedevs.schedule.app
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import com.chibatching.kotpref.Kotpref
 import com.crashlytics.android.Crashlytics
@@ -23,6 +24,10 @@ import io.realm.RealmConfiguration
 class ScheduleApplication : MultiDexApplication() {
 
     lateinit var appComponent: AppComponent
+
+    init {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    }
 
     override fun onCreate() {
         super.onCreate()

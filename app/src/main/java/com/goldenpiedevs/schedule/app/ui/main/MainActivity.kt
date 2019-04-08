@@ -1,6 +1,5 @@
 package com.goldenpiedevs.schedule.app.ui.main
 
-import android.appwidget.AppWidgetProvider
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -72,7 +71,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu!!.findItem(R.id.calendar).isVisible = showMenu
+        menu?.findItem(R.id.calendar)?.isVisible = showMenu
 
         compactCalendarView.visibility = when {
             !showMenu -> {
@@ -89,7 +88,7 @@ class MainActivity : BaseActivity<MainPresenter, MainView>(), MainView, Navigati
             }
         }
 
-        menu.findItem(R.id.calendar).setIcon(
+        menu?.findItem(R.id.calendar)?.setIcon(
                 if (AppPreference.isCalendarOpen) {
                     R.drawable.ic_calendar_view_day
                 } else {

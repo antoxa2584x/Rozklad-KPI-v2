@@ -2,10 +2,7 @@ package com.goldenpiedevs.schedule.app.core.dao.group
 
 import com.goldenpiedevs.schedule.app.core.dao.timetable.DaoTeacherModel
 import com.google.gson.annotations.SerializedName
-import io.realm.OrderedRealmCollection
-import io.realm.Realm
-import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.*
 import io.realm.annotations.PrimaryKey
 
 open class DaoGroupModel : RealmObject() {
@@ -32,7 +29,10 @@ open class DaoGroupModel : RealmObject() {
 
     companion object {
         fun getAllTeachersForGroup(groupId: Int): OrderedRealmCollection<DaoTeacherModel> {
-            return Realm.getDefaultInstance().where(DaoTeacherModel::class.java).equalTo("groups.groupId", groupId).findAllAsync()
+            return Realm.getDefaultInstance().where(DaoTeacherModel::class.java)
+                    .equalTo("groups.groupId", groupId)
+                    .sort("teacherName", Sort.ASCENDING)
+                    .findAllAsync()
         }
 
         fun getGroup(groupId: Int): DaoGroupModel? {

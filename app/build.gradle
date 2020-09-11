@@ -75,7 +75,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
 
     implementation 'com.github.esafirm.android-image-picker:rximagepicker:2.0.0'
-
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:2.0.0'
     implementation 'com.chibatching.kotpref:kotpref:2.6.0'
     implementation 'com.chibatching.kotpref:initializer:2.6.0'
 
